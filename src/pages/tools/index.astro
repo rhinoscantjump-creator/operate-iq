@@ -1,0 +1,37 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { tools, toolLabels } from "../../data/site";
+
+const playbooks = (await getCollection("playbooks")).filter((p) => !p.data.draft);
+---
+
+<BaseLayout title="Tools" description="Browse Operate-IQ playbooks by software.">
+  <div class="container">
+    <header class="page-header">
+      <h1>Tools</h1>
+      <p>
+        Find playbooks by the apps your firm already uses — QuickBooks, Xero,
+        Gmail, and more.
+      </p>
+    </header>
+
+    <div class="grid grid--3">
+      {
+        tools.map((tool) => {
+          const count = playbooks.filter((p) => p.data.tools.includes(tool)).length;
+          return (
+            <article class="card">
+              <h3><a href={`/tools/${tool}`}>{toolLabels[tool]}</a></h3>
+              <p>
+                {count === 0
+                  ? "Playbooks coming soon."
+                  : `${count} playbook${count === 1 ? "" : "s"}`}
+              </p>
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PlaybookCard from "../../components/PlaybookCard.astro";
+import { getCollection, getEntry, render } from "astro:content";
+import { topics, type TopicSlug } from "../../data/site";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("topics");
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+  }));
+}
+
+const { slug } = Astro.params as { slug: TopicSlug };
+const topicEntry = await getEntry("topics", slug);
+if (!topicEntry) return Astro.redirect("/topics");
+
+const { Content } = await render(topicEntry);
+const meta = topics[slug];
+
+const playbooks = (await getCollection("playbooks"))
+  .filter((p) => p.data.topic === slug && !p.data.draft)
+  .sort((a, b) => a.data.id.localeCompare(b.data.id));
+---
+
+<BaseLayout title={meta.title} description={meta.description}>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/topics">Topics</a> / {meta.title}
+    </nav>
+
+    <header class="page-header">
+      <h1>{meta.title}</h1>
+      <p>{meta.description}</p>
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <section class="related">
+      <h2>Playbooks in this topic</h2>
+      {
+        playbooks.length > 0 ? (
+          <div class="grid grid--2">
+            {playbooks.map((playbook) => (
+              <PlaybookCard
+                id={playbook.data.id}
+                title={playbook.data.title}
+                description={playbook.data.description}
+                topic={playbook.data.topic}
+                tools={playbook.data.tools}
+                href={`/playbooks/${playbook.id}`}
+              />
+            ))}
+          </div>
+        ) : (
+          <p class="empty-state">Playbooks for this topic are coming soon.</p>
+        )
+      }
+    </section>
+  </div>
+</BaseLayout>

@@ -1,0 +1,58 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PlaybookCard from "../components/PlaybookCard.astro";
+import { getCollection } from "astro:content";
+import { site, topics } from "../data/site";
+
+const playbooks = (await getCollection("playbooks"))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => a.data.id.localeCompare(b.data.id));
+
+const recentPlaybooks = playbooks.slice(0, 3);
+const topicEntries = Object.entries(topics);
+---
+
+<BaseLayout title={site.name} description={site.description}>
+  <section class="hero container">
+    <h1>{site.tagline}</h1>
+    <p>{site.description}</p>
+    <div class="hero__links">
+      <a class="btn btn--primary" href="/playbooks">Browse playbooks</a>
+      <a class="btn btn--secondary" href="/topics">Explore by topic</a>
+    </div>
+  </section>
+
+  <section class="section container">
+    <h2>Topics</h2>
+    <p>Start with the workflow pain — not generic AI advice.</p>
+    <div class="grid grid--3">
+      {
+        topicEntries.map(([slug, topic]) => (
+          <article class="card">
+            <h3><a href={`/topics/${slug}`}>{topic.title}</a></h3>
+            <p>{topic.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section container">
+    <h2>Latest playbooks</h2>
+    <p>Tool-specific fixes with guardrails built in.</p>
+    <div class="grid grid--2">
+      {
+        recentPlaybooks.map((playbook) => (
+          <PlaybookCard
+            id={playbook.data.id}
+            title={playbook.data.title}
+            description={playbook.data.description}
+            topic={playbook.data.topic}
+            tools={playbook.data.tools}
+            href={`/playbooks/${playbook.id}`}
+          />
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

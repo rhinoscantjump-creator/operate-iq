@@ -1,0 +1,100 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PlaybookCard from "../../components/PlaybookCard.astro";
+import { getCollection, getEntry, render } from "astro:content";
+import { topics, toolLabels, type TopicSlug } from "../../data/site";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("playbooks");
+  return entries
+    .filter((e) => !e.data.draft)
+    .map((entry) => ({
+      params: { slug: entry.id },
+    }));
+}
+
+const { slug } = Astro.params;
+const entry = await getEntry("playbooks", slug!);
+if (!entry) return Astro.redirect("/playbooks");
+
+const { Content } = await render(entry);
+const topicMeta = topics[entry.data.topic as TopicSlug];
+
+const related = (await getCollection("playbooks"))
+  .filter(
+    (p) =>
+      p.id !== entry.id &&
+      !p.data.draft &&
+      (p.data.topic === entry.data.topic ||
+        p.data.tools.some((t) => entry.data.tools.includes(t)))
+  )
+  .slice(0, 3);
+---
+
+<BaseLayout title={entry.data.title} description={entry.data.description}>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/playbooks">Playbooks</a> /
+      <a href={`/topics/${entry.data.topic}`}>{topicMeta.title}</a> /
+      {entry.data.id}
+    </nav>
+
+    <header class="page-header">
+      <p class="card__meta">
+        <span class="pill">{entry.data.id}</span>
+        {
+          entry.data.tools.map((tool) => (
+            <a class="pill" href={`/tools/${tool}`}>
+              {toolLabels[tool as keyof typeof toolLabels] ?? tool}
+            </a>
+          ))
+        }
+      </p>
+      <h1>{entry.data.title}</h1>
+      <p>{entry.data.description}</p>
+    </header>
+
+    <dl class="playbook-meta">
+      <div class="meta-block">
+        <dt>Symptom</dt>
+        <dd>{entry.data.symptom}</dd>
+      </div>
+      <div class="meta-block">
+        <dt>Who this is for</dt>
+        <dd>{entry.data.audience}</dd>
+      </div>
+      <div class="meta-block">
+        <dt>Time / margin leak</dt>
+        <dd>{entry.data.timeLeak}</dd>
+      </div>
+      <div class="meta-block">
+        <dt>Guardrail</dt>
+        <dd>{entry.data.guardrail}</dd>
+      </div>
+    </dl>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {
+      related.length > 0 && (
+        <section class="related">
+          <h2>Related playbooks</h2>
+          <div class="grid grid--2">
+            {related.map((playbook) => (
+              <PlaybookCard
+                id={playbook.data.id}
+                title={playbook.data.title}
+                description={playbook.data.description}
+                topic={playbook.data.topic}
+                tools={playbook.data.tools}
+                href={`/playbooks/${playbook.id}`}
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </div>
+</BaseLayout>

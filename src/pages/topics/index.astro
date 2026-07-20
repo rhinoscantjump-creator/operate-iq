@@ -1,0 +1,32 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { site, topics } from "../../data/site";
+
+const topicEntries = Object.entries(topics);
+---
+
+<BaseLayout title="Topics" description="Browse Operate-IQ playbooks by operational pain area.">
+  <div class="container">
+    <header class="page-header">
+      <h1>Topics</h1>
+      <p>
+        Hubs cluster related playbooks. Each topic page explains the pattern;
+        playbooks show the exact tool connection.
+      </p>
+    </header>
+
+    <div class="grid grid--2">
+      {
+        topicEntries.map(([slug, topic]) => (
+          <article class="card">
+            <h3><a href={`/topics/${slug}`}>{topic.title}</a></h3>
+            <p>{topic.description}</p>
+            <p class="card__meta">
+              <span class="pill">{topic.searchJob}</span>
+            </p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>
