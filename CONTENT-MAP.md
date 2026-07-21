@@ -124,10 +124,8 @@ First ~6–8 weeks at 3–4/week. Publish in hub order so each pillar fills out 
 - **Fri:** Publish Receipt capture hub (links all three, explains shared pattern)
 
 ### Week 2 — onboarding cluster
-- **Mon:** P06
-- **Tue:** P07
-- **Thu:** P22
-- **Fri:** Publish Client onboarding hub (skip if week 1 hub still needs polish)
+- **Done:** P06, P22 + Client onboarding hub upgraded
+- **Next:** P07 (Typeform → HubSpot tax intake)
 
 ---
 
