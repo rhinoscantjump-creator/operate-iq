@@ -1,0 +1,119 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import {
+  getHubBySlug,
+  liveHubs,
+  overallLeakScore,
+  product,
+  sampleLeakScores,
+} from "../data/hubs";
+
+const overall = overallLeakScore();
+const weakest = [...sampleLeakScores].sort((a, b) => a.score - b.score)[0];
+const weakestHub = liveHubs.find((h) => h.id === weakest.hubId);
+---
+
+<BaseLayout title="Owner leak score" path="/dashboard">
+  <section class="hero">
+    <div class="hero-kicker">Owner dashboard</div>
+    <h1>
+      One <em>leak score</em>
+    </h1>
+    <p class="hero-lead">
+      Cross-hub health so Operate IQ feels like an OS — not five disconnected tools. Sample
+      scores below illustrate the product surface (foreshadows Hub 11); wire to live telemetry
+      later.
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="panel leak-score-hero">
+      <div
+        class="score-ring"
+        style={`--p: ${overall * 3.6}deg`}
+        aria-label={`Overall leak score ${overall}`}
+      >
+        {overall}
+      </div>
+      <div>
+        <span class="badge">Composite leak score</span>
+        <h2 style="font-family: var(--font-display); margin: 0.6rem 0 0.4rem">
+          Higher is healthier
+        </h2>
+        <p style="margin: 0; color: var(--muted)">
+          Average of live hub scores. Drill into the weakest hub first — usually capture
+          (missed calls / speed-to-lead) before buying more ads.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Hub scores</h2>
+        <p>Each row maps to a live hub KPI set.</p>
+      </div>
+    </div>
+    <div class="panel score-table">
+      {
+        sampleLeakScores.map((row) => {
+          const hub = liveHubs.find((h) => h.id === row.hubId);
+          if (!hub) return null;
+          const trendLabel =
+            row.trend === "up"
+              ? "↑ improving"
+              : row.trend === "down"
+                ? "↓ worsening"
+                : "→ flat";
+          const trendClass = `trend-${row.trend}`;
+          return (
+            <div class="score-row">
+              <div>
+                <strong>
+                  Hub {hub.number} · {hub.titleLead} {hub.titleAccent}
+                </strong>
+                <div style="color: var(--muted); font-size: 0.9rem">{row.note}</div>
+              </div>
+              <div class="bar" aria-hidden="true">
+                <span style={`width: ${row.score}%`} />
+              </div>
+              <div style="text-align: right">
+                <div style="font-family: var(--font-display); font-size: 1.3rem">
+                  {row.score}
+                </div>
+                <div class={trendClass}>{trendLabel}</div>
+                <a href={`/hubs/${hub.slug}`} style="color: var(--teal); font-size: 0.85rem">
+                  Open hub
+                </a>
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+  </section>
+
+  {
+    weakestHub && (
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>Recommended focus</h2>
+            <p>Weakest sample hub first — productized triage for the owner brief (Hub 11).</p>
+          </div>
+        </div>
+        <div class="panel">
+          <span class="badge amber">Start here</span>
+          <h3 style="font-family: var(--font-display); margin: 0.75rem 0 0.4rem">
+            Hub {weakestHub.number} · {weakestHub.titleLead} {weakestHub.titleAccent}
+          </h3>
+          <p style="color: var(--muted); margin-top: 0">{weakest.note}</p>
+          <a class="btn btn-primary" href={`/hubs/${weakestHub.slug}`} style="margin-top: 1rem">
+            Fix this leak
+          </a>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

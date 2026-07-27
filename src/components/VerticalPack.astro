@@ -1,0 +1,61 @@
+---
+import type { VerticalPack } from "../data/types";
+
+interface Props {
+  notes: Partial<Record<VerticalPack, string>>;
+}
+
+const { notes } = Astro.props;
+
+const verticals: { id: VerticalPack; label: string }[] = [
+  { id: "general", label: "General SMB" },
+  { id: "gym", label: "Gym" },
+  { id: "clinic", label: "Clinic" },
+  { id: "home-services", label: "Home services" },
+  { id: "salon", label: "Salon" },
+];
+---
+
+<div class="panel" data-vertical-pack>
+  <div class="vertical-select" role="tablist" aria-label="Vertical pack">
+    {
+      verticals.map((v) => (
+        <button
+          type="button"
+          data-vertical={v.id}
+          class={v.id === "general" ? "active" : ""}
+        >
+          {v.label}
+        </button>
+      ))
+    }
+  </div>
+  {
+    verticals.map((v) => (
+      <p
+        data-vertical-note={v.id}
+        style={v.id === "general" ? "" : "display:none"}
+        class="vertical-note"
+      >
+        {notes[v.id] ?? notes.general ?? "No pack notes yet."}
+      </p>
+    ))
+  }
+</div>
+
+<script>
+  document.querySelectorAll("[data-vertical-pack]").forEach((root) => {
+    const buttons = root.querySelectorAll("[data-vertical]");
+    const notes = root.querySelectorAll("[data-vertical-note]");
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-vertical");
+        buttons.forEach((b) => b.classList.toggle("active", b === btn));
+        notes.forEach((note) => {
+          const show = note.getAttribute("data-vertical-note") === id;
+          (note as HTMLElement).style.display = show ? "" : "none";
+        });
+      });
+    });
+  });
+</script>

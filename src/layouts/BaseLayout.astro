@@ -1,16 +1,22 @@
 ---
 import "../styles/global.css";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-import { site } from "../data/site";
+import { product } from "../data/hubs";
 
 interface Props {
   title: string;
   description?: string;
+  path?: string;
 }
 
-const { title, description = site.description } = Astro.props;
-const fullTitle = title === site.name ? title : `${title} · ${site.name}`;
+const { title, description = product.positioning, path = "" } = Astro.props;
+const fullTitle = title === product.name ? title : `${title} · ${product.name}`;
+const canonical = new URL(path || "/", Astro.site).href;
+
+function navClass(href: string) {
+  const current = Astro.url.pathname;
+  if (href === "/") return current === "/" ? "active" : "";
+  return current.startsWith(href) ? "active" : "";
+}
 ---
 
 <!doctype html>
@@ -20,15 +26,32 @@ const fullTitle = title === site.name ? title : `${title} · ${site.name}`;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-    <link rel="canonical" href={new URL(Astro.url.pathname, site.url).href} />
+    <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{fullTitle}</title>
   </head>
   <body>
-    <Header />
-    <main>
-      <slot />
-    </main>
-    <Footer />
+    <div class="app-shell">
+      <header class="site-nav">
+        <a class="brand" href="/">
+          <div class="brand-name">
+            Operate <span>IQ</span>
+          </div>
+          <div class="brand-sub">{product.naming.unit} OS for local services</div>
+        </a>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="/" class={navClass("/")}>Leak map</a>
+          <a href="/dashboard" class={navClass("/dashboard")}>Owner score</a>
+          <a href="/hubs/database-reactivation" class={navClass("/hubs")}>Hubs</a>
+        </nav>
+      </header>
+      <main>
+        <slot />
+      </main>
+      <footer class="footer">
+        <span>{product.name} — {product.tagline}</span>
+        <span>Hubs · Operators · measurable leaks</span>
+      </footer>
+    </div>
   </body>
 </html>

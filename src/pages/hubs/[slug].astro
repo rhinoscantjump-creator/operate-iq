@@ -1,0 +1,229 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import VerticalPack from "../../components/VerticalPack.astro";
+import {
+  formatSupplementLabel,
+  getCompliance,
+  getHubBySlug,
+  getIntegration,
+  getSupplementingHubs,
+  liveHubs,
+} from "../../data/hubs";
+
+export function getStaticPaths() {
+  return liveHubs.map((hub) => ({ params: { slug: hub.slug } }));
+}
+
+const { slug } = Astro.params;
+const hub = getHubBySlug(slug!);
+
+if (!hub || hub.status !== "live") {
+  return Astro.redirect("/");
+}
+
+const idx = liveHubs.findIndex((h) => h.id === hub.id);
+const prev = idx > 0 ? liveHubs[idx - 1] : undefined;
+const next = idx >= 0 && idx < liveHubs.length - 1 ? liveHubs[idx + 1] : undefined;
+const supplementing = getSupplementingHubs(hub.id);
+const pageTitle = `${hub.titleLead} ${hub.titleAccent}`;
+---
+
+<BaseLayout title={pageTitle} description={hub.leakBody} path={`/hubs/${hub.slug}`}>
+  <section class="hub-hero">
+    <span class="badge">
+      Hub {hub.number} · {hub.operator}
+    </span>
+    <h1 class="hub-title">
+      {hub.titleLead} <span>{hub.titleAccent}</span>
+    </h1>
+    <div class="meta-row">
+      <span class="chip">Stage: {hub.funnelStage}</span>
+      <span class="chip">Logical hire #{hub.hireOrderLogical}</span>
+      {
+        hub.hireOrderFastRoi != null && (
+          <span class="chip">Fast ROI #{hub.hireOrderFastRoi}</span>
+        )
+      }
+    </div>
+
+    <div class="hub-layout">
+      <div class="leak-box">
+        <div class="leak-label">The leak</div>
+        <div class="leak-stat">{hub.leakStat}</div>
+        <p style="margin: 0; color: var(--muted)">{hub.leakBody}</p>
+      </div>
+      <div class="diagram" aria-label="Hub diagram">
+        {hub.diagramLabel}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>What this operator does</h2>
+        <p>Productized capabilities — including the planned improvements for this hub.</p>
+      </div>
+    </div>
+    <ul class="capability-list">
+      {
+        hub.capabilities.map((cap, i) => (
+          <li>
+            <span class="arrow">{i + 1}</span>
+            <div>
+              <h4>{cap.title}</h4>
+              <p>{cap.detail}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="punchline">{hub.punchline}</div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>KPIs</h2>
+        <p>Measurable outcomes the owner dashboard should track for this hub.</p>
+      </div>
+    </div>
+    <div class="kpi-grid">
+      {
+        hub.kpis.map((kpi) => (
+          <div class="kpi-card">
+            <h4>{kpi.label}</h4>
+            <p>{kpi.description}</p>
+            <p class="target-hint">{kpi.targetHint}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Vertical pack</h2>
+        <p>Neutral SMB default, with pack-specific offer and tone notes.</p>
+      </div>
+    </div>
+    <VerticalPack notes={hub.verticalNotes} />
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Integrations</h2>
+        <p>Without these connections, the hub is a slide — not a product.</p>
+      </div>
+    </div>
+    <div class="integration-grid">
+      {
+        hub.integrations.map((id) => {
+          const item = getIntegration(id);
+          if (!item) return null;
+          return (
+            <div class="integration-card">
+              <h4>{item.label}</h4>
+              <p>{item.purpose}</p>
+            </div>
+          );
+        })
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Compliance</h2>
+        <p>Built-in guardrails: consent, incentives, handoff, and data minimization.</p>
+      </div>
+    </div>
+    <div class="compliance-grid">
+      {
+        hub.complianceIds.map((id) => {
+          const rule = getCompliance(id);
+          if (!rule) return null;
+          return (
+            <div class="compliance-card">
+              <h4>{rule.title}</h4>
+              <p>{rule.detail}</p>
+            </div>
+          );
+        })
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Shipped improvements</h2>
+        <p>Content and product upgrades encoded in this hub.</p>
+      </div>
+    </div>
+    <div class="improve-grid">
+      {
+        hub.productImprovements.map((item) => (
+          <div class="improve-card">
+            <h4>{item}</h4>
+            <p>Canonical in Operate IQ hub spec.</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  {
+    supplementing.length > 0 && (
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>Extended by (coming soon)</h2>
+            <p>Add-on hubs that supplement this operator.</p>
+          </div>
+        </div>
+        <div class="related-grid">
+          {
+            supplementing.map((addon) => (
+              <div class="related-card">
+                <h4>
+                  Hub {addon.number} · {addon.titleLead} {addon.titleAccent}
+                </h4>
+                <p>{addon.supplementsWhy ?? addon.comingSoonLeak}</p>
+                <p class="supplement-line" style="margin-top: 0.5rem">
+                  Supplements {formatSupplementLabel(addon.supplementsHubIds ?? [])}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section">
+    <div class="hero-actions">
+      {
+        prev ? (
+          <a class="btn btn-ghost" href={`/hubs/${prev.slug}`}>
+            ← Hub {prev.number}
+          </a>
+        ) : (
+          <a class="btn btn-ghost" href="/">← Leak map</a>
+        )
+      }
+      {
+        next ? (
+          <a class="btn btn-primary" href={`/hubs/${next.slug}`}>
+            Hub {next.number} →
+          </a>
+        ) : (
+          <a class="btn btn-primary" href="/dashboard">Owner score →</a>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

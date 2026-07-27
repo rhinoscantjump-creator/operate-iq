@@ -1,0 +1,51 @@
+---
+import type { Hub } from "../data/types";
+import { formatSupplementLabel } from "../data/hubs";
+
+interface Props {
+  hub: Hub;
+}
+
+const { hub } = Astro.props;
+const isSoon = hub.status === "coming-soon";
+---
+
+{
+  isSoon ? (
+    <div class="hub-tile soon">
+      <span class="badge amber">
+        Hub {hub.number} · {hub.operator}
+      </span>
+      <h3>
+        {hub.titleLead} <span>{hub.titleAccent}</span>
+      </h3>
+      <p>{hub.comingSoonLeak ?? hub.leakBody}</p>
+      {hub.supplementsHubIds && hub.supplementsHubIds.length > 0 && (
+        <p class="supplement-line">
+          Supplements {formatSupplementLabel(hub.supplementsHubIds)}
+        </p>
+      )}
+      <div class="meta-row">
+        <span class="chip">{hub.funnelStage}</span>
+        <span class="chip">Coming soon</span>
+      </div>
+    </div>
+  ) : (
+    <a class="hub-tile" href={`/hubs/${hub.slug}`}>
+      <span class="badge">
+        Hub {hub.number} · {hub.operator}
+      </span>
+      <h3>
+        {hub.titleLead} <span>{hub.titleAccent}</span>
+      </h3>
+      <p>{hub.leakBody}</p>
+      <div class="meta-row">
+        <span class="chip">{hub.funnelStage}</span>
+        <span class="chip">Live</span>
+        {hub.hireOrderFastRoi != null && (
+          <span class="chip">Fast ROI #{hub.hireOrderFastRoi}</span>
+        )}
+      </div>
+    </a>
+  )
+}
