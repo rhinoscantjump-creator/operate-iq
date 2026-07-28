@@ -612,6 +612,72 @@ a.hub-tile:hover {
   margin-bottom: 0.55rem;
 }
 
+.waitlist-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.waitlist-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.waitlist-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.waitlist-form label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.waitlist-form input,
+.waitlist-form select,
+.waitlist-form textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.28);
+  color: var(--text);
+  padding: 0.75rem 0.85rem;
+}
+
+.waitlist-form input:focus,
+.waitlist-form select:focus,
+.waitlist-form textarea:focus {
+  outline: 2px solid rgba(45, 212, 191, 0.35);
+  border-color: var(--teal);
+}
+
+.waitlist-notes {
+  grid-column: 1 / -1;
+}
+
+.waitlist-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.waitlist-status {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.waitlist-status[data-state="ok"] {
+  color: var(--ok);
+}
+
+.waitlist-status[data-state="err"] {
+  color: var(--danger);
+}
+
 .footer {
   margin-top: 4rem;
   padding-top: 1.5rem;
@@ -660,5 +726,9 @@ a.hub-tile:hover {
 
   .nav-links {
     justify-content: flex-end;
+  }
+
+  .waitlist-grid {
+    grid-template-columns: 1fr;
   }
 }

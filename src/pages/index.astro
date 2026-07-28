@@ -23,7 +23,7 @@ import {
     <p class="hero-lead">{product.positioning}</p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="/dashboard">Open owner leak score</a>
-      <a class="btn btn-ghost" href="#hire-order">See hire order</a>
+      <a class="btn btn-ghost" href="#interest">Join Hub 01 waitlist</a>
     </div>
   </section>
 
@@ -162,6 +162,51 @@ import {
     </div>
   </section>
 
+  <section class="section" id="interest">
+    <div class="section-head">
+      <div>
+        <h2>Start with Hub 01</h2>
+        <p>
+          Database Reactivation is the fastest-ROI first hire when your CRM is already full.
+          Leave your details — we’ll open pilot slots as the Outreach Operator hardens.
+        </p>
+      </div>
+    </div>
+    <div class="panel waitlist-panel">
+      <form class="waitlist-form" id="waitlist-form" novalidate>
+        <div class="waitlist-grid">
+          <label>
+            <span>Work email</span>
+            <input type="email" name="email" required autocomplete="email" placeholder="you@business.com" />
+          </label>
+          <label>
+            <span>Business name</span>
+            <input type="text" name="businessName" autocomplete="organization" placeholder="River City Gym" />
+          </label>
+          <label>
+            <span>Vertical</span>
+            <select name="vertical">
+              <option value="general">General SMB</option>
+              <option value="gym">Gym</option>
+              <option value="clinic">Clinic</option>
+              <option value="home-services">Home services</option>
+              <option value="salon">Salon</option>
+            </select>
+          </label>
+          <input type="hidden" name="hubInterest" value="hub-01" />
+        </div>
+        <label class="waitlist-notes">
+          <span>What’s leaking? (optional)</span>
+          <textarea name="notes" rows="3" placeholder="Old leads never get a second touch…"></textarea>
+        </label>
+        <div class="waitlist-actions">
+          <button class="btn btn-primary" type="submit">Join the Hub 01 waitlist</button>
+          <p class="waitlist-status" id="waitlist-status" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </div>
+  </section>
+
   <section class="section">
     <div class="section-head">
       <div>
@@ -195,3 +240,40 @@ import {
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  const form = document.getElementById("waitlist-form");
+  const statusEl = document.getElementById("waitlist-status");
+  if (form && statusEl) {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      statusEl.textContent = "Sending…";
+      statusEl.dataset.state = "pending";
+      const data = new FormData(form);
+      const payload = {
+        email: String(data.get("email") || ""),
+        businessName: String(data.get("businessName") || ""),
+        vertical: String(data.get("vertical") || "general"),
+        hubInterest: String(data.get("hubInterest") || "hub-01"),
+        notes: String(data.get("notes") || ""),
+      };
+      try {
+        const res = await fetch("/api/waitlist", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const json = await res.json();
+        if (!res.ok || !json.ok) {
+          throw new Error(json.error || "request_failed");
+        }
+        statusEl.textContent = "You’re on the list. We’ll reach out when Hub 01 pilots open.";
+        statusEl.dataset.state = "ok";
+        form.reset();
+      } catch {
+        statusEl.textContent = "Couldn’t submit right now. Email us or try again shortly.";
+        statusEl.dataset.state = "err";
+      }
+    });
+  }
+</script>
