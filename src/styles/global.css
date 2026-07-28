@@ -115,6 +115,72 @@ select {
   background: rgba(45, 212, 191, 0.1);
 }
 
+.nav-cta {
+  padding: 0.45rem 0.9rem !important;
+  font-size: 0.85rem !important;
+  margin-left: 0.25rem;
+}
+
+.nav-cta:hover {
+  color: #04201c !important;
+  background: linear-gradient(135deg, var(--teal), var(--teal-dim)) !important;
+}
+
+.hero-audience {
+  max-width: 42rem;
+  color: var(--muted);
+  font-size: 0.98rem;
+  margin: -0.5rem 0 0.85rem;
+  font-style: italic;
+}
+
+.audience-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.panel-title {
+  font-family: var(--font-display);
+  margin: 0.75rem 0;
+  font-size: 1.1rem;
+}
+
+.mini-score-table {
+  flex: 1;
+  width: 100%;
+}
+
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.week-step p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.anti-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.anti-card .panel-title {
+  margin-top: 0.5rem;
+  color: var(--amber);
+}
+
+.anti-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;

@@ -7,11 +7,19 @@ import {
   fastRoiHireOrder,
   hubsByFunnel,
   logicalHireOrder,
+  liveHubs,
+  overallLeakScore,
   product,
   recommendedNextHubs,
+  sampleLeakScores,
   statSources,
   getHubById,
 } from "../data/hubs";
+
+const overall = overallLeakScore();
+const miniScores = [...sampleLeakScores]
+  .sort((a, b) => a.score - b.score)
+  .slice(0, 3);
 ---
 
 <BaseLayout title={product.name} path="/">
@@ -21,19 +29,84 @@ import {
       Operate <em>IQ</em>
     </h1>
     <p class="hero-lead">{product.positioning}</p>
+    <p class="hero-audience">
+      Built for owners who already have leads, calls, and reviews — they're just leaking.
+    </p>
+    <div class="audience-chips" aria-label="Vertical packs">
+      <span class="chip">Gym</span>
+      <span class="chip">Clinic</span>
+      <span class="chip">Home services</span>
+      <span class="chip">Salon</span>
+      <span class="chip">General SMB</span>
+    </div>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="/dashboard">Open owner leak score</a>
-      <a class="btn btn-ghost" href="#hire-order">See hire order</a>
+      <a class="btn btn-primary" href="/dashboard">See your leak score</a>
+      <a class="btn btn-ghost" href="#leak-map">How the 13 hubs fit together</a>
     </div>
   </section>
 
   <section class="section">
     <div class="section-head">
       <div>
+        <h2>One score. Every leak ranked.</h2>
+        <p>
+          Sample scores — your morning brief when Hub 11 is live.{" "}
+          <a href="/dashboard" style="color: var(--teal)">Open full dashboard →</a>
+        </p>
+      </div>
+    </div>
+    <div class="panel leak-score-hero">
+      <div
+        class="score-ring"
+        style={`--p: ${overall * 3.6}deg`}
+        aria-label={`Overall leak score ${overall}`}
+      >
+        {overall}
+      </div>
+      <div class="score-table mini-score-table">
+        {
+          miniScores.map((row) => {
+            const hub = liveHubs.find((h) => h.id === row.hubId);
+            if (!hub) return null;
+            const trendClass = `trend-${row.trend}`;
+            const trendLabel =
+              row.trend === "up"
+                ? "↑ improving"
+                : row.trend === "down"
+                  ? "↓ worsening"
+                  : "→ flat";
+            return (
+              <div class="score-row">
+                <div>
+                  <strong>
+                    Hub {hub.number} · {hub.titleLead} {hub.titleAccent}
+                  </strong>
+                  <div style="color: var(--muted); font-size: 0.9rem">{row.note}</div>
+                </div>
+                <div class="bar" aria-hidden="true">
+                  <span style={`width: ${row.score}%`} />
+                </div>
+                <div style="text-align: right">
+                  <div style="font-family: var(--font-display); font-size: 1.3rem">
+                    {row.score}
+                  </div>
+                  <div class={trendClass}>{trendLabel}</div>
+                </div>
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="leak-map">
+    <div class="section-head">
+      <div>
         <h2>Leak map — 13 hubs</h2>
         <p>
-          Each hub is an AI {product.naming.role.toLowerCase()} that plugs one named revenue leak.
-          Hubs 01–05 ship first; add-ons show how the OS expands.
+          <strong>13 operators. One OS.</strong> Live hubs plug the biggest local-service leaks;
+          add-ons extend capture, conversion, and the owner brief.
         </p>
       </div>
     </div>
@@ -68,9 +141,7 @@ import {
     <div class="order-grid">
       <div class="panel">
         <span class="badge">Logical funnel</span>
-        <h3 style="font-family: var(--font-display); margin: 0.75rem 0">
-          Capture → Protect → Reactivate → Reputation → Convert → Insight
-        </h3>
+        <h3 class="panel-title">Capture → Protect → Reactivate → Reputation → Convert → Insight</h3>
         <ol class="order-list">
           {
             logicalHireOrder.map((hub, index) => (
@@ -92,9 +163,7 @@ import {
       </div>
       <div class="panel">
         <span class="badge amber">Fastest ROI</span>
-        <h3 style="font-family: var(--font-display); margin: 0.75rem 0">
-          Cash-first when the database is full
-        </h3>
+        <h3 class="panel-title">Cash-first when the database is full</h3>
         <ol class="order-list">
           {
             fastRoiHireOrder.map((hub, index) => (
@@ -113,6 +182,43 @@ import {
           }
         </ol>
       </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Week 1 with Hub 01</h2>
+        <p>What fastest-ROI path looks like when the CRM is already full of dust.</p>
+      </div>
+    </div>
+    <div class="week-grid">
+      <div class="week-step panel">
+        <span class="badge">Day 1</span>
+        <h3 class="panel-title">Connect & segment</h3>
+        <p>
+          Connect CRM + SMS. Segment never-booked and lapsed contacts — pilot 5–10% of the list.
+        </p>
+      </div>
+      <div class="week-step panel">
+        <span class="badge">Day 3</span>
+        <h3 class="panel-title">First outreach live</h3>
+        <p>
+          First reactivation messages go out. Bookings attributed to dust, not new ad spend.
+        </p>
+      </div>
+      <div class="week-step panel">
+        <span class="badge">Day 7</span>
+        <h3 class="panel-title">Proof in the numbers</h3>
+        <p>
+          Owner sees replies, bookings, and revenue from dormant contacts — before Hub 03 or 04.
+        </p>
+      </div>
+    </div>
+    <div class="hero-actions" style="margin-top: 1.25rem">
+      <a class="btn btn-primary" href="/hubs/database-reactivation">
+        Start with Database Reactivation →
+      </a>
     </div>
   </section>
 
@@ -159,6 +265,32 @@ import {
       {comingSoonHubs.map((hub) => (
         <HubTile hub={hub} />
       ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>What Operate IQ is not</h2>
+        <p>Named anti-patterns — the guardrails behind every hub.</p>
+      </div>
+    </div>
+    <div class="anti-grid">
+      <div class="panel anti-card">
+        <h3 class="panel-title">Tool soup</h3>
+        <p>Five disconnected apps with no leak score. Nobody knows what to fix first.</p>
+      </div>
+      <div class="panel anti-card">
+        <h3 class="panel-title">Magic AI</h3>
+        <p>
+          Automation with no human handoff on money, health, or reputation. One bad send erases
+          trust.
+        </p>
+      </div>
+      <div class="panel anti-card">
+        <h3 class="panel-title">Ad treadmill</h3>
+        <p>Buying strangers while the CRM gathers dust. The fastest ROI path starts inside the list.</p>
+      </div>
     </div>
   </section>
 
