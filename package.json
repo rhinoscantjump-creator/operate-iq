@@ -3,10 +3,17 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "platform"
+  ],
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "platform:test": "npm run test -w @operate-iq/platform",
+    "platform:typecheck": "npm run typecheck -w @operate-iq/platform",
+    "platform:demo": "npm run demo:hub01 -w @operate-iq/platform",
+    "platform:eval": "npm run eval:hub01 -w @operate-iq/platform"
   },
   "dependencies": {
     "astro": "^5.7.0"
