@@ -153,7 +153,7 @@ export const hubs: Hub[] = [
       "A large share of first-visit and inquiry leads never get a second touch. Local CRMs fill with dust while ad spend keeps buying the same strangers.",
     punchline:
       "The business is sitting on a goldmine of leads it never touched. This hub turns dust into dollars.",
-    diagramLabel: "OLD LEADS → BUSINESS",
+    diagramLabel: "Old leads → booked again",
     capabilities: [
       {
         title: "Segment before you send",
@@ -221,6 +221,46 @@ export const hubs: Hub[] = [
     complianceIds: ["sms-consent", "human-handoff", "data-minimization"],
     hireOrderLogical: 3,
     hireOrderFastRoi: 1,
+    deepDive: {
+      symptom:
+        "The CRM is full of past inquiries and first visits, but almost nobody gets a second touch.",
+      audience:
+        "Gym, clinic, home-service, salon, and SMB owners who already paid for leads that went quiet.",
+      timeLeak:
+        "Ad spend keeps buying strangers while dormant contacts sit unused — often weeks of booked capacity left on the table.",
+      guardrail:
+        "Only consented contacts get outbound messages. Pilot 5–10% of the list first. Escalate billing, medical, or angry replies to a named human.",
+      before:
+        "Staff sporadically call or blast the whole list. Offers are generic. Nobody knows which segment booked, and capacity gets swamped or ignored.",
+      after:
+        "Dormant contacts are segmented (never-booked, no-show, cancelled, lapsed). A small pilot proves the offer, then outreach books into the live calendar with attribution.",
+      steps: [
+        "Connect CRM + SMS and confirm consent flags for eligible contacts.",
+        "Segment never-booked, no-show, cancelled, and lapsed lists — exclude do-not-contact.",
+        "Pick one vertical-aware offer template and pilot 5–10% of the eligible list.",
+        "Send outreach with a clear book link into live calendar availability.",
+        "Measure replies, bookings, and revenue from dormant contacts before full rollout.",
+      ],
+      failureModes: [
+        {
+          title: "Blast without segments",
+          detail:
+            "One generic blast tanks reply rates and burns trust. Match offer to why they went quiet.",
+        },
+        {
+          title: "No capacity plan",
+          detail:
+            "A successful reactivation without booking slots creates angry customers. Pilot against real calendar capacity.",
+        },
+        {
+          title: "Missing consent",
+          detail:
+            "Messaging contacts without documented opt-in creates compliance risk. Filter first, then send.",
+        },
+      ],
+      whenNotToAutomate:
+        "Do not auto-message contacts in active disputes, medical-sensitive cases without approved copy, or anyone who already opted out — those stay with a human.",
+    },
   },
   {
     id: "hub-02",
@@ -236,7 +276,7 @@ export const hubs: Hub[] = [
       "Most customers check reviews before buying — yet frontline teams rarely ask. Reputation and referrals stay accidental instead of systematic. (Exact survey % varies by year; cite BrightLocal on publish.)",
     punchline:
       "Everybody checks reviews. Basically nobody asks for them. This hub fixes that overnight.",
-    diagramLabel: "★★★★★ · ASK → REVIEW → REFER",
+    diagramLabel: "Ask → review → refer",
     capabilities: [
       {
         title: "Stage 1 — honest review ask",
@@ -303,6 +343,46 @@ export const hubs: Hub[] = [
     complianceIds: ["sms-consent", "review-incentives", "human-handoff"],
     hireOrderLogical: 4,
     hireOrderFastRoi: 3,
+    deepDive: {
+      symptom:
+        "Happy customers leave without ever being asked for a review or referral.",
+      audience:
+        "Local service businesses where Google and word-of-mouth decide who wins the next job.",
+      timeLeak:
+        "Reputation stays accidental. Referral leads — usually the highest-intent channel — never get a systematic ask.",
+      guardrail:
+        "Never gate a reward on a positive review. Ask for an honest rating first; run any thank-you or referral offer as a separate step.",
+      before:
+        "Staff forget to ask. Occasional manual texts. Negative reviews sit unanswered. Referrals happen only when someone remembers.",
+      after:
+        "After a completed visit, AI asks for an honest rating, routes happy customers to the review link, drafts replies, then optionally runs a separate referral thank-you.",
+      steps: [
+        "Trigger the ask after completed jobs/visits from calendar or CRM status.",
+        "Stage 1: request an honest 1–5 experience rating — no reward attached.",
+        "Route 4–5 ratings to the public review link; escalate low ratings to a human.",
+        "Stage 2 (optional): send a separate thank-you / referral offer after the ask.",
+        "Auto-draft review replies; require human send on negatives and edge cases.",
+      ],
+      failureModes: [
+        {
+          title: "Review-gated incentives",
+          detail:
+            "“Leave a 5-star review to get X” violates platform rules and destroys trust. Keep reward separate from the ask.",
+        },
+        {
+          title: "No reply on negatives",
+          detail:
+            "Unanswered 1-star reviews compound damage. Escalate immediately with full context.",
+        },
+        {
+          title: "Asking too early",
+          detail:
+            "Asking before the job is complete or while the customer is unhappy backfires. Trigger only on completed, eligible visits.",
+        },
+      ],
+      whenNotToAutomate:
+        "Do not auto-ask during active complaints, refund disputes, or clinical incidents — wait for a human all-clear.",
+    },
   },
   {
     id: "hub-03",
@@ -318,7 +398,7 @@ export const hubs: Hub[] = [
       "Speed-to-lead research (HBR / InsideSales) shows responding within minutes can lift contact and qualify rates by up to ~400% versus multi-hour delays — while many local teams still take a day or two.",
     punchline:
       "Follow up in minutes instead of hours and watch conversion rates multiply.",
-    diagramLabel: "MINUTES vs HOURS",
+    diagramLabel: "Minutes vs hours",
     capabilities: [
       {
         title: "Multi-channel capture",
@@ -385,6 +465,46 @@ export const hubs: Hub[] = [
     complianceIds: ["sms-consent", "human-handoff", "data-minimization"],
     hireOrderLogical: 2,
     hireOrderFastRoi: 2,
+    deepDive: {
+      symptom:
+        "Website and ad leads sit for hours or overnight before anyone replies.",
+      audience:
+        "Local businesses running forms, chat, or Meta/Google lead ads where speed-to-lead decides who books.",
+      timeLeak:
+        "Responding in minutes can lift contact/qualify rates dramatically vs multi-hour delays — while many teams still take a day or two.",
+      guardrail:
+        "AI handles first touch and booking; escalate “talk to a person,” medical/legal edge cases, and angry leads with full conversation context.",
+      before:
+        "Leads land in email or ad inboxes. Someone checks when free. By then the prospect booked elsewhere or went cold.",
+      after:
+        "Forms, chat, and lead ads share a 5-minute SLA. AI answers FAQs, books into the live calendar, and sends show-up reminders — staff only join on escalation.",
+      steps: [
+        "Connect website forms, on-site chat, and Meta/Google lead ads into one lead queue.",
+        "Set the first-touch SLA to under five minutes, including after hours where quiet-hour rules allow.",
+        "Load FAQ + qualification questions for the vertical pack.",
+        "Book into live calendar availability with confirmation + reminder sequence.",
+        "Route human-ask and edge cases to a named owner without dropping the thread.",
+      ],
+      failureModes: [
+        {
+          title: "Website-only coverage",
+          detail:
+            "Lead ads and chat with a slower SLA recreate the same leak. Same five-minute rule on every channel.",
+        },
+        {
+          title: "No calendar sync",
+          detail:
+            "Booking without live availability creates double-books and no-shows. Connect the calendar first.",
+        },
+        {
+          title: "FAQ that overpromises",
+          detail:
+            "Unapproved medical, pricing, or legal claims in the bot create risk. Keep answers to approved copy.",
+        },
+      ],
+      whenNotToAutomate:
+        "Do not let AI diagnose, quote regulated services, or commit custom pricing outside the approved playbook — those need a human.",
+    },
   },
   {
     id: "hub-04",
@@ -400,7 +520,7 @@ export const hubs: Hub[] = [
       "A large share of calls to local businesses go unanswered. Most callers will not leave a voicemail — they call the next business on the list.",
     punchline:
       "Every missed call used to be a lost customer. This hub plugs one of the biggest leaks in any local business.",
-    diagramLabel: "MISSED CALL → SMS (optional VOICE)",
+    diagramLabel: "Missed call → SMS (optional voice)",
     capabilities: [
       {
         title: "Instant text-back (default)",
@@ -466,6 +586,46 @@ export const hubs: Hub[] = [
     complianceIds: ["sms-consent", "recording-consent", "human-handoff"],
     hireOrderLogical: 1,
     hireOrderFastRoi: 4,
+    deepDive: {
+      symptom:
+        "Calls go unanswered during busy hours and after close — and most callers never leave a voicemail.",
+      audience:
+        "Any local business where the phone still drives bookings: clinics, trades, salons, gyms, multi-location operators.",
+      timeLeak:
+        "Missed callers often dial the next business on the list within minutes. Each miss is a silent lost job.",
+      guardrail:
+        "Text-back is the baseline. Optional AI voice only with recording consent. Escalate billing, medical, and “talk to a person” requests immediately.",
+      before:
+        "Phone rings out. Voicemail fills up. Staff return calls hours later to dead air. After-hours leads disappear overnight.",
+      after:
+        "A missed call triggers an SMS within seconds from the business line. AI qualifies and books — including after hours — and can optionally answer with AI voice where consented.",
+      steps: [
+        "Connect the business phone system and SMS channel on the same number identity.",
+        "Enable instant text-back on missed/rejected calls with a clear qualify → book script.",
+        "Set after-hours and multi-location routing rules.",
+        "Optional: enable AI voice answer with recording consent where appropriate.",
+        "Push recovered conversations into CRM + calendar so Hubs 02–05 can reuse the contact.",
+      ],
+      failureModes: [
+        {
+          title: "Slow text-back",
+          detail:
+            "A reply after five minutes loses the race. Target under 60 seconds from miss to first SMS.",
+        },
+        {
+          title: "One messy inbox for every location",
+          detail:
+            "Franchises and multi-site shops need location-aware routing or threads get answered by the wrong team.",
+        },
+        {
+          title: "Voice without consent",
+          detail:
+            "Recording or AI voice without notice creates compliance risk. Keep text-back as the safe default.",
+        },
+      ],
+      whenNotToAutomate:
+        "Emergency, medical-advice, or hostile callers should reach a human path immediately — do not keep them in a bot loop.",
+    },
   },
   {
     id: "hub-05",
@@ -481,7 +641,7 @@ export const hubs: Hub[] = [
       "Many frontline sellers never get formal training. Industry enablement reports link training investment to higher revenue per rep — directional, not a guaranteed lift. Better leads from Hubs 01–04 still die if the team cannot close.",
     punchline:
       "Better leads mean nothing if the team cannot close. This hub makes sure they can.",
-    diagramLabel: "SCRIPT · CLOSE · OBJECTIONS · FOLLOW-UP",
+    diagramLabel: "Script · close · objections · follow-up",
     capabilities: [
       {
         title: "Transcript scoring first",
@@ -546,6 +706,46 @@ export const hubs: Hub[] = [
     complianceIds: ["recording-consent", "human-handoff", "data-minimization"],
     hireOrderLogical: 5,
     hireOrderFastRoi: 5,
+    deepDive: {
+      symptom:
+        "Leads from ads, web, and reactivation still die on the phone because the team was never coached.",
+      audience:
+        "Owners whose frontline staff sell tours, estimates, memberships, or treatment plans without a shared scorecard.",
+      timeLeak:
+        "Marketing ROI leaks at the close. Untrained conversations waste every dollar spent on Hubs 01–04.",
+      guardrail:
+        "Only score conversations with recording/transcript consent. This is a scorecard + coaching queue — not a replacement for a manager.",
+      before:
+        "Managers listen to random calls when they have time. Feedback is vague. The same objections keep killing deals with no shared playbook.",
+      after:
+        "Consented call and SMS transcripts are graded on Script, Close, Objections, and Follow-up. Gaps surface with examples so a human coach can run a tight loop.",
+      steps: [
+        "Confirm recording/transcript consent rules for the phone and SMS channels.",
+        "Load the four-axis scorecard (Script, Close, Objections, Follow-up) for the vertical pack.",
+        "Score consented conversations weekly and surface the weakest axis per rep.",
+        "Queue human coaching moments with real examples — not generic tips.",
+        "Track close-rate delta and follow-up compliance before buying more traffic.",
+      ],
+      failureModes: [
+        {
+          title: "Scoring without consent",
+          detail:
+            "Secret surveillance destroys trust and may break local recording laws. Consent first.",
+        },
+        {
+          title: "Vibes instead of a scorecard",
+          detail:
+            "“Be more confident” is not coachable. Stick to the four visible axes with examples.",
+        },
+        {
+          title: "AI as the manager",
+          detail:
+            "The hub queues coaching; a human still owns the conversation with the rep.",
+        },
+      ],
+      whenNotToAutomate:
+        "Do not auto-discipline staff from scores alone, and do not score private or non-consented channels.",
+    },
   },
   {
     id: "hub-06",
@@ -560,7 +760,7 @@ export const hubs: Hub[] = [
     leakBody:
       "Booked-but-no-show appointments silently erase Hub 03 and Hub 04 ROI.",
     punchline: "Recover the appointment before you buy another lead.",
-    diagramLabel: "NO-SHOW → REBOOK",
+    diagramLabel: "No-show → rebook",
     capabilities: [],
     kpis: [],
     productImprovements: [],
@@ -588,7 +788,7 @@ export const hubs: Hub[] = [
     leakBody:
       "Quotes and estimates sit unanswered for days while competitors stay in the thread.",
     punchline: "Never let a sent quote die in silence.",
-    diagramLabel: "QUOTE SENT → FOLLOW-UP",
+    diagramLabel: "Quote sent → follow-up",
     capabilities: [],
     kpis: [],
     productImprovements: [],
@@ -616,7 +816,7 @@ export const hubs: Hub[] = [
     leakBody:
       "Unread DMs and social messages are speed-to-lead leaks Hub 03 does not see if it only watches the website.",
     punchline: "Speed-to-lead that is truly omnichannel.",
-    diagramLabel: "FB · IG · WA · DM → ONE QUEUE",
+    diagramLabel: "FB · IG · WA · DM → one queue",
     capabilities: [],
     kpis: [],
     productImprovements: [],
@@ -644,7 +844,7 @@ export const hubs: Hub[] = [
     leakBody:
       "Cancelled and lapsed paying customers are a different list than dusty inquiry leads — and they need a different tone.",
     punchline: "Bring back customers who already trusted you once.",
-    diagramLabel: "LAPSED CUSTOMER → RETURN OFFER",
+    diagramLabel: "Lapsed customer → return offer",
     capabilities: [],
     kpis: [],
     productImprovements: [],
@@ -672,7 +872,7 @@ export const hubs: Hub[] = [
     leakBody:
       "Unanswered negative reviews and slow reply SLAs erode trust faster than new five-star asks can rebuild it.",
     punchline: "Reputation is not only an ask engine — defend the downside.",
-    diagramLabel: "NEGATIVE REVIEW → REPLY SLA",
+    diagramLabel: "Negative review → reply SLA",
     capabilities: [],
     kpis: [],
     productImprovements: [],
@@ -700,7 +900,7 @@ export const hubs: Hub[] = [
     leakBody:
       "Owners cannot see which leak is bleeding today across hubs without a cross-hub score and morning brief.",
     punchline: "One morning brief. Every leak, ranked.",
-    diagramLabel: "ALL HUBS → ONE SCORE",
+    diagramLabel: "All hubs → one score",
     capabilities: [],
     kpis: [],
     productImprovements: [],
@@ -734,7 +934,7 @@ export const hubs: Hub[] = [
     leakBody:
       "Unpaid invoices, failed cards, and overdue balances leak cash after the sale — without needing new ads.",
     punchline: "Recover revenue from relationships you already have.",
-    diagramLabel: "UNPAID → NUDGE → PAID",
+    diagramLabel: "Unpaid → nudge → paid",
     capabilities: [],
     kpis: [],
     productImprovements: [],
@@ -762,7 +962,7 @@ export const hubs: Hub[] = [
     leakBody:
       "New hires touch leads before they know the script — inconsistent first impressions and turnover damage every hub upstream.",
     punchline: "Train tone and playbooks before they touch a lead.",
-    diagramLabel: "NEW HIRE → SCRIPT → FLOOR",
+    diagramLabel: "New hire → script → floor",
     capabilities: [],
     kpis: [],
     productImprovements: [],

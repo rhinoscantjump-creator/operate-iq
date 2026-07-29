@@ -44,6 +44,19 @@ export interface HubCapability {
   detail: string;
 }
 
+/** AEO / playbook deep-dive — symptom → leak → steps → guardrail */
+export interface HubDeepDive {
+  symptom: string;
+  audience: string;
+  timeLeak: string;
+  guardrail: string;
+  before: string;
+  after: string;
+  steps: string[];
+  failureModes: { title: string; detail: string }[];
+  whenNotToAutomate: string;
+}
+
 export interface Hub {
   id: string;
   slug: string;
@@ -69,6 +82,8 @@ export interface Hub {
   /** Hub IDs this add-on extends (e.g. hub-03) */
   supplementsHubIds?: string[];
   supplementsWhy?: string;
+  /** Live hubs: citable playbook structure for answer engines */
+  deepDive?: HubDeepDive;
 }
 
 export interface LeakScoreSample {

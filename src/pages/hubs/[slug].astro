@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import VerticalPack from "../../components/VerticalPack.astro";
+import { funnelLabels } from "../../data/types";
 import {
   formatSupplementLabel,
   getCompliance,
@@ -26,9 +27,19 @@ const prev = idx > 0 ? liveHubs[idx - 1] : undefined;
 const next = idx >= 0 && idx < liveHubs.length - 1 ? liveHubs[idx + 1] : undefined;
 const supplementing = getSupplementingHubs(hub.id);
 const pageTitle = `${hub.titleLead} ${hub.titleAccent}`;
+const dive = hub.deepDive;
+const description = dive?.symptom ?? hub.leakBody;
 ---
 
-<BaseLayout title={pageTitle} description={hub.leakBody} path={`/hubs/${hub.slug}`}>
+<BaseLayout title={pageTitle} description={description} path={`/hubs/${hub.slug}`}>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Leak map</a>
+    <span>/</span>
+    <a href={`/#leak-map`}>{funnelLabels[hub.funnelStage]}</a>
+    <span>/</span>
+    <span>Hub {hub.number}</span>
+  </nav>
+
   <section class="hub-hero">
     <span class="badge">
       Hub {hub.number} · {hub.operator}
@@ -36,8 +47,9 @@ const pageTitle = `${hub.titleLead} ${hub.titleAccent}`;
     <h1 class="hub-title">
       {hub.titleLead} <span>{hub.titleAccent}</span>
     </h1>
+    <p class="hub-lead">{hub.leakBody}</p>
     <div class="meta-row">
-      <span class="chip">Stage: {hub.funnelStage}</span>
+      <span class="chip">{funnelLabels[hub.funnelStage]}</span>
       <span class="chip">Logical hire #{hub.hireOrderLogical}</span>
       {
         hub.hireOrderFastRoi != null && (
@@ -46,17 +58,83 @@ const pageTitle = `${hub.titleLead} ${hub.titleAccent}`;
       }
     </div>
 
+    {
+      dive && (
+        <dl class="playbook-meta">
+          <div class="meta-block">
+            <dt>Symptom</dt>
+            <dd>{dive.symptom}</dd>
+          </div>
+          <div class="meta-block">
+            <dt>Who this is for</dt>
+            <dd>{dive.audience}</dd>
+          </div>
+          <div class="meta-block">
+            <dt>Time / margin leak</dt>
+            <dd>{dive.timeLeak}</dd>
+          </div>
+          <div class="meta-block">
+            <dt>Guardrail</dt>
+            <dd>{dive.guardrail}</dd>
+          </div>
+        </dl>
+      )
+    }
+
     <div class="hub-layout">
       <div class="leak-box">
         <div class="leak-label">The leak</div>
         <div class="leak-stat">{hub.leakStat}</div>
-        <p style="margin: 0; color: var(--muted)">{hub.leakBody}</p>
+        <p style="margin: 0; color: var(--muted)">{hub.punchline}</p>
       </div>
       <div class="diagram" aria-label="Hub diagram">
         {hub.diagramLabel}
       </div>
     </div>
   </section>
+
+  {
+    dive && (
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>Before → after</h2>
+            <p>What changes when this operator is live.</p>
+          </div>
+        </div>
+        <div class="before-after">
+          <div class="panel">
+            <h3>Before</h3>
+            <p>{dive.before}</p>
+          </div>
+          <div class="panel">
+            <h3>After</h3>
+            <p>{dive.after}</p>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    dive && (
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>Steps to implement</h2>
+            <p>Copyable operating order — connect, pilot, measure, then scale.</p>
+          </div>
+        </div>
+        <ol class="step-list">
+          {dive.steps.map((step) => (
+            <li>
+              <p>{step}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )
+  }
 
   <section class="section">
     <div class="section-head">
@@ -80,6 +158,38 @@ const pageTitle = `${hub.titleLead} ${hub.titleAccent}`;
     </ul>
     <div class="punchline">{hub.punchline}</div>
   </section>
+
+  {
+    dive && (
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>Failure modes</h2>
+            <p>Where this hub breaks if you skip the guardrails.</p>
+          </div>
+        </div>
+        <ul class="failure-list">
+          {dive.failureModes.map((mode) => (
+            <li>
+              <strong>{mode.title}</strong>
+              <p>{mode.detail}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  {
+    dive && (
+      <section class="section">
+        <div class="guardrail-callout">
+          <h3>When not to automate</h3>
+          <p>{dive.whenNotToAutomate}</p>
+        </div>
+      </section>
+    )
+  }
 
   <section class="section">
     <div class="section-head">
@@ -182,7 +292,7 @@ const pageTitle = `${hub.titleLead} ${hub.titleAccent}`;
         <div class="section-head">
           <div>
             <h2>Extended by (coming soon)</h2>
-            <p>Add-on hubs that supplement this operator.</p>
+            <p>Add-on hubs that supplement this operator — related deep dives as the OS expands.</p>
           </div>
         </div>
         <div class="related-grid">

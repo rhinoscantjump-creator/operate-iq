@@ -1,5 +1,6 @@
 ---
 import type { Hub } from "../data/types";
+import { funnelLabels } from "../data/types";
 import { formatSupplementLabel } from "../data/hubs";
 
 interface Props {
@@ -8,6 +9,7 @@ interface Props {
 
 const { hub } = Astro.props;
 const isSoon = hub.status === "coming-soon";
+const stageLabel = funnelLabels[hub.funnelStage];
 ---
 
 {
@@ -26,7 +28,7 @@ const isSoon = hub.status === "coming-soon";
         </p>
       )}
       <div class="meta-row">
-        <span class="chip">{hub.funnelStage}</span>
+        <span class="chip">{stageLabel}</span>
         <span class="chip">Coming soon</span>
       </div>
     </div>
@@ -40,7 +42,7 @@ const isSoon = hub.status === "coming-soon";
       </h3>
       <p>{hub.leakBody}</p>
       <div class="meta-row">
-        <span class="chip">{hub.funnelStage}</span>
+        <span class="chip">{stageLabel}</span>
         <span class="chip">Live</span>
         {hub.hireOrderFastRoi != null && (
           <span class="chip">Fast ROI #{hub.hireOrderFastRoi}</span>
