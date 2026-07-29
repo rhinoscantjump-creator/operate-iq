@@ -101,10 +101,20 @@ export const funnelLabels: Record<FunnelStage, string> = {
   insight: "Insight",
 };
 
+/** Logical funnel order (how the OS flows). */
 export const funnelOrder: FunnelStage[] = [
   "capture",
   "reactivate",
   "reputation",
+  "convert",
+  "insight",
+];
+
+/** Homepage browse order — cash/reputation first, then capture. */
+export const homeFunnelOrder: FunnelStage[] = [
+  "reactivate",
+  "reputation",
+  "capture",
   "convert",
   "insight",
 ];

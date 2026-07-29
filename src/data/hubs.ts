@@ -1024,7 +1024,9 @@ export function formatSupplementLabel(hubIds: string[]) {
 }
 
 export function hubsByFunnel(stage: FunnelStage) {
-  return hubs.filter((h) => h.funnelStage === stage);
+  return hubs
+    .filter((h) => h.funnelStage === stage)
+    .sort((a, b) => a.number.localeCompare(b.number));
 }
 
 export const sampleLeakScores: LeakScoreSample[] = [

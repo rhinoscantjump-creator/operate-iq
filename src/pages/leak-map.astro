@@ -1,0 +1,224 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HubTile from "../components/HubTile.astro";
+import { funnelLabels, funnelOrder } from "../data/types";
+import {
+  comingSoonHubs,
+  fastRoiHireOrder,
+  hubsByFunnel,
+  logicalHireOrder,
+  product,
+  recommendedNextHubs,
+  statSources,
+  getHubById,
+} from "../data/hubs";
+---
+
+<BaseLayout
+  title="Leak map"
+  description="How Operate IQ's 13 hubs fit together — hire paths, add-ons, and the OS map."
+  path="/leak-map"
+>
+  <section class="hero">
+    <div class="hero-kicker">Operating system map</div>
+    <h1>Leak <em>map</em></h1>
+    <p class="hero-lead">
+      <strong>13 operators. One OS.</strong> Live hubs plug the biggest local-service leaks;
+      add-ons extend capture, conversion, and the owner brief.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="/">Browse hubs →</a>
+      <a class="btn btn-ghost" href="#hire-order">See hire order</a>
+    </div>
+  </section>
+
+  <section class="section" id="map">
+    <div class="section-head">
+      <div>
+        <h2>Funnel stages</h2>
+        <p>
+          Logical flow: Capture → Reactivate → Reputation → Convert → Insight. Homepage browse
+          order leads with Reactivate for cash-first owners.
+        </p>
+      </div>
+    </div>
+    {
+      funnelOrder.map((stage) => {
+        const stageHubs = hubsByFunnel(stage);
+        if (!stageHubs.length) return null;
+        return (
+          <div class="funnel-block">
+            <h3>{funnelLabels[stage]}</h3>
+            <div class="hub-grid">
+              {stageHubs.map((hub) => (
+                <HubTile hub={hub} />
+              ))}
+            </div>
+          </div>
+        );
+      })
+    }
+  </section>
+
+  <section class="section" id="hire-order">
+    <div class="section-head">
+      <div>
+        <h2>Two hire paths</h2>
+        <p>
+          Logical operating order follows the funnel. Fastest ROI order leads with Database
+          Reactivation when the CRM is already full of dust.
+        </p>
+      </div>
+    </div>
+    <div class="order-grid">
+      <div class="panel">
+        <span class="badge">Logical funnel</span>
+        <h3 class="panel-title">Capture → Protect → Reactivate → Reputation → Convert → Insight</h3>
+        <ol class="order-list">
+          {
+            logicalHireOrder.map((hub, index) => (
+              <li>
+                <span class="order-num">{index + 1}</span>
+                <div>
+                  <strong>
+                    Hub {hub.number} · {hub.titleLead} {hub.titleAccent}
+                  </strong>
+                  <div class="meta-row" style="margin-top: 0.35rem">
+                    <span class="chip">{funnelLabels[hub.funnelStage]}</span>
+                    <span class="chip">{hub.operator}</span>
+                  </div>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+      <div class="panel">
+        <span class="badge amber">Fastest ROI</span>
+        <h3 class="panel-title">Cash-first when the database is full</h3>
+        <ol class="order-list">
+          {
+            fastRoiHireOrder.map((hub, index) => (
+              <li>
+                <span class="order-num">{index + 1}</span>
+                <div>
+                  <strong>
+                    Hub {hub.number} · {hub.titleLead} {hub.titleAccent}
+                  </strong>
+                  <div class="meta-row" style="margin-top: 0.35rem">
+                    <span class="chip">ROI path #{hub.hireOrderFastRoi}</span>
+                  </div>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>How add-ons sit on the core five</h2>
+        <p>Supplement relationships — what each coming-soon hub extends.</p>
+      </div>
+    </div>
+    <div class="os-map">{`04/03 capture ──► 08 omnichannel inbox
+       │
+       ├──► 06 no-show recovery
+       └──► 07 quote follow-up ──► 05 sales coaching ──► 13 staff onboarding
+
+01 dusty leads (never converted)
+09 churned customers (were paying)     both feed revenue without ads
+12 collections (after the sale)
+
+02 ask for reviews/referrals
+10 defend/reply to reputation damage
+
+11 owner brief  ◄── scores all of the above`}</div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Add-on hubs (06–13)</h2>
+        <p>
+          Recommended next three to flesh after core five:{" "}
+          {
+            recommendedNextHubs
+              .map((id) => {
+                const h = getHubById(id);
+                return h ? `Hub ${h.number}` : id;
+              })
+              .join(", ")
+          }
+        </p>
+      </div>
+    </div>
+    <div class="hub-grid">
+      {comingSoonHubs.map((hub) => (
+        <HubTile hub={hub} />
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>What Operate IQ is not</h2>
+        <p>Named anti-patterns — the guardrails behind every hub.</p>
+      </div>
+    </div>
+    <div class="anti-grid">
+      <div class="panel anti-card">
+        <h3 class="panel-title">Tool soup</h3>
+        <p>Five disconnected apps with no leak score. Nobody knows what to fix first.</p>
+      </div>
+      <div class="panel anti-card">
+        <h3 class="panel-title">Magic AI</h3>
+        <p>
+          Automation with no human handoff on money, health, or reputation. One bad send erases
+          trust.
+        </p>
+      </div>
+      <div class="panel anti-card">
+        <h3 class="panel-title">Ad treadmill</h3>
+        <p>Buying strangers while the CRM gathers dust. The fastest ROI path starts inside the list.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Stat discipline</h2>
+        <p>
+          Headline numbers are treated as citeable claims — not decoration. Replace placeholders
+          with the latest published survey year before public launch.
+        </p>
+      </div>
+    </div>
+    <div class="panel">
+      <ul class="sources">
+        {
+          statSources.map((s) => (
+            <li>
+              <strong>{s.claim}</strong>
+              <br />
+              Source: {s.source}
+              {
+                s.note && (
+                  <>
+                    <br />
+                    Note: {s.note}
+                  </>
+                )
+              }
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
