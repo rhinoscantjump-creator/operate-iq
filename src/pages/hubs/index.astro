@@ -1,0 +1,64 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { funnelLabels } from "../../data/types";
+import { hubs, product } from "../../data/hubs";
+
+const allHubs = [...hubs].sort((a, b) => a.number.localeCompare(b.number));
+---
+
+<BaseLayout
+  title="Hubs"
+  description="All 13 Operate IQ hubs — AI operators that plug named revenue leaks for local service businesses."
+  path="/hubs"
+>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <span>Hubs</span>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-kicker">13 operators · one OS</div>
+    <h1>The <em>hubs</em></h1>
+    <p class="hero-lead">
+      Each hub is an AI {product.naming.role.toLowerCase()} that plugs one named leak. Hubs 01–05 are
+      live; 06–13 extend capture, conversion, and the owner brief.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="/hubs/database-reactivation">Start with Hub 01 →</a>
+      <a class="btn btn-ghost" href="/leak-map">See how they fit together</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <ol class="hub-index-list">
+      {
+        allHubs.map((hub) => {
+          const blurb = hub.comingSoonLeak ?? hub.leakBody;
+          const isLive = hub.status === "live";
+          return (
+            <li class:list={["hub-index-item", { soon: !isLive }]}>
+              <div class="hub-index-num">{hub.number}</div>
+              <div class="hub-index-body">
+                <h2>
+                  <a href={`/hubs/${hub.slug}`}>
+                    {hub.titleLead} {hub.titleAccent}
+                  </a>
+                </h2>
+                <p class="hub-index-meta">
+                  <span class="chip">{funnelLabels[hub.funnelStage]}</span>
+                  <span class="chip">{hub.operator}</span>
+                  {!isLive && <span class="chip">Coming soon</span>}
+                </p>
+                <p class="hub-index-blurb">{blurb}</p>
+                <a class="hub-index-link" href={`/hubs/${hub.slug}`}>
+                  {isLive ? "Open hub →" : "Preview hub →"}
+                </a>
+              </div>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </section>
+</BaseLayout>

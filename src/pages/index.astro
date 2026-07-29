@@ -4,16 +4,8 @@ import HubTile from "../components/HubTile.astro";
 import { funnelLabels, homeFunnelOrder } from "../data/types";
 import {
   hubsByFunnel,
-  liveHubs,
-  overallLeakScore,
   product,
-  sampleLeakScores,
 } from "../data/hubs";
-
-const overall = overallLeakScore();
-const miniScores = [...sampleLeakScores]
-  .sort((a, b) => a.score - b.score)
-  .slice(0, 3);
 ---
 
 <BaseLayout title={product.name} path="/">
@@ -36,61 +28,6 @@ const miniScores = [...sampleLeakScores]
     <div class="hero-actions">
       <a class="btn btn-primary" href="/dashboard">See your leak score</a>
       <a class="btn btn-ghost" href="/leak-map">How the 13 hubs fit together</a>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section-head">
-      <div>
-        <h2>One score. Every leak ranked.</h2>
-        <p>
-          Sample scores — your morning brief when Hub 11 is live.{" "}
-          <a href="/dashboard" style="color: var(--teal)">Open full dashboard →</a>
-        </p>
-      </div>
-    </div>
-    <div class="panel leak-score-hero">
-      <div
-        class="score-ring"
-        style={`--p: ${overall * 3.6}deg`}
-        aria-label={`Overall leak score ${overall}`}
-      >
-        {overall}
-      </div>
-      <div class="score-table mini-score-table">
-        {
-          miniScores.map((row) => {
-            const hub = liveHubs.find((h) => h.id === row.hubId);
-            if (!hub) return null;
-            const trendClass = `trend-${row.trend}`;
-            const trendLabel =
-              row.trend === "up"
-                ? "↑ improving"
-                : row.trend === "down"
-                  ? "↓ worsening"
-                  : "→ flat";
-            return (
-              <div class="score-row">
-                <div>
-                  <strong>
-                    Hub {hub.number} · {hub.titleLead} {hub.titleAccent}
-                  </strong>
-                  <div style="color: var(--muted); font-size: 0.9rem">{row.note}</div>
-                </div>
-                <div class="bar" aria-hidden="true">
-                  <span style={`width: ${row.score}%`} />
-                </div>
-                <div style="text-align: right">
-                  <div style="font-family: var(--font-display); font-size: 1.3rem">
-                    {row.score}
-                  </div>
-                  <div class={trendClass}>{trendLabel}</div>
-                </div>
-              </div>
-            );
-          })
-        }
-      </div>
     </div>
   </section>
 

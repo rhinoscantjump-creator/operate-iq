@@ -8,46 +8,49 @@ import {
   getHubBySlug,
   getIntegration,
   getSupplementingHubs,
-  liveHubs,
+  hubs,
 } from "../../data/hubs";
 
 export function getStaticPaths() {
-  return liveHubs.map((hub) => ({ params: { slug: hub.slug } }));
+  return hubs.map((hub) => ({ params: { slug: hub.slug } }));
 }
 
 const { slug } = Astro.params;
 const hub = getHubBySlug(slug!);
 
-if (!hub || hub.status !== "live") {
-  return Astro.redirect("/");
+if (!hub) {
+  return Astro.redirect("/hubs");
 }
 
-const idx = liveHubs.findIndex((h) => h.id === hub.id);
-const prev = idx > 0 ? liveHubs[idx - 1] : undefined;
-const next = idx >= 0 && idx < liveHubs.length - 1 ? liveHubs[idx + 1] : undefined;
+const isLive = hub.status === "live";
 const supplementing = getSupplementingHubs(hub.id);
+const allSorted = [...hubs].sort((a, b) => a.number.localeCompare(b.number));
+const allIdx = allSorted.findIndex((h) => h.id === hub.id);
+const prevHub = allIdx > 0 ? allSorted[allIdx - 1] : undefined;
+const nextHub = allIdx >= 0 && allIdx < allSorted.length - 1 ? allSorted[allIdx + 1] : undefined;
 const pageTitle = `${hub.titleLead} ${hub.titleAccent}`;
 const dive = hub.deepDive;
-const description = dive?.symptom ?? hub.leakBody;
+const description = dive?.symptom ?? hub.comingSoonLeak ?? hub.leakBody;
 ---
 
 <BaseLayout title={pageTitle} description={description} path={`/hubs/${hub.slug}`}>
   <nav class="breadcrumb" aria-label="Breadcrumb">
-    <a href="/">Leak map</a>
+    <a href="/">Home</a>
     <span>/</span>
-    <a href="/leak-map">{funnelLabels[hub.funnelStage]}</a>
+    <a href="/hubs">Hubs</a>
     <span>/</span>
     <span>Hub {hub.number}</span>
   </nav>
 
   <section class="hub-hero">
-    <span class="badge">
+    <span class:list={["badge", { amber: !isLive }]}>
       Hub {hub.number} · {hub.operator}
+      {!isLive && " · Coming soon"}
     </span>
     <h1 class="hub-title">
       {hub.titleLead} <span>{hub.titleAccent}</span>
     </h1>
-    <p class="hub-lead">{hub.leakBody}</p>
+    <p class="hub-lead">{hub.comingSoonLeak ?? hub.leakBody}</p>
     <div class="meta-row">
       <span class="chip">{funnelLabels[hub.funnelStage]}</span>
       <span class="chip">Logical hire #{hub.hireOrderLogical}</span>
@@ -59,7 +62,7 @@ const description = dive?.symptom ?? hub.leakBody;
     </div>
 
     {
-      dive && (
+      isLive && dive && (
         <dl class="playbook-meta">
           <div class="meta-block">
             <dt>Symptom</dt>
@@ -94,7 +97,77 @@ const description = dive?.symptom ?? hub.leakBody;
   </section>
 
   {
-    dive && (
+    !isLive && (
+      <>
+        <section class="section">
+          <div class="guardrail-callout">
+            <h3>Coming soon</h3>
+            <p>
+              This add-on hub is on the Operate IQ roadmap. It extends the live core five — browse
+              the hubs it supplements below, or start with a live operator.
+            </p>
+          </div>
+        </section>
+        {
+          hub.supplementsHubIds && hub.supplementsHubIds.length > 0 && (
+            <section class="section">
+              <div class="section-head">
+                <div>
+                  <h2>Builds on</h2>
+                  <p>Live hubs this operator extends when it ships.</p>
+                </div>
+              </div>
+              <div class="related-grid">
+                {
+                  hub.supplementsHubIds.map((id) => {
+                    const parent = hubs.find((h) => h.id === id);
+                    if (!parent) return null;
+                    return (
+                      <a class="related-card hub-index-link-card" href={`/hubs/${parent.slug}`}>
+                        <h4>
+                          Hub {parent.number} · {parent.titleLead} {parent.titleAccent}
+                        </h4>
+                        <p>{parent.leakBody}</p>
+                      </a>
+                    );
+                  })
+                }
+              </div>
+            </section>
+          )
+        }
+        {
+          hub.integrations.length > 0 && (
+            <section class="section">
+              <div class="section-head">
+                <div>
+                  <h2>Planned integrations</h2>
+                  <p>Connections this hub will need on launch.</p>
+                </div>
+              </div>
+              <div class="integration-grid">
+                {
+                  hub.integrations.map((id) => {
+                    const item = getIntegration(id);
+                    if (!item) return null;
+                    return (
+                      <div class="integration-card">
+                        <h4>{item.label}</h4>
+                        <p>{item.purpose}</p>
+                      </div>
+                    );
+                  })
+                }
+              </div>
+            </section>
+          )
+        }
+      </>
+    )
+  }
+
+  {
+    isLive && dive && (
       <section class="section">
         <div class="section-head">
           <div>
@@ -117,7 +190,7 @@ const description = dive?.symptom ?? hub.leakBody;
   }
 
   {
-    dive && (
+    isLive && dive && (
       <section class="section">
         <div class="section-head">
           <div>
@@ -136,10 +209,12 @@ const description = dive?.symptom ?? hub.leakBody;
     )
   }
 
-  <section class="section">
-    <div class="section-head">
-      <div>
-        <h2>What this operator does</h2>
+  {
+    isLive && (
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>What this operator does</h2>
         <p>Productized capabilities — including the planned improvements for this hub.</p>
       </div>
     </div>
@@ -157,10 +232,12 @@ const description = dive?.symptom ?? hub.leakBody;
       }
     </ul>
     <div class="punchline">{hub.punchline}</div>
-  </section>
+      </section>
+    )
+  }
 
   {
-    dive && (
+    isLive && dive && (
       <section class="section">
         <div class="section-head">
           <div>
@@ -181,7 +258,7 @@ const description = dive?.symptom ?? hub.leakBody;
   }
 
   {
-    dive && (
+    isLive && dive && (
       <section class="section">
         <div class="guardrail-callout">
           <h3>When not to automate</h3>
@@ -191,10 +268,12 @@ const description = dive?.symptom ?? hub.leakBody;
     )
   }
 
-  <section class="section">
-    <div class="section-head">
-      <div>
-        <h2>KPIs</h2>
+  {
+    isLive && (
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>KPIs</h2>
         <p>Measurable outcomes the owner dashboard should track for this hub.</p>
       </div>
     </div>
@@ -209,22 +288,30 @@ const description = dive?.symptom ?? hub.leakBody;
         ))
       }
     </div>
-  </section>
+      </section>
+    )
+  }
 
-  <section class="section">
-    <div class="section-head">
-      <div>
-        <h2>Vertical pack</h2>
+  {
+    isLive && (
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>Vertical pack</h2>
         <p>Neutral SMB default, with pack-specific offer and tone notes.</p>
       </div>
     </div>
     <VerticalPack notes={hub.verticalNotes} />
-  </section>
+      </section>
+    )
+  }
 
-  <section class="section">
-    <div class="section-head">
-      <div>
-        <h2>Integrations</h2>
+  {
+    isLive && (
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>Integrations</h2>
         <p>Without these connections, the hub is a slide — not a product.</p>
       </div>
     </div>
@@ -242,12 +329,16 @@ const description = dive?.symptom ?? hub.leakBody;
         })
       }
     </div>
-  </section>
+      </section>
+    )
+  }
 
-  <section class="section">
-    <div class="section-head">
-      <div>
-        <h2>Compliance</h2>
+  {
+    isLive && (
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>Compliance</h2>
         <p>Built-in guardrails: consent, incentives, handoff, and data minimization.</p>
       </div>
     </div>
@@ -265,12 +356,16 @@ const description = dive?.symptom ?? hub.leakBody;
         })
       }
     </div>
-  </section>
+      </section>
+    )
+  }
 
-  <section class="section">
-    <div class="section-head">
-      <div>
-        <h2>Shipped improvements</h2>
+  {
+    isLive && (
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>Shipped improvements</h2>
         <p>Content and product upgrades encoded in this hub.</p>
       </div>
     </div>
@@ -284,10 +379,12 @@ const description = dive?.symptom ?? hub.leakBody;
         ))
       }
     </div>
-  </section>
+      </section>
+    )
+  }
 
   {
-    supplementing.length > 0 && (
+    isLive && supplementing.length > 0 && (
       <section class="section">
         <div class="section-head">
           <div>
@@ -298,7 +395,7 @@ const description = dive?.symptom ?? hub.leakBody;
         <div class="related-grid">
           {
             supplementing.map((addon) => (
-              <div class="related-card">
+              <a class="related-card hub-index-link-card" href={`/hubs/${addon.slug}`}>
                 <h4>
                   Hub {addon.number} · {addon.titleLead} {addon.titleAccent}
                 </h4>
@@ -306,7 +403,7 @@ const description = dive?.symptom ?? hub.leakBody;
                 <p class="supplement-line" style="margin-top: 0.5rem">
                   Supplements {formatSupplementLabel(addon.supplementsHubIds ?? [])}
                 </p>
-              </div>
+              </a>
             ))
           }
         </div>
@@ -317,18 +414,18 @@ const description = dive?.symptom ?? hub.leakBody;
   <section class="section">
     <div class="hero-actions">
       {
-        prev ? (
-          <a class="btn btn-ghost" href={`/hubs/${prev.slug}`}>
-            ← Hub {prev.number}
+        prevHub ? (
+          <a class="btn btn-ghost" href={`/hubs/${prevHub.slug}`}>
+            ← Hub {prevHub.number}
           </a>
         ) : (
-          <a class="btn btn-ghost" href="/">← Leak map</a>
+          <a class="btn btn-ghost" href="/hubs">← All hubs</a>
         )
       }
       {
-        next ? (
-          <a class="btn btn-primary" href={`/hubs/${next.slug}`}>
-            Hub {next.number} →
+        nextHub ? (
+          <a class="btn btn-primary" href={`/hubs/${nextHub.slug}`}>
+            Hub {nextHub.number} →
           </a>
         ) : (
           <a class="btn btn-primary" href="/dashboard">Owner score →</a>
