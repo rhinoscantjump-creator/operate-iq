@@ -1,0 +1,133 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCompanionBySlug } from "../../data/companions";
+import { getHubById, product } from "../../data/hubs";
+
+const companion = getCompanionBySlug("ad-multiplier");
+if (!companion) {
+  return Astro.redirect("/hubs");
+}
+
+const related = companion.relatedHubIds
+  .map((id) => getHubById(id))
+  .filter((h): h is NonNullable<typeof h> => Boolean(h));
+
+const pageTitle = `${companion.titleLead} ${companion.titleAccent}`;
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={companion.punchline}
+  path={`/hubs/${companion.slug}`}
+>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <a href="/hubs">Hubs</a>
+    <span>/</span>
+    <span>{pageTitle}</span>
+  </nav>
+
+  <section class="hub-hero">
+    <span class="badge amber">{companion.kicker}</span>
+    <h1 class="hub-title">
+      {companion.titleLead} <span>{companion.titleAccent}</span>
+    </h1>
+    <p class="hub-lead">{companion.punchline}</p>
+  </section>
+
+  <section class="section">
+    <div class="hub-layout">
+      <div class="leak-box">
+        <div class="leak-label">The symptom</div>
+        <p style="margin: 0; color: var(--muted)">{companion.symptom}</p>
+      </div>
+      <div class="diagram" aria-label="Companion diagram">
+        Plugged leaks → same ad spend books more
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Why ads convert better after leaks are plugged</h2>
+        <p>{companion.body}</p>
+      </div>
+    </div>
+    <ul class="capability-list">
+      {
+        companion.whyAdsImprove.map((point) => (
+          <li>{point}</li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="section">
+    <div class="guardrail-callout">
+      <h3>When this applies</h3>
+      <p>{companion.whenReady}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Related hubs</h2>
+        <p>Plug these first — the multiplier is the payoff, not a substitute.</p>
+      </div>
+    </div>
+    <div class="related-grid">
+      {
+        related.map((hub) => (
+          <a class="related-card hub-index-link-card" href={`/hubs/${hub.slug}`}>
+            <h4>
+              Hub {hub.number} · {hub.titleLead} {hub.titleAccent}
+            </h4>
+            <p>{hub.comingSoonLeak ?? hub.leakBody}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>What this is not</h2>
+        <p>Clear boundaries so the companion never gets confused with an Operator.</p>
+      </div>
+    </div>
+    <div class="anti-grid">
+      {
+        companion.whatItIsNot.map((item) => (
+          <div class="panel anti-card">
+            <p>{item}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="panel coming-soon-panel">
+      <span class="badge amber">Guidance · partner handoff</span>
+      <h2 style="font-family: var(--font-display); margin: 0.75rem 0 0.4rem">
+        Ready to plug leaks before you scale ads?
+      </h2>
+      <p style="color: var(--muted); margin: 0">
+        Tell us where you're leaking — we'll help you prioritize hubs before you pour more budget
+        into paid. Or email{" "}
+        <a href={`mailto:${product.contact.email}`} style="color: var(--teal)">
+          {product.contact.email}
+        </a>
+        .
+      </p>
+      <div style="display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 1.15rem">
+        <a class="btn btn-primary" href="/contact">Open contact sheet →</a>
+        <a class="btn btn-ghost" href="/hubs">Browse the 13 hubs</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

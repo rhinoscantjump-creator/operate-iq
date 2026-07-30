@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import VerticalPack from "../../components/VerticalPack.astro";
 import { funnelLabels } from "../../data/types";
+import { getCompanionsForHub } from "../../data/companions";
 import {
   formatSupplementLabel,
   getCompliance,
@@ -24,6 +25,7 @@ if (!hub) {
 
 const isLive = hub.status === "live";
 const supplementing = getSupplementingHubs(hub.id);
+const companions = getCompanionsForHub(hub.id);
 const allSorted = [...hubs].sort((a, b) => a.number.localeCompare(b.number));
 const allIdx = allSorted.findIndex((h) => h.id === hub.id);
 const prevHub = allIdx > 0 ? allSorted[allIdx - 1] : undefined;
@@ -103,8 +105,8 @@ const description = dive?.symptom ?? hub.comingSoonLeak ?? hub.leakBody;
           <div class="guardrail-callout">
             <h3>Coming soon</h3>
             <p>
-              This add-on hub is on the Operate IQ roadmap. It extends the live core five — browse
-              the hubs it supplements below, or start with a live operator.
+              This add-on hub is on the Operate IQ roadmap. It extends the live operators — browse
+              the hubs it supplements below, or start with a live hub.
             </p>
           </div>
         </section>
@@ -388,8 +390,8 @@ const description = dive?.symptom ?? hub.comingSoonLeak ?? hub.leakBody;
       <section class="section">
         <div class="section-head">
           <div>
-            <h2>Extended by (coming soon)</h2>
-            <p>Add-on hubs that supplement this operator — related deep dives as the OS expands.</p>
+            <h2>Extended by</h2>
+            <p>Hubs that protect or extend this operator’s ROI — open the related deep dive.</p>
           </div>
         </div>
         <div class="related-grid">
@@ -407,6 +409,36 @@ const description = dive?.symptom ?? hub.comingSoonLeak ?? hub.leakBody;
             ))
           }
         </div>
+      </section>
+    )
+  }
+
+  {
+    isLive && companions.length > 0 && (
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>After this leak is plugged</h2>
+            <p>Companions — payoff guidance, not Operator skill.</p>
+          </div>
+        </div>
+        {
+          companions.map((c) => (
+            <div class="panel companion-callout">
+              <span class="badge amber">{c.kicker}</span>
+              <h3 style="font-family: var(--font-display); margin: 0.75rem 0 0.4rem">
+                {c.titleLead} {c.titleAccent}
+              </h3>
+              <p style="color: var(--muted); margin: 0">
+                Once this leak is plugged, paid ads stop funding a broken handoff — the same Google
+                and Meta spend books more.
+              </p>
+              <a class="btn btn-ghost" href={`/hubs/${c.slug}`} style="margin-top: 1rem">
+                Open {c.titleLead} {c.titleAccent} →
+              </a>
+            </div>
+          ))
+        }
       </section>
     )
   }

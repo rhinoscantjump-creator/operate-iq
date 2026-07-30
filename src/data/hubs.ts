@@ -755,57 +755,249 @@ export const hubs: Hub[] = [
     id: "hub-06",
     slug: "no-show-recovery",
     number: "06",
-    status: "coming-soon",
+    status: "live",
     operator: "The Retention Closer",
     titleLead: "No-Show",
     titleAccent: "Recovery",
     funnelStage: "capture",
-    leakStat: "Soon",
+    leakStat: "Ghosted",
     leakBody:
-      "Booked-but-no-show appointments silently erase Hub 03 and Hub 04 ROI.",
+      "Booked-but-no-show appointments silently erase Hub 03 and Hub 04 ROI. The calendar looks full until the slot goes empty — then the team buys another lead.",
     punchline: "Recover the appointment before you buy another lead.",
-    diagramLabel: "No-show → rebook",
-    capabilities: [],
-    kpis: [],
-    productImprovements: [],
-    verticalNotes: {},
+    diagramLabel: "No-show → remind → rebook",
+    capabilities: [
+      {
+        title: "Pre-visit reminders that reduce ghosts",
+        detail:
+          "Timed SMS/email reminders before the appointment with confirm / reschedule links into live calendar capacity.",
+      },
+      {
+        title: "Same-day no-show rescue",
+        detail:
+          "When a booking marks no-show, AI opens a recovery thread within minutes — rebook offer, waitlist fill, or human handoff.",
+      },
+      {
+        title: "Protects capture ROI",
+        detail:
+          "Hubs 03 and 04 create bookings; this hub protects show rate so speed-to-lead spend is not wasted on empty chairs.",
+      },
+      {
+        title: "Segment by reason",
+        detail:
+          "Treats first-visit ghosts, repeat clients, and weather/traffic reschedules differently — not one generic “you missed us” blast.",
+      },
+    ],
+    kpis: [
+      {
+        id: "show-rate",
+        label: "Show rate",
+        description: "Booked appointments that attend",
+        targetHint: "Primary health metric",
+      },
+      {
+        id: "rebook-from-noshow",
+        label: "Rebook from no-show",
+        description: "Ghosted slots recovered into a new booking",
+        targetHint: "Week-1 proof metric",
+      },
+      {
+        id: "reminder-confirm-rate",
+        label: "Reminder confirm rate",
+        description: "% of reminders that get confirm or reschedule",
+        targetHint: "Watch by vertical",
+      },
+      {
+        id: "empty-slot-fill",
+        label: "Empty-slot fill",
+        description: "Released slots filled from waitlist or outreach",
+        targetHint: "Capacity salvage",
+      },
+    ],
+    productImprovements: [
+      "Confirm / reschedule links tied to live calendar",
+      "Same-day no-show rescue thread (minutes, not next week)",
+      "Reason-aware copy (first visit vs repeat vs reschedule)",
+    ],
+    verticalNotes: {
+      gym: "Trial / intro session ghosts — low-friction reschedule into the next open slot.",
+      clinic:
+        "Clinical-safe reminder language; never diagnose. Escalate urgent symptoms to a human path.",
+      "home-services":
+        "Job-site no-shows and “not home” windows — offer next available crew slot.",
+      salon: "Stylist-aware rebook; protect popular chair times with short confirm windows.",
+      general: "Confirm → reschedule → waitlist fill with quiet hours.",
+    },
     integrations: ["calendar", "sms", "crm"],
     complianceIds: ["sms-consent", "human-handoff"],
     hireOrderLogical: 6,
-    hireOrderFastRoi: null,
-    comingSoonLeak:
-      "Capture hubs book appointments; no-shows erase that ROI. Recover booked-but-missed slots before buying more leads.",
+    hireOrderFastRoi: 6,
     supplementsHubIds: ["hub-03", "hub-04"],
     supplementsWhy:
       "Hub 03 and Hub 04 create bookings — this hub protects show rate when people ghost the calendar.",
+    deepDive: {
+      symptom:
+        "The calendar shows bookings from web, ads, and missed-call recovery — but a chunk never walk in, and nobody rebooks them the same day.",
+      audience:
+        "Clinics, salons, gyms, home-service, and SMB owners who already pay for capture hubs and still lose revenue to empty chairs.",
+      timeLeak:
+        "Every no-show burns the cost of acquiring that booking. Buying another lead while ghosts sit unrecovered doubles the waste.",
+      guardrail:
+        "Only message contacts with SMS consent. Escalate medical urgency, billing disputes, and hostile replies to a named human. Do not shame the customer.",
+      before:
+        "Staff notice the empty chair after the fact. A half-hearted “sorry we missed you” goes out days later — or never. The slot is already dead.",
+      after:
+        "Reminders confirm or free the slot early. A same-day rescue thread offers rebook into live capacity; waitlist can fill what was released.",
+      steps: [
+        "Connect calendar + SMS and define what counts as a no-show vs late cancel.",
+        "Turn on pre-visit reminders with confirm / reschedule links into live availability.",
+        "Enable same-day no-show rescue with a vertical-aware rebook offer.",
+        "Optionally fill released slots from a waitlist before buying more traffic.",
+        "Measure show rate and rebook-from-no-show before scaling Hub 03/04 spend.",
+      ],
+      failureModes: [
+        {
+          title: "Shame copy",
+          detail:
+            "“You wasted our time” kills trust and reviews. Offer a clean rebook path instead.",
+        },
+        {
+          title: "Rescue without capacity",
+          detail:
+            "Promising a slot that does not exist creates a second failure. Rebook against the live calendar only.",
+        },
+        {
+          title: "One template for every reason",
+          detail:
+            "First-visit nerves, traffic, and chronic ghosts need different tones. Segment the recovery.",
+        },
+      ],
+      whenNotToAutomate:
+        "Do not auto-chase clinical emergencies, active disputes, or anyone who asked to stop — those stay with a human.",
+    },
   },
   {
     id: "hub-07",
     slug: "quote-follow-up",
     number: "07",
-    status: "coming-soon",
+    status: "live",
     operator: "The Proposal Closer",
     titleLead: "Quote",
     titleAccent: "Follow-Up",
     funnelStage: "convert",
-    leakStat: "Soon",
+    leakStat: "Silent",
     leakBody:
-      "Quotes and estimates sit unanswered for days while competitors stay in the thread.",
+      "Quotes and estimates sit unanswered for days while competitors stay in the thread. Capture created the conversation; silence loses the job.",
     punchline: "Never let a sent quote die in silence.",
-    diagramLabel: "Quote sent → follow-up",
-    capabilities: [],
-    kpis: [],
-    productImprovements: [],
-    verticalNotes: {},
+    diagramLabel: "Quote sent → timed follow-up → book",
+    capabilities: [
+      {
+        title: "Timed follow-up sequences",
+        detail:
+          "After a quote or estimate is sent, AI runs a short, polite cadence — value reminder, FAQs, book link — until reply, book, or opt-out.",
+      },
+      {
+        title: "Keeps proposals alive for Hub 05",
+        detail:
+          "Gives sales coaching something to close: quotes that would otherwise go cold after capture from Hubs 03 and 04.",
+      },
+      {
+        title: "Objection-aware nudges",
+        detail:
+          "Surfaces common stalls (price, timing, “shopping around”) with vertical-safe replies and a human escalate path.",
+      },
+      {
+        title: "Expiry and capacity aware",
+        detail:
+          "Respects quote validity windows and live calendar/crew capacity so follow-ups do not promise what you cannot deliver.",
+      },
+    ],
+    kpis: [
+      {
+        id: "quote-reply-rate",
+        label: "Quote reply rate",
+        description: "Sent quotes that get a reply",
+        targetHint: "Track by vertical",
+      },
+      {
+        id: "quote-to-book",
+        label: "Quote → book",
+        description: "Quotes that convert to a booking",
+        targetHint: "Primary ROI",
+      },
+      {
+        id: "followup-latency",
+        label: "First follow-up latency",
+        description: "Hours from send to first nudge",
+        targetHint: "Same day when possible",
+      },
+      {
+        id: "stale-quote-clear",
+        label: "Stale quote clear",
+        description: "Old open quotes closed won/lost/opt-out",
+        targetHint: "Pipeline hygiene",
+      },
+    ],
+    productImprovements: [
+      "Short cadence after quote send (not endless drip)",
+      "Expiry + capacity checks before promising a slot",
+      "Human escalate on price fights and complex scope",
+    ],
+    verticalNotes: {
+      gym: "Membership / package quotes — clarify freeze and start-date options.",
+      clinic:
+        "Treatment-plan or package follow-up with clinical-safe wording; never pressure care decisions.",
+      "home-services":
+        "Estimate follow-up with photo/scope confirm and next available crew window.",
+      salon: "Package or color-quote follow-up tied to stylist availability.",
+      general: "Polite value reminder → FAQ → book or talk-to-human.",
+    },
     integrations: ["crm", "sms", "calendar"],
     complianceIds: ["sms-consent", "human-handoff"],
     hireOrderLogical: 7,
-    hireOrderFastRoi: null,
-    comingSoonLeak:
-      "Capture creates conversations; many end in a quote that dies unanswered. Keeps proposals alive for Hub 05 to close.",
+    hireOrderFastRoi: 7,
     supplementsHubIds: ["hub-03", "hub-04", "hub-05"],
     supplementsWhy:
       "Gives Hub 05 something to close — quotes that would otherwise go cold after capture.",
+    deepDive: {
+      symptom:
+        "Staff send an estimate or proposal, then hope. Days pass with no reply while the prospect keeps shopping.",
+      audience:
+        "Home-service, clinic package, gym membership, salon, and SMB owners who quote before they book.",
+      timeLeak:
+        "Capture spend creates a conversation that dies in the inbox. Every silent quote is unpaid work and a competitor’s opening.",
+      guardrail:
+        "Consented channels only. Cap the cadence — stop on opt-out. Escalate price fights, scope changes, and medical/legal questions to a human.",
+      before:
+        "Quotes sit in CRM as “open.” Follow-up is random. Nobody knows which proposals are still alive vs already lost.",
+      after:
+        "Each sent quote enters a short follow-up sequence with clear next steps. Replies book into capacity or escalate to Hub 05 coaching moments.",
+      steps: [
+        "Mark quote/estimate send in CRM so the hub knows when the clock starts.",
+        "Configure a short same-day / next-day / mid-week cadence with book and talk-to-human links.",
+        "Attach vertical FAQ nudges (price, timing, what’s included) without inventing discounts.",
+        "Respect quote expiry and live calendar/crew capacity in every follow-up.",
+        "Measure quote→book and stale-open clearance; feed hard stalls to Hub 05.",
+      ],
+      failureModes: [
+        {
+          title: "Endless drip",
+          detail:
+            "A long automated nag train burns trust. Keep the sequence short and stop cleanly.",
+        },
+        {
+          title: "Discount spam",
+          detail:
+            "Racing to the bottom on every silent quote trains prospects to wait. Lead with clarity and availability first.",
+        },
+        {
+          title: "Follow-up with no owner",
+          detail:
+            "When the prospect asks for a custom scope or complains about price, a human must own the thread.",
+        },
+      ],
+      whenNotToAutomate:
+        "Do not auto-negotiate complex contracts, clinical care plans, or angry billing threads — hand those to a named person immediately.",
+    },
   },
   {
     id: "hub-08",
@@ -994,8 +1186,8 @@ export const fastRoiHireOrder = hubs
 export const liveHubs = hubs.filter((h) => h.status === "live");
 export const comingSoonHubs = hubs.filter((h) => h.status === "coming-soon");
 
-/** Recommended next three to flesh after core five */
-export const recommendedNextHubs = ["hub-06", "hub-07", "hub-11"];
+/** Recommended next three to flesh after live hubs */
+export const recommendedNextHubs = ["hub-08", "hub-09", "hub-11"];
 
 export function getHubBySlug(slug: string) {
   return hubs.find((h) => h.slug === slug);
@@ -1047,6 +1239,12 @@ export const sampleLeakScores: LeakScoreSample[] = [
     note: "Lead ads not connected — website only",
   },
   {
+    hubId: "hub-06",
+    score: 51,
+    trend: "flat",
+    note: "Reminders on; same-day rescue still thin",
+  },
+  {
     hubId: "hub-01",
     score: 71,
     trend: "up",
@@ -1057,6 +1255,12 @@ export const sampleLeakScores: LeakScoreSample[] = [
     score: 49,
     trend: "up",
     note: "Ask rate rising; reply SLA still slow",
+  },
+  {
+    hubId: "hub-07",
+    score: 55,
+    trend: "up",
+    note: "First follow-up firing; quote→book climbing",
   },
   {
     hubId: "hub-05",

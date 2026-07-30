@@ -86,6 +86,22 @@ export interface Hub {
   deepDive?: HubDeepDive;
 }
 
+/** Payoff / guidance companion — not an AI Operator hub */
+export interface Companion {
+  id: string;
+  slug: string;
+  titleLead: string;
+  titleAccent: string;
+  kicker: string;
+  punchline: string;
+  body: string;
+  symptom: string;
+  whenReady: string;
+  relatedHubIds: string[];
+  whatItIsNot: string[];
+  whyAdsImprove: string[];
+}
+
 export interface LeakScoreSample {
   hubId: string;
   score: number;

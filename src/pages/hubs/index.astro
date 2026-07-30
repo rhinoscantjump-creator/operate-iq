@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { funnelLabels } from "../../data/types";
+import { companions } from "../../data/companions";
 import { hubs, product } from "../../data/hubs";
 
 const allHubs = [...hubs].sort((a, b) => a.number.localeCompare(b.number));
@@ -21,8 +22,8 @@ const allHubs = [...hubs].sort((a, b) => a.number.localeCompare(b.number));
     <div class="hero-kicker">13 operators · one OS</div>
     <h1>The <em>hubs</em></h1>
     <p class="hero-lead">
-      Each hub is an AI {product.naming.role.toLowerCase()} that plugs one named leak. Hubs 01–05 are
-      live; 06–13 extend capture, conversion, and the owner brief.
+      Each hub is an AI {product.naming.role.toLowerCase()} that plugs one named leak. Hubs 01–07 are
+      live; 08–13 extend capture, conversion, and the owner brief.
     </p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="/hubs/database-reactivation">Start with Hub 01 →</a>
@@ -61,4 +62,40 @@ const allHubs = [...hubs].sort((a, b) => a.number.localeCompare(b.number));
       }
     </ol>
   </section>
+
+  {
+    companions.length > 0 && (
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>Companions</h2>
+            <p>Payoff guidance beside the OS — not numbered Operators, not hire-order slots.</p>
+          </div>
+        </div>
+        <ul class="hub-index-list">
+          {
+            companions.map((c) => (
+              <li class="hub-index-item companion-index-item">
+                <div class="hub-index-num companion-mark">◇</div>
+                <div class="hub-index-body">
+                  <h2>
+                    <a href={`/hubs/${c.slug}`}>
+                      {c.titleLead} {c.titleAccent}
+                    </a>
+                  </h2>
+                  <p class="hub-index-meta">
+                    <span class="chip">{c.kicker}</span>
+                  </p>
+                  <p class="hub-index-blurb">{c.punchline}</p>
+                  <a class="hub-index-link" href={`/hubs/${c.slug}`}>
+                    Open companion →
+                  </a>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    )
+  }
 </BaseLayout>

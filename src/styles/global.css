@@ -352,6 +352,19 @@ a.hub-tile:hover {
   background: linear-gradient(135deg, rgba(240, 180, 41, 0.06), rgba(14, 28, 34, 0.72));
 }
 
+.companion-callout {
+  border-color: rgba(240, 180, 41, 0.22);
+  background: linear-gradient(135deg, rgba(240, 180, 41, 0.05), rgba(14, 28, 34, 0.72));
+}
+
+.companion-index-item {
+  border-style: dashed;
+}
+
+.companion-mark {
+  color: var(--amber);
+}
+
 .contact-layout {
   display: grid;
   grid-template-columns: minmax(240px, 320px) 1fr;
