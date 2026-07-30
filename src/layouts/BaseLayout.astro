@@ -46,7 +46,7 @@ function navClass(href: string) {
           <a href="/leak-map" class={navClass("/leak-map")}>Leak map</a>
           <a href="/dashboard" class={navClass("/dashboard")}>Owner score</a>
           <a href="/hubs" class={navClass("/hubs")}>Hubs</a>
-          <a href="/dashboard" class="btn btn-primary nav-cta">Leak score</a>
+          <a href="/contact" class="btn btn-primary nav-cta">Get in touch</a>
         </nav>
       </header>
       <main>
@@ -54,7 +54,11 @@ function navClass(href: string) {
       </main>
       <footer class="footer">
         <span>{product.name} — {product.tagline}</span>
-        <span>Hubs · Operators · measurable leaks</span>
+        <span>
+          <a href="/contact">Contact</a>
+          ·
+          <a href={`mailto:${product.contact.email}`}>{product.contact.email}</a>
+        </span>
       </footer>
     </div>
   </body>

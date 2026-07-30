@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import {
-  getHubBySlug,
   liveHubs,
   overallLeakScore,
   product,
@@ -20,13 +19,43 @@ const weakestHub = liveHubs.find((h) => h.id === weakest.hubId);
       One <em>leak score</em>
     </h1>
     <p class="hero-lead">
-      Cross-hub health so Operate IQ feels like an OS — not five disconnected tools. Sample
-      scores below illustrate the product surface (foreshadows Hub 11); wire to live telemetry
-      later.
+      A single cross-hub health score — your morning brief when Hub 11 is live. We're building
+      it now; below is a sample of what the surface will look like.
     </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="/contact">Get guided on first steps →</a>
+      <a class="btn btn-ghost" href="/hubs">Browse hubs</a>
+    </div>
   </section>
 
   <section class="section">
+    <div class="panel coming-soon-panel">
+      <span class="badge amber">Coming soon</span>
+      <h2 style="font-family: var(--font-display); margin: 0.75rem 0 0.4rem">
+        We'll help you plug and optimize
+      </h2>
+      <p style="color: var(--muted); margin: 0">
+        The live owner score isn't wired yet — but we can guide you on which hub to hire first,
+        what to connect, and how to pilot without burning trust. Leave your details on the
+        contact sheet and Dean will reach out. Or email{" "}
+        <a href={`mailto:${product.contact.email}`} style="color: var(--teal)">
+          {product.contact.email}
+        </a>
+        {" "}directly.
+      </p>
+      <a class="btn btn-primary" href="/contact" style="margin-top: 1.15rem">
+        Open contact sheet →
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Preview — sample scores</h2>
+        <p>Illustrative data only. Live telemetry ships with Hub 11.</p>
+      </div>
+    </div>
     <div class="panel leak-score-hero">
       <div
         class="score-ring"
@@ -37,9 +66,9 @@ const weakestHub = liveHubs.find((h) => h.id === weakest.hubId);
       </div>
       <div>
         <span class="badge">Composite leak score</span>
-        <h2 style="font-family: var(--font-display); margin: 0.6rem 0 0.4rem">
+        <h3 style="font-family: var(--font-display); margin: 0.6rem 0 0.4rem">
           Higher is healthier
-        </h2>
+        </h3>
         <p style="margin: 0; color: var(--muted)">
           Average of live hub scores. Drill into the weakest hub first — usually capture
           (missed calls / speed-to-lead) before buying more ads.
@@ -109,9 +138,14 @@ const weakestHub = liveHubs.find((h) => h.id === weakest.hubId);
             Hub {weakestHub.number} · {weakestHub.titleLead} {weakestHub.titleAccent}
           </h3>
           <p style="color: var(--muted); margin-top: 0">{weakest.note}</p>
-          <a class="btn btn-primary" href={`/hubs/${weakestHub.slug}`} style="margin-top: 1rem">
-            Fix this leak
-          </a>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 1rem">
+            <a class="btn btn-primary" href={`/hubs/${weakestHub.slug}`}>
+              Fix this leak
+            </a>
+            <a class="btn btn-ghost" href="/contact">
+              Get guided →
+            </a>
+          </div>
         </div>
       </section>
     )

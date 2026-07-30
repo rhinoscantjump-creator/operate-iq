@@ -17,6 +17,10 @@ export const product = {
     unit: "Hub",
     role: "Operator",
   },
+  contact: {
+    email: "dean@rhinoscantjump.com",
+    formAction: "https://formsubmit.co/dean@rhinoscantjump.com",
+  },
 } as const;
 
 export const statSources: StatSource[] = [
