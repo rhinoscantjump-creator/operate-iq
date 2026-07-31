@@ -1135,7 +1135,7 @@ export const hubs: Hub[] = [
       "hub-05",
     ],
     supplementsWhy:
-      "Meta-hub: scores and triages every live operator from one owner dashboard brain.",
+      "Meta-hub: scores and triages every other operator from a single owner brief.",
   },
   {
     id: "hub-12",
@@ -1227,7 +1227,7 @@ export function getCompliance(id: string) {
   return complianceRules.find((r) => r.id === id);
 }
 
-/** Hubs (usually add-ons) that supplement a given live hub */
+/** Hubs (usually add-ons) that supplement a given documented hub */
 export function getSupplementingHubs(hubId: string) {
   return hubs.filter((h) => h.supplementsHubIds?.includes(hubId));
 }

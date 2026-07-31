@@ -12,16 +12,16 @@ const weakest = [...sampleLeakScores].sort((a, b) => a.score - b.score)[0];
 const weakestHub = documentedHubs.find((h) => h.id === weakest.hubId);
 ---
 
-<BaseLayout title="Owner leak score" path="/dashboard">
+<BaseLayout title="Hub 11 wireframe — the owner leak score" path="/dashboard">
   <section class="hero">
-    <div class="hero-kicker">Owner dashboard</div>
+    <div class="hero-kicker">Wireframe · Hub 11</div>
     <h1>
       One <em>leak score</em>
     </h1>
     <p class="hero-lead">
-      A single cross-hub health score — the owner's morning brief the OS was designed around
-      (Hub 11). Nothing here is wired to live data; every number below is invented to show the
-      shape of the surface.
+      Hub 11 was designed around a single cross-hub number: one screen that ranks every leak and
+      tells the owner which to plug first. This page draws that screen so the playbook has
+      something to point at. It is a picture, not a dashboard — every figure on it was made up.
     </p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="/hubs">Read the hubs →</a>
@@ -31,14 +31,15 @@ const weakestHub = documentedHubs.find((h) => h.id === weakest.hubId);
 
   <section class="section">
     <div class="panel coming-soon-panel">
-      <span class="badge amber">Sample data</span>
+      <span class="badge amber">Invented numbers</span>
       <h2 style="font-family: var(--font-display); margin: 0.75rem 0 0.4rem">
-        These scores are illustrative, not measured
+        Nothing here was ever measured
       </h2>
       <p style="color: var(--muted); margin: 0">
-        This page exists to show how a cross-hub score would rank leaks and point the owner at the
-        weakest one first. It was never connected to a CRM, phone system, or calendar — treat it
-        as a design sketch of {product.name}, not a dashboard.
+        {product.name} is a reference architecture, so this surface was never built and never
+        connected to a CRM, phone system, or calendar. The scores, bars, and trend arrows below
+        are illustrative — they exist to show the shape the screen would take, and the reasoning
+        behind ranking leaks this way. Read them as a sketch on paper.
       </p>
     </div>
   </section>
@@ -46,8 +47,8 @@ const weakestHub = documentedHubs.find((h) => h.id === weakest.hubId);
   <section class="section">
     <div class="section-head">
       <div>
-        <h2>Preview — sample scores</h2>
-        <p>Illustrative data only. Live telemetry ships with Hub 11.</p>
+        <h2>The composite score</h2>
+        <p>Illustrative figures, drawn to show the layout Hub 11 describes.</p>
       </div>
     </div>
     <div class="panel leak-score-hero">
@@ -64,8 +65,8 @@ const weakestHub = documentedHubs.find((h) => h.id === weakest.hubId);
           Higher is healthier
         </h3>
         <p style="margin: 0; color: var(--muted)">
-          Average of live hub scores. Drill into the weakest hub first — usually capture
-          (missed calls / speed-to-lead) before buying more ads.
+          An average across the hub scores. The design principle behind it: go at the weakest hub
+          first — usually capture, meaning missed calls and speed-to-lead — before buying more ads.
         </p>
       </div>
     </div>
@@ -75,7 +76,7 @@ const weakestHub = documentedHubs.find((h) => h.id === weakest.hubId);
     <div class="section-head">
       <div>
         <h2>Hub scores</h2>
-        <p>Each row maps to a live hub KPI set.</p>
+        <p>Each row maps to the KPI set documented in that hub's playbook.</p>
       </div>
     </div>
     <div class="panel score-table">
@@ -123,7 +124,7 @@ const weakestHub = documentedHubs.find((h) => h.id === weakest.hubId);
         <div class="section-head">
           <div>
             <h2>Recommended focus</h2>
-            <p>Weakest sample hub first — productized triage for the owner brief (Hub 11).</p>
+            <p>Weakest hub first — the triage rule Hub 11 was designed to apply.</p>
           </div>
         </div>
         <div class="panel">
