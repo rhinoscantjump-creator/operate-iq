@@ -42,29 +42,6 @@ const stageSummary = homeFunnelOrder
     </div>
   </section>
 
-  <section class="section">
-    <div class="section-head">
-      <div>
-        <h2>Documented vs never built</h2>
-        <p>No launch theatre — here is the honest split.</p>
-      </div>
-    </div>
-    <div class="status-grid">
-      <div class="panel">
-        <span class="badge ok">Documented</span>
-        <ul class="status-list">
-          {reference.documented.map((item) => <li>{item}</li>)}
-        </ul>
-      </div>
-      <div class="panel">
-        <span class="badge amber">Never built</span>
-        <ul class="status-list">
-          {reference.notBuilt.map((item) => <li>{item}</li>)}
-        </ul>
-      </div>
-    </div>
-  </section>
-
   <section class="section" id="hubs">
     <div class="section-head">
       <div>
@@ -166,6 +143,29 @@ const stageSummary = homeFunnelOrder
         <p>
           Buying strangers while the CRM gathers dust. The fastest ROI path starts inside the list.
         </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Documented vs never built</h2>
+        <p>No launch theatre — the honest split on how far this got.</p>
+      </div>
+    </div>
+    <div class="status-grid">
+      <div class="panel">
+        <span class="badge ok">Documented</span>
+        <ul class="status-list">
+          {reference.documented.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+      <div class="panel">
+        <span class="badge amber">Never built</span>
+        <ul class="status-list">
+          {reference.notBuilt.map((item) => <li>{item}</li>)}
+        </ul>
       </div>
     </div>
   </section>
