@@ -17,9 +17,29 @@ export const product = {
     unit: "Hub",
     role: "Operator",
   },
-  contact: {
-    email: "dean@rhinoscantjump.com",
-    formAction: "https://formsubmit.co/dean@rhinoscantjump.com",
+  /** Who built this reference architecture. Operate IQ takes no enquiries. */
+  author: {
+    brand: "Rhinos Can't Jump",
+    url: "https://rhinoscantjump.com",
+  },
+  /** This is a published reference architecture, not a product on sale. */
+  reference: {
+    stage: "Reference architecture",
+    headline:
+      "A thirteen-hub AI operating system, mapped end to end for local service businesses.",
+    summary:
+      "Operate IQ is a published design study, not a product you can buy. Every hub names one revenue leak and documents the steps, KPIs, integrations, and guardrails needed to plug it. It is here as a reference — read it, argue with it, borrow from it.",
+    documented: [
+      "Seven hub playbooks written end to end — leak, steps, KPIs, failure modes, guardrails.",
+      "Compliance rules drafted before the automation: consent, human handoff, data minimization.",
+      "A hire order arguing which leak to plug first, by vertical and by cash urgency.",
+      "Stat discipline throughout — claims are sourced or flagged, never invented.",
+    ],
+    notBuilt: [
+      "No running software. Nothing here connects to a CRM, phone system, or calendar.",
+      "The owner leak score (Hub 11) is a designed surface with sample numbers only.",
+      "Add-on hubs 08–13 are scoped but never written past the leak statement.",
+    ],
   },
 } as const;
 

@@ -19,33 +19,27 @@ const weakestHub = liveHubs.find((h) => h.id === weakest.hubId);
       One <em>leak score</em>
     </h1>
     <p class="hero-lead">
-      A single cross-hub health score — your morning brief when Hub 11 is live. We're building
-      it now; below is a sample of what the surface will look like.
+      A single cross-hub health score — the owner's morning brief the OS was designed around
+      (Hub 11). Nothing here is wired to live data; every number below is invented to show the
+      shape of the surface.
     </p>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="/contact">Get guided on first steps →</a>
-      <a class="btn btn-ghost" href="/hubs">Browse hubs</a>
+      <a class="btn btn-primary" href="/hubs">Read the hubs →</a>
+      <a class="btn btn-ghost" href="/leak-map">See the leak map</a>
     </div>
   </section>
 
   <section class="section">
     <div class="panel coming-soon-panel">
-      <span class="badge amber">Coming soon</span>
+      <span class="badge amber">Sample data</span>
       <h2 style="font-family: var(--font-display); margin: 0.75rem 0 0.4rem">
-        We'll help you plug and optimize
+        These scores are illustrative, not measured
       </h2>
       <p style="color: var(--muted); margin: 0">
-        The live owner score isn't wired yet — but we can guide you on which hub to hire first,
-        what to connect, and how to pilot without burning trust. Leave your details on the
-        contact sheet and Dean will reach out. Or email{" "}
-        <a href={`mailto:${product.contact.email}`} style="color: var(--teal)">
-          {product.contact.email}
-        </a>
-        {" "}directly.
+        This page exists to show how a cross-hub score would rank leaks and point the owner at the
+        weakest one first. It was never connected to a CRM, phone system, or calendar — treat it
+        as a design sketch of {product.name}, not a dashboard.
       </p>
-      <a class="btn btn-primary" href="/contact" style="margin-top: 1.15rem">
-        Open contact sheet →
-      </a>
     </div>
   </section>
 
@@ -138,14 +132,9 @@ const weakestHub = liveHubs.find((h) => h.id === weakest.hubId);
             Hub {weakestHub.number} · {weakestHub.titleLead} {weakestHub.titleAccent}
           </h3>
           <p style="color: var(--muted); margin-top: 0">{weakest.note}</p>
-          <div style="display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 1rem">
-            <a class="btn btn-primary" href={`/hubs/${weakestHub.slug}`}>
-              Fix this leak
-            </a>
-            <a class="btn btn-ghost" href="/contact">
-              Get guided →
-            </a>
-          </div>
+          <a class="btn btn-primary" href={`/hubs/${weakestHub.slug}`} style="margin-top: 1rem">
+            Read this hub →
+          </a>
         </div>
       </section>
     )

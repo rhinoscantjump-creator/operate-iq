@@ -7,11 +7,27 @@ interface Props {
   title: string;
   description?: string;
   path?: string;
+  /** Page-specific schema.org objects rendered alongside the site Organization */
+  jsonLd?: Record<string, unknown>[];
 }
 
-const { title, description = product.positioning, path = "" } = Astro.props;
+const { title, description = product.positioning, path = "", jsonLd = [] } = Astro.props;
 const fullTitle = title === product.name ? title : `${title} · ${product.name}`;
 const canonical = new URL(path || "/", Astro.site).href;
+const siteUrl = new URL("/", Astro.site).href;
+
+const organization = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: product.name,
+  url: siteUrl,
+  description: product.positioning,
+  creator: {
+    "@type": "Organization",
+    name: product.author.brand,
+    url: product.author.url,
+  },
+};
 
 function navClass(href: string) {
   const current = Astro.url.pathname;
@@ -30,6 +46,25 @@ function navClass(href: string) {
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{fullTitle}</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={product.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(organization)}
+    />
+    {
+      jsonLd.map((block) => (
+        <script type="application/ld+json" set:html={JSON.stringify(block)} />
+      ))
+    }
     <Analytics />
   </head>
   <body>
@@ -43,21 +78,19 @@ function navClass(href: string) {
         </a>
         <nav class="nav-links" aria-label="Primary">
           <a href="/" class={navClass("/")}>Home</a>
+          <a href="/hubs" class={navClass("/hubs")}>Hubs</a>
           <a href="/leak-map" class={navClass("/leak-map")}>Leak map</a>
           <a href="/dashboard" class={navClass("/dashboard")}>Owner score</a>
-          <a href="/hubs" class={navClass("/hubs")}>Hubs</a>
-          <a href="/contact" class="btn btn-primary nav-cta">Get in touch</a>
         </nav>
       </header>
       <main>
         <slot />
       </main>
       <footer class="footer">
-        <span>{product.name} — {product.tagline}</span>
+        <span>{product.name} — a published reference architecture, not a product on sale.</span>
         <span>
-          <a href="/contact">Contact</a>
-          ·
-          <a href={`mailto:${product.contact.email}`}>{product.contact.email}</a>
+          Built by{" "}
+          <a href={product.author.url} rel="noopener">{product.author.brand}</a>
         </span>
       </footer>
     </div>

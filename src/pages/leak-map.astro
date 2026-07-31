@@ -100,27 +100,37 @@ const miniScores = [...sampleLeakScores]
       <div>
         <h2>Funnel stages</h2>
         <p>
-          Logical flow: Capture → Reactivate → Reputation → Convert → Insight. Homepage browse
-          order leads with Reactivate for cash-first owners.
+          Logical flow: Capture → Reactivate → Reputation → Convert → Insight. The homepage browse
+          order leads with Reactivate for cash-first owners.{" "}
+          <a href="/hubs" style="color: var(--teal)">Open the full hub directory →</a>
         </p>
       </div>
     </div>
-    {
-      funnelOrder.map((stage) => {
-        const stageHubs = hubsByFunnel(stage);
-        if (!stageHubs.length) return null;
-        return (
-          <div class="funnel-block">
-            <h3>{funnelLabels[stage]}</h3>
-            <div class="hub-grid">
-              {stageHubs.map((hub) => (
-                <HubTile hub={hub} />
-              ))}
+    <div class="stage-grid">
+      {
+        funnelOrder.map((stage) => {
+          const stageHubs = hubsByFunnel(stage);
+          if (!stageHubs.length) return null;
+          return (
+            <div class="panel stage-card">
+              <span class="badge">{funnelLabels[stage]}</span>
+              <ul class="stage-list">
+                {stageHubs.map((hub) => (
+                  <li>
+                    <a href={`/hubs/${hub.slug}`}>
+                      <strong>
+                        {hub.number} · {hub.titleLead} {hub.titleAccent}
+                      </strong>
+                    </a>
+                    <span class="stage-note">{hub.punchline}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
-        );
-      })
-    }
+          );
+        })
+      }
+    </div>
   </section>
 
   <section class="section" id="hire-order">
@@ -222,9 +232,7 @@ plugged leaks ──► ad spend converts better (companion)`}</div>
       </div>
     </div>
     <div class="hub-grid">
-      {comingSoonHubs.map((hub) => (
-        <HubTile hub={hub} />
-      ))}
+      {comingSoonHubs.map((hub) => <HubTile hub={hub} />)}
     </div>
   </section>
 

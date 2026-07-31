@@ -1,22 +1,23 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import HubTile from "../components/HubTile.astro";
 import { funnelLabels, homeFunnelOrder } from "../data/types";
-import {
-  hubsByFunnel,
-  product,
-} from "../data/hubs";
+import { hubs, hubsByFunnel, product } from "../data/hubs";
+
+const { reference, author } = product;
+const stageSummary = homeFunnelOrder
+  .map((stage) => ({ stage, stageHubs: hubsByFunnel(stage) }))
+  .filter((entry) => entry.stageHubs.length > 0);
 ---
 
 <BaseLayout title={product.name} path="/">
   <section class="hero">
-    <div class="hero-kicker">Local service operating system</div>
+    <div class="hero-kicker">{reference.stage} · read-only</div>
     <h1>
       Operate <em>IQ</em>
     </h1>
-    <p class="hero-lead">{product.positioning}</p>
+    <p class="hero-lead">{reference.headline}</p>
     <p class="hero-audience">
-      Built for owners who already have leads, calls, and reviews — they're just leaking.
+      Written for owners who already have leads, calls, and reviews — they're just leaking.
     </p>
     <div class="audience-chips" aria-label="Vertical packs">
       <span class="chip">Gym</span>
@@ -26,44 +27,89 @@ import {
       <span class="chip">General SMB</span>
     </div>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="/dashboard">See your leak score</a>
-      <a class="btn btn-ghost" href="/leak-map">How the 13 hubs fit together</a>
+      <a class="btn btn-primary" href="/hubs">Read all {hubs.length} hubs →</a>
+      <a class="btn btn-ghost" href="/leak-map">See how the OS fits together</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="panel coming-soon-panel">
+      <span class="badge amber">What this is</span>
+      <h2 style="font-family: var(--font-display); margin: 0.75rem 0 0.5rem">
+        A design study you can read, argue with, and borrow from
+      </h2>
+      <p style="color: var(--muted); margin: 0">{reference.summary}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Documented vs never built</h2>
+        <p>No launch theatre — here is the honest split.</p>
+      </div>
+    </div>
+    <div class="status-grid">
+      <div class="panel">
+        <span class="badge ok">Documented</span>
+        <ul class="status-list">
+          {reference.documented.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+      <div class="panel">
+        <span class="badge amber">Never built</span>
+        <ul class="status-list">
+          {reference.notBuilt.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
     </div>
   </section>
 
   <section class="section" id="hubs">
     <div class="section-head">
       <div>
-        <h2>The hubs</h2>
+        <h2>The {hubs.length} hubs</h2>
         <p>
-          Start where cash and reputation already live —{" "}
+          Each hub is an AI {product.naming.role.toLowerCase()} that plugs one named leak. The
+          argument runs cash and reputation first —{" "}
           <strong>Reactivate → Reputation → Capture</strong> — then convert and insight.
         </p>
       </div>
     </div>
-    {
-      homeFunnelOrder.map((stage) => {
-        const stageHubs = hubsByFunnel(stage);
-        if (!stageHubs.length) return null;
-        return (
-          <div class="funnel-block">
-            <h3>{funnelLabels[stage]}</h3>
-            <div class="hub-grid">
+    <div class="stage-grid">
+      {
+        stageSummary.map(({ stage, stageHubs }) => (
+          <div class="panel stage-card">
+            <span class="badge">{funnelLabels[stage]}</span>
+            <ul class="stage-list">
               {stageHubs.map((hub) => (
-                <HubTile hub={hub} />
+                <li>
+                  <a href={`/hubs/${hub.slug}`}>
+                    <strong>
+                      {hub.number} · {hub.titleLead} {hub.titleAccent}
+                    </strong>
+                  </a>
+                  <span class="stage-note">{hub.punchline}</span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
-        );
-      })
-    }
+        ))
+      }
+    </div>
+    <div class="hero-actions" style="margin-top: 1.5rem">
+      <a class="btn btn-ghost" href="/hubs">Open the full hub directory →</a>
+    </div>
   </section>
 
   <section class="section">
     <div class="section-head">
       <div>
-        <h2>Week 1 with Hub 01</h2>
-        <p>What fastest-ROI path looks like when the CRM is already full of dust.</p>
+        <h2>How week one was designed to work</h2>
+        <p>
+          The Hub 01 argument: when the CRM is already full of dust, that is the fastest path to
+          proof.
+        </p>
       </div>
     </div>
     <div class="week-grid">
@@ -90,10 +136,53 @@ import {
       </div>
     </div>
     <div class="hero-actions" style="margin-top: 1.25rem">
-      <a class="btn btn-primary" href="/hubs/database-reactivation">
-        Start with Database Reactivation →
+      <a class="btn btn-ghost" href="/hubs/database-reactivation">
+        Read the Hub 01 playbook →
       </a>
-      <a class="btn btn-ghost" href="/leak-map">Open the full leak map →</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>What Operate IQ is not</h2>
+        <p>Named anti-patterns — the guardrails behind every hub.</p>
+      </div>
+    </div>
+    <div class="anti-grid">
+      <div class="panel anti-card">
+        <h3 class="panel-title">Tool soup</h3>
+        <p>A pile of disconnected apps with no leak score. Nobody knows what to fix first.</p>
+      </div>
+      <div class="panel anti-card">
+        <h3 class="panel-title">Magic AI</h3>
+        <p>
+          Automation with no human handoff on money, health, or reputation. One bad send erases
+          trust.
+        </p>
+      </div>
+      <div class="panel anti-card">
+        <h3 class="panel-title">Ad treadmill</h3>
+        <p>
+          Buying strangers while the CRM gathers dust. The fastest ROI path starts inside the list.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="panel companion-callout">
+      <span class="badge amber">Who wrote this</span>
+      <h2 style="font-family: var(--font-display); margin: 0.75rem 0 0.4rem">
+        {author.brand}
+      </h2>
+      <p style="color: var(--muted); margin: 0">
+        Operate IQ was mapped and written by {author.brand}. This site takes no enquiries — if you
+        want to talk about AI systems, that happens over there.
+      </p>
+      <a class="btn btn-primary" href={author.url} rel="noopener" style="margin-top: 1.15rem">
+        Visit {author.brand} →
+      </a>
     </div>
   </section>
 </BaseLayout>

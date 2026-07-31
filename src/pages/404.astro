@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Page not found"
+  description="That page doesn't exist — browse the hubs or head back home."
+  path="/404"
+>
+  <section class="hero">
+    <div class="hero-kicker">404</div>
+    <h1>That page <em>leaked</em></h1>
+    <p class="hero-lead">
+      The page you're after doesn't exist. Nothing else is broken — pick a route below.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="/">Back home</a>
+      <a class="btn btn-ghost" href="/hubs">Browse the hubs</a>
+      <a class="btn btn-ghost" href="/leak-map">See the leak map</a>
+    </div>
+  </section>
+</BaseLayout>

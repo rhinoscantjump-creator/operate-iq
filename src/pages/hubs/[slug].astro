@@ -33,9 +33,45 @@ const nextHub = allIdx >= 0 && allIdx < allSorted.length - 1 ? allSorted[allIdx 
 const pageTitle = `${hub.titleLead} ${hub.titleAccent}`;
 const dive = hub.deepDive;
 const description = dive?.symptom ?? hub.comingSoonLeak ?? hub.leakBody;
+const hubUrl = new URL(`/hubs/${hub.slug}`, Astro.site).href;
+
+const breadcrumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: new URL("/", Astro.site).href },
+    { "@type": "ListItem", position: 2, name: "Hubs", item: new URL("/hubs", Astro.site).href },
+    { "@type": "ListItem", position: 3, name: `Hub ${hub.number} · ${pageTitle}`, item: hubUrl },
+  ],
+};
+
+const howTo =
+  isLive && dive
+    ? {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        name: `How to plug the ${pageTitle.toLowerCase()} leak`,
+        description: dive.symptom,
+        url: hubUrl,
+        totalTime: "P7D",
+        step: dive.steps.map((text, i) => ({
+          "@type": "HowToStep",
+          position: i + 1,
+          name: text.split(/[.:]/)[0],
+          text,
+        })),
+      }
+    : null;
+
+const jsonLd = [breadcrumb, ...(howTo ? [howTo] : [])];
 ---
 
-<BaseLayout title={pageTitle} description={description} path={`/hubs/${hub.slug}`}>
+<BaseLayout
+  title={pageTitle}
+  description={description}
+  path={`/hubs/${hub.slug}`}
+  jsonLd={jsonLd}
+>
   <nav class="breadcrumb" aria-label="Breadcrumb">
     <a href="/">Home</a>
     <span>/</span>
@@ -376,7 +412,6 @@ const description = dive?.symptom ?? hub.comingSoonLeak ?? hub.leakBody;
         hub.productImprovements.map((item) => (
           <div class="improve-card">
             <h4>{item}</h4>
-            <p>Canonical in Operate IQ hub spec.</p>
           </div>
         ))
       }

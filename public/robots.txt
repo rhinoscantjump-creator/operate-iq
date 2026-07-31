@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://operate-iq.com/sitemap-index.xml

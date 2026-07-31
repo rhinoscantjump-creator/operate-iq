@@ -115,15 +115,17 @@ select {
   background: rgba(45, 212, 191, 0.1);
 }
 
-.nav-cta {
-  padding: 0.45rem 0.9rem !important;
-  font-size: 0.85rem !important;
+/* .nav-links a would otherwise win on specificity and mute the CTA label */
+.nav-links a.nav-cta {
+  color: #04201c;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.85rem;
   margin-left: 0.25rem;
 }
 
-.nav-cta:hover {
-  color: #04201c !important;
-  background: linear-gradient(135deg, var(--teal), var(--teal-dim)) !important;
+.nav-links a.nav-cta:hover {
+  color: #04201c;
+  background: linear-gradient(135deg, var(--teal), var(--teal-dim));
 }
 
 .hero-audience {
@@ -352,6 +354,51 @@ a.hub-tile:hover {
   background: linear-gradient(135deg, rgba(240, 180, 41, 0.06), rgba(14, 28, 34, 0.72));
 }
 
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.status-list {
+  margin: 1rem 0 0;
+  padding-left: 1.15rem;
+  display: grid;
+  gap: 0.6rem;
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.6;
+}
+
+.stage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.stage-list {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.stage-list li {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.stage-list a:hover strong {
+  color: var(--teal);
+}
+
+.stage-note {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
 .companion-callout {
   border-color: rgba(240, 180, 41, 0.22);
   background: linear-gradient(135deg, rgba(240, 180, 41, 0.05), rgba(14, 28, 34, 0.72));
@@ -363,97 +410,6 @@ a.hub-tile:hover {
 
 .companion-mark {
   color: var(--amber);
-}
-
-.contact-layout {
-  display: grid;
-  grid-template-columns: minmax(240px, 320px) 1fr;
-  gap: 1.25rem;
-  align-items: start;
-}
-
-.contact-aside .panel-title {
-  margin-top: 0.5rem;
-}
-
-.contact-points {
-  margin: 0 0 1.25rem;
-  padding-left: 1.15rem;
-  color: var(--muted);
-  display: grid;
-  gap: 0.45rem;
-  font-size: 0.92rem;
-}
-
-.contact-direct {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.92rem;
-}
-
-.contact-direct a {
-  color: var(--teal);
-}
-
-.contact-form .panel-title {
-  margin-top: 0;
-}
-
-.form-lead {
-  margin: 0 0 1.25rem;
-  color: var(--muted);
-  font-size: 0.95rem;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-  margin-bottom: 1.25rem;
-}
-
-.form-field {
-  display: grid;
-  gap: 0.4rem;
-}
-
-.form-field span {
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--muted);
-}
-
-.form-field-full {
-  grid-column: 1 / -1;
-}
-
-.form-field input,
-.form-field select,
-.form-field textarea {
-  width: 100%;
-  padding: 0.7rem 0.85rem;
-  border-radius: 12px;
-  border: 1px solid var(--line);
-  background: rgba(0, 0, 0, 0.22);
-  color: var(--text);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.form-field input:focus,
-.form-field select:focus,
-.form-field textarea:focus {
-  outline: none;
-  border-color: rgba(45, 212, 191, 0.45);
-  box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.12);
-}
-
-.form-field textarea {
-  resize: vertical;
-  min-height: 110px;
-}
-
-.contact-success {
-  max-width: 36rem;
 }
 
 .footer a {
@@ -1119,12 +1075,7 @@ a.hub-tile:hover {
 
 @media (max-width: 800px) {
   .hub-layout,
-  .leak-score-hero,
-  .contact-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .form-grid {
+  .leak-score-hero {
     grid-template-columns: 1fr;
   }
 
