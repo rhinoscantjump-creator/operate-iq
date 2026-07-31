@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import VerticalPack from "../../components/VerticalPack.astro";
-import { funnelLabels } from "../../data/types";
+import { funnelLabels, hubStatusLabels } from "../../data/types";
 import { getCompanionsForHub } from "../../data/companions";
 import {
   formatSupplementLabel,
@@ -23,7 +23,7 @@ if (!hub) {
   return Astro.redirect("/hubs");
 }
 
-const isLive = hub.status === "live";
+const isDocumented = hub.status === "documented";
 const supplementing = getSupplementingHubs(hub.id);
 const companions = getCompanionsForHub(hub.id);
 const allSorted = [...hubs].sort((a, b) => a.number.localeCompare(b.number));
@@ -32,7 +32,7 @@ const prevHub = allIdx > 0 ? allSorted[allIdx - 1] : undefined;
 const nextHub = allIdx >= 0 && allIdx < allSorted.length - 1 ? allSorted[allIdx + 1] : undefined;
 const pageTitle = `${hub.titleLead} ${hub.titleAccent}`;
 const dive = hub.deepDive;
-const description = dive?.symptom ?? hub.comingSoonLeak ?? hub.leakBody;
+const description = dive?.symptom ?? hub.outlineLeak ?? hub.leakBody;
 const hubUrl = new URL(`/hubs/${hub.slug}`, Astro.site).href;
 
 const breadcrumb = {
@@ -46,7 +46,7 @@ const breadcrumb = {
 };
 
 const howTo =
-  isLive && dive
+  isDocumented && dive
     ? {
         "@context": "https://schema.org",
         "@type": "HowTo",
@@ -81,16 +81,16 @@ const jsonLd = [breadcrumb, ...(howTo ? [howTo] : [])];
   </nav>
 
   <section class="hub-hero">
-    <span class:list={["badge", { amber: !isLive }]}>
+    <span class:list={["badge", { amber: !isDocumented }]}>
       Hub {hub.number} · {hub.operator}
-      {!isLive && " · Coming soon"}
     </span>
     <h1 class="hub-title">
       {hub.titleLead} <span>{hub.titleAccent}</span>
     </h1>
-    <p class="hub-lead">{hub.comingSoonLeak ?? hub.leakBody}</p>
+    <p class="hub-lead">{hub.outlineLeak ?? hub.leakBody}</p>
     <div class="meta-row">
       <span class="chip">{funnelLabels[hub.funnelStage]}</span>
+      <span class="chip">{hubStatusLabels[hub.status]}</span>
       <span class="chip">Logical hire #{hub.hireOrderLogical}</span>
       {
         hub.hireOrderFastRoi != null && (
@@ -100,7 +100,7 @@ const jsonLd = [breadcrumb, ...(howTo ? [howTo] : [])];
     </div>
 
     {
-      isLive && dive && (
+      isDocumented && dive && (
         <dl class="playbook-meta">
           <div class="meta-block">
             <dt>Symptom</dt>
@@ -135,14 +135,15 @@ const jsonLd = [breadcrumb, ...(howTo ? [howTo] : [])];
   </section>
 
   {
-    !isLive && (
+    !isDocumented && (
       <>
         <section class="section">
           <div class="guardrail-callout">
-            <h3>Coming soon</h3>
+            <h3>Outline only</h3>
             <p>
-              This add-on hub is on the Operate IQ roadmap. It extends the live operators — browse
-              the hubs it supplements below, or start with a live hub.
+              This hub was scoped but never written past the leak statement — no steps, KPIs, or
+              guardrails. The hubs it would extend are listed below, and those do have full
+              playbooks.
             </p>
           </div>
         </section>
@@ -152,7 +153,7 @@ const jsonLd = [breadcrumb, ...(howTo ? [howTo] : [])];
               <div class="section-head">
                 <div>
                   <h2>Builds on</h2>
-                  <p>Live hubs this operator extends when it ships.</p>
+                  <p>Hubs this one builds on — those have full playbooks.</p>
                 </div>
               </div>
               <div class="related-grid">
@@ -180,7 +181,7 @@ const jsonLd = [breadcrumb, ...(howTo ? [howTo] : [])];
               <div class="section-head">
                 <div>
                   <h2>Planned integrations</h2>
-                  <p>Connections this hub will need on launch.</p>
+                  <p>Connections this hub would need to work.</p>
                 </div>
               </div>
               <div class="integration-grid">
@@ -205,7 +206,7 @@ const jsonLd = [breadcrumb, ...(howTo ? [howTo] : [])];
   }
 
   {
-    isLive && dive && (
+    isDocumented && dive && (
       <section class="section">
         <div class="section-head">
           <div>
@@ -228,7 +229,7 @@ const jsonLd = [breadcrumb, ...(howTo ? [howTo] : [])];
   }
 
   {
-    isLive && dive && (
+    isDocumented && dive && (
       <section class="section">
         <div class="section-head">
           <div>
@@ -248,7 +249,7 @@ const jsonLd = [breadcrumb, ...(howTo ? [howTo] : [])];
   }
 
   {
-    isLive && (
+    isDocumented && (
       <section class="section">
         <div class="section-head">
           <div>
@@ -275,7 +276,7 @@ const jsonLd = [breadcrumb, ...(howTo ? [howTo] : [])];
   }
 
   {
-    isLive && dive && (
+    isDocumented && dive && (
       <section class="section">
         <div class="section-head">
           <div>
@@ -296,7 +297,7 @@ const jsonLd = [breadcrumb, ...(howTo ? [howTo] : [])];
   }
 
   {
-    isLive && dive && (
+    isDocumented && dive && (
       <section class="section">
         <div class="guardrail-callout">
           <h3>When not to automate</h3>
@@ -307,7 +308,7 @@ const jsonLd = [breadcrumb, ...(howTo ? [howTo] : [])];
   }
 
   {
-    isLive && (
+    isDocumented && (
       <section class="section">
         <div class="section-head">
           <div>
@@ -331,7 +332,7 @@ const jsonLd = [breadcrumb, ...(howTo ? [howTo] : [])];
   }
 
   {
-    isLive && (
+    isDocumented && (
       <section class="section">
         <div class="section-head">
           <div>
@@ -345,7 +346,7 @@ const jsonLd = [breadcrumb, ...(howTo ? [howTo] : [])];
   }
 
   {
-    isLive && (
+    isDocumented && (
       <section class="section">
         <div class="section-head">
           <div>
@@ -372,7 +373,7 @@ const jsonLd = [breadcrumb, ...(howTo ? [howTo] : [])];
   }
 
   {
-    isLive && (
+    isDocumented && (
       <section class="section">
         <div class="section-head">
           <div>
@@ -399,7 +400,7 @@ const jsonLd = [breadcrumb, ...(howTo ? [howTo] : [])];
   }
 
   {
-    isLive && (
+    isDocumented && (
       <section class="section">
         <div class="section-head">
           <div>
@@ -421,7 +422,7 @@ const jsonLd = [breadcrumb, ...(howTo ? [howTo] : [])];
   }
 
   {
-    isLive && supplementing.length > 0 && (
+    isDocumented && supplementing.length > 0 && (
       <section class="section">
         <div class="section-head">
           <div>
@@ -436,7 +437,7 @@ const jsonLd = [breadcrumb, ...(howTo ? [howTo] : [])];
                 <h4>
                   Hub {addon.number} · {addon.titleLead} {addon.titleAccent}
                 </h4>
-                <p>{addon.supplementsWhy ?? addon.comingSoonLeak}</p>
+                <p>{addon.supplementsWhy ?? addon.outlineLeak}</p>
                 <p class="supplement-line" style="margin-top: 0.5rem">
                   Supplements {formatSupplementLabel(addon.supplementsHubIds ?? [])}
                 </p>
@@ -449,7 +450,7 @@ const jsonLd = [breadcrumb, ...(howTo ? [howTo] : [])];
   }
 
   {
-    isLive && companions.length > 0 && (
+    isDocumented && companions.length > 0 && (
       <section class="section">
         <div class="section-head">
           <div>

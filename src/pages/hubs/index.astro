@@ -1,8 +1,8 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { funnelLabels } from "../../data/types";
+import { funnelLabels, hubStatusLabels } from "../../data/types";
 import { companions } from "../../data/companions";
-import { hubs, product } from "../../data/hubs";
+import { documentedHubs, hubs, product } from "../../data/hubs";
 
 const allHubs = [...hubs].sort((a, b) => a.number.localeCompare(b.number));
 ---
@@ -22,8 +22,9 @@ const allHubs = [...hubs].sort((a, b) => a.number.localeCompare(b.number));
     <div class="hero-kicker">13 operators · one OS</div>
     <h1>The <em>hubs</em></h1>
     <p class="hero-lead">
-      Each hub is an AI {product.naming.role.toLowerCase()} that plugs one named leak. Hubs 01–07 are
-      live; 08–13 extend capture, conversion, and the owner brief.
+      Each hub is an AI {product.naming.role.toLowerCase()} that plugs one named leak.{" "}
+      {documentedHubs.length} have a playbook written end to end; the rest never got past the leak
+      statement. None of them are running software.
     </p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="/hubs/database-reactivation">Start with Hub 01 →</a>
@@ -35,10 +36,10 @@ const allHubs = [...hubs].sort((a, b) => a.number.localeCompare(b.number));
     <ol class="hub-index-list">
       {
         allHubs.map((hub) => {
-          const blurb = hub.comingSoonLeak ?? hub.leakBody;
-          const isLive = hub.status === "live";
+          const blurb = hub.outlineLeak ?? hub.leakBody;
+          const isDocumented = hub.status === "documented";
           return (
-            <li class:list={["hub-index-item", { soon: !isLive }]}>
+            <li class:list={["hub-index-item", { soon: !isDocumented }]}>
               <div class="hub-index-num">{hub.number}</div>
               <div class="hub-index-body">
                 <h2>
@@ -49,11 +50,11 @@ const allHubs = [...hubs].sort((a, b) => a.number.localeCompare(b.number));
                 <p class="hub-index-meta">
                   <span class="chip">{funnelLabels[hub.funnelStage]}</span>
                   <span class="chip">{hub.operator}</span>
-                  {!isLive && <span class="chip">Coming soon</span>}
+                  <span class="chip">{hubStatusLabels[hub.status]}</span>
                 </p>
                 <p class="hub-index-blurb">{blurb}</p>
                 <a class="hub-index-link" href={`/hubs/${hub.slug}`}>
-                  {isLive ? "Open hub →" : "Preview hub →"}
+                  {isDocumented ? "Read the playbook →" : "Read the outline →"}
                 </a>
               </div>
             </li>

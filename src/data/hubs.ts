@@ -167,7 +167,7 @@ export const hubs: Hub[] = [
     id: "hub-01",
     slug: "database-reactivation",
     number: "01",
-    status: "live",
+    status: "documented",
     operator: "The Outreach Operator",
     titleLead: "Database",
     titleAccent: "Reactivation",
@@ -290,7 +290,7 @@ export const hubs: Hub[] = [
     id: "hub-02",
     slug: "reviews-referrals",
     number: "02",
-    status: "live",
+    status: "documented",
     operator: "The Reputation Operator",
     titleLead: "Reviews",
     titleAccent: "& Referrals",
@@ -412,7 +412,7 @@ export const hubs: Hub[] = [
     id: "hub-03",
     slug: "website-lead-nurturing",
     number: "03",
-    status: "live",
+    status: "documented",
     operator: "The Website Operator",
     titleLead: "Website",
     titleAccent: "Lead Nurturing",
@@ -534,7 +534,7 @@ export const hubs: Hub[] = [
     id: "hub-04",
     slug: "missed-call-text-back",
     number: "04",
-    status: "live",
+    status: "documented",
     operator: "The Reception Operator",
     titleLead: "Missed Call",
     titleAccent: "Text-Back",
@@ -655,7 +655,7 @@ export const hubs: Hub[] = [
     id: "hub-05",
     slug: "sales-coaching",
     number: "05",
-    status: "live",
+    status: "documented",
     operator: "The Sales Trainer",
     titleLead: "Sales",
     titleAccent: "Coaching",
@@ -775,7 +775,7 @@ export const hubs: Hub[] = [
     id: "hub-06",
     slug: "no-show-recovery",
     number: "06",
-    status: "live",
+    status: "documented",
     operator: "The Retention Closer",
     titleLead: "No-Show",
     titleAccent: "Recovery",
@@ -899,7 +899,7 @@ export const hubs: Hub[] = [
     id: "hub-07",
     slug: "quote-follow-up",
     number: "07",
-    status: "live",
+    status: "documented",
     operator: "The Proposal Closer",
     titleLead: "Quote",
     titleAccent: "Follow-Up",
@@ -1023,7 +1023,7 @@ export const hubs: Hub[] = [
     id: "hub-08",
     slug: "social-inbox-responder",
     number: "08",
-    status: "coming-soon",
+    status: "outline",
     operator: "The Front Desk Omnichannel",
     titleLead: "Social / Inbox",
     titleAccent: "Responder",
@@ -1041,7 +1041,7 @@ export const hubs: Hub[] = [
     complianceIds: ["sms-consent", "human-handoff"],
     hireOrderLogical: 8,
     hireOrderFastRoi: null,
-    comingSoonLeak:
+    outlineLeak:
       "Hub 03 covers web forms and chat. This hub plugs the unread FB/IG/WhatsApp/DM leak.",
     supplementsHubIds: ["hub-03"],
     supplementsWhy:
@@ -1051,7 +1051,7 @@ export const hubs: Hub[] = [
     id: "hub-09",
     slug: "win-back-churn-rescue",
     number: "09",
-    status: "coming-soon",
+    status: "outline",
     operator: "The Retention Specialist",
     titleLead: "Win-Back /",
     titleAccent: "Churn Rescue",
@@ -1069,7 +1069,7 @@ export const hubs: Hub[] = [
     complianceIds: ["sms-consent", "human-handoff"],
     hireOrderLogical: 9,
     hireOrderFastRoi: null,
-    comingSoonLeak:
+    outlineLeak:
       "Hub 01 reactivates never-converted leads. Hub 09 targets cancelled or lapsed paying customers.",
     supplementsHubIds: ["hub-01"],
     supplementsWhy:
@@ -1079,7 +1079,7 @@ export const hubs: Hub[] = [
     id: "hub-10",
     slug: "reputation-defense",
     number: "10",
-    status: "coming-soon",
+    status: "outline",
     operator: "The Review Responder",
     titleLead: "Reputation",
     titleAccent: "Defense",
@@ -1097,7 +1097,7 @@ export const hubs: Hub[] = [
     complianceIds: ["review-incentives", "human-handoff"],
     hireOrderLogical: 10,
     hireOrderFastRoi: null,
-    comingSoonLeak:
+    outlineLeak:
       "Hub 02 asks for reviews and referrals. Hub 10 handles negatives, reply SLA, and escalation.",
     supplementsHubIds: ["hub-02"],
     supplementsWhy:
@@ -1107,7 +1107,7 @@ export const hubs: Hub[] = [
     id: "hub-11",
     slug: "owner-daily-brief",
     number: "11",
-    status: "coming-soon",
+    status: "outline",
     operator: "The Ops Analyst",
     titleLead: "Owner",
     titleAccent: "Daily Brief",
@@ -1125,7 +1125,7 @@ export const hubs: Hub[] = [
     complianceIds: ["data-minimization"],
     hireOrderLogical: 11,
     hireOrderFastRoi: null,
-    comingSoonLeak:
+    outlineLeak:
       "Without a cross-hub leak score, Operate IQ feels like disconnected tools. This is the OS layer.",
     supplementsHubIds: [
       "hub-01",
@@ -1141,7 +1141,7 @@ export const hubs: Hub[] = [
     id: "hub-12",
     slug: "payment-collection-nudge",
     number: "12",
-    status: "coming-soon",
+    status: "outline",
     operator: "The Cash Collector",
     titleLead: "Payment /",
     titleAccent: "Collection Nudge",
@@ -1159,7 +1159,7 @@ export const hubs: Hub[] = [
     complianceIds: ["sms-consent", "human-handoff"],
     hireOrderLogical: 12,
     hireOrderFastRoi: null,
-    comingSoonLeak:
+    outlineLeak:
       "Reactivation and win-back bring people in; unpaid invoices leak cash after the sale.",
     supplementsHubIds: ["hub-01", "hub-09"],
     supplementsWhy:
@@ -1169,7 +1169,7 @@ export const hubs: Hub[] = [
     id: "hub-13",
     slug: "staff-onboarding-gpt",
     number: "13",
-    status: "coming-soon",
+    status: "outline",
     operator: "The Culture Trainer",
     titleLead: "Staff Onboarding",
     titleAccent: "GPT",
@@ -1187,7 +1187,7 @@ export const hubs: Hub[] = [
     complianceIds: ["human-handoff", "data-minimization"],
     hireOrderLogical: 13,
     hireOrderFastRoi: null,
-    comingSoonLeak:
+    outlineLeak:
       "Hub 05 coaches live conversations. Hub 13 ramps new hires on scripts and tone first.",
     supplementsHubIds: ["hub-05"],
     supplementsWhy:
@@ -1196,17 +1196,19 @@ export const hubs: Hub[] = [
 ];
 
 export const logicalHireOrder = hubs
-  .filter((h) => h.status === "live")
+  .filter((h) => h.status === "documented")
   .sort((a, b) => a.hireOrderLogical - b.hireOrderLogical);
 
 export const fastRoiHireOrder = hubs
-  .filter((h) => h.status === "live" && h.hireOrderFastRoi != null)
+  .filter((h) => h.status === "documented" && h.hireOrderFastRoi != null)
   .sort((a, b) => (a.hireOrderFastRoi ?? 99) - (b.hireOrderFastRoi ?? 99));
 
-export const liveHubs = hubs.filter((h) => h.status === "live");
-export const comingSoonHubs = hubs.filter((h) => h.status === "coming-soon");
+/** Hubs with a playbook written end to end */
+export const documentedHubs = hubs.filter((h) => h.status === "documented");
+/** Hubs that never got past the leak statement */
+export const outlineHubs = hubs.filter((h) => h.status === "outline");
 
-/** Recommended next three to flesh after live hubs */
+/** Recommended next three to write up */
 export const recommendedNextHubs = ["hub-08", "hub-09", "hub-11"];
 
 export function getHubBySlug(slug: string) {

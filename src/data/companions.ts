@@ -15,7 +15,7 @@ export const companions: Companion[] = [
     symptom:
       "Budget keeps pouring into Google Ads and Meta while the CRM, phone, and reviews still leak — every click funds a broken first response.",
     whenReady:
-      "After hubs 01–05 are hiring (or scoring healthy): dusty leads get a second touch, reviews/referrals run, speed-to-lead is minutes not hours, missed calls text back, and the team can close.",
+      "Once the documented hubs are actually running: dusty leads get a second touch, reviews/referrals run, speed-to-lead is minutes not hours, missed calls text back, no-shows get rescued, quotes get chased, and the team can close.",
     relatedHubIds: ["hub-01", "hub-02", "hub-03", "hub-04", "hub-05"],
     whyAdsImprove: [
       "Speed-to-lead (Hub 03) and missed-call text-back (Hub 04) stop burning the click before a human ever answers.",
@@ -24,7 +24,7 @@ export const companions: Companion[] = [
     ],
     whatItIsNot: [
       "Not Hub 14 — it has no hire-order slot among the 13 operators.",
-      "Not an AI Operator with CRM/SMS automation skill like hubs 01–05.",
+      "Not an AI Operator with CRM/SMS automation skill like the numbered hubs.",
       "Not a Google Ads or Meta Ads management product — campaign build, bidding, and creative stay with you or a media partner.",
       "Not a promised ROAS percentage — conversion improves because leaks stop wasting the click, not because we invent a lift figure.",
     ],

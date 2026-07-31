@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import {
-  liveHubs,
+  documentedHubs,
   overallLeakScore,
   product,
   sampleLeakScores,
@@ -9,7 +9,7 @@ import {
 
 const overall = overallLeakScore();
 const weakest = [...sampleLeakScores].sort((a, b) => a.score - b.score)[0];
-const weakestHub = liveHubs.find((h) => h.id === weakest.hubId);
+const weakestHub = documentedHubs.find((h) => h.id === weakest.hubId);
 ---
 
 <BaseLayout title="Owner leak score" path="/dashboard">
@@ -81,7 +81,7 @@ const weakestHub = liveHubs.find((h) => h.id === weakest.hubId);
     <div class="panel score-table">
       {
         sampleLeakScores.map((row) => {
-          const hub = liveHubs.find((h) => h.id === row.hubId);
+          const hub = documentedHubs.find((h) => h.id === row.hubId);
           if (!hub) return null;
           const trendLabel =
             row.trend === "up"

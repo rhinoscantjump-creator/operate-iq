@@ -1,4 +1,9 @@
-export type HubStatus = "live" | "coming-soon";
+/**
+ * Depth of documentation, not product availability. Nothing here is running
+ * software: "documented" means the playbook is written end to end, "outline"
+ * means only the leak statement exists.
+ */
+export type HubStatus = "documented" | "outline";
 
 export type FunnelStage =
   | "capture"
@@ -78,11 +83,12 @@ export interface Hub {
   complianceIds: string[];
   hireOrderLogical: number;
   hireOrderFastRoi: number | null;
-  comingSoonLeak?: string;
+  /** Outline hubs: the one-line leak statement, written before the playbook */
+  outlineLeak?: string;
   /** Hub IDs this add-on extends (e.g. hub-03) */
   supplementsHubIds?: string[];
   supplementsWhy?: string;
-  /** Live hubs: citable playbook structure for answer engines */
+  /** Documented hubs: citable playbook structure for answer engines */
   deepDive?: HubDeepDive;
 }
 
@@ -108,6 +114,11 @@ export interface LeakScoreSample {
   trend: "up" | "down" | "flat";
   note: string;
 }
+
+export const hubStatusLabels: Record<HubStatus, string> = {
+  documented: "Full playbook",
+  outline: "Outline only",
+};
 
 export const funnelLabels: Record<FunnelStage, string> = {
   capture: "Capture",

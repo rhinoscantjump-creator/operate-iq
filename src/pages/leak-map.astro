@@ -3,10 +3,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import HubTile from "../components/HubTile.astro";
 import { funnelLabels, funnelOrder } from "../data/types";
 import {
-  comingSoonHubs,
+  outlineHubs,
   fastRoiHireOrder,
   hubsByFunnel,
-  liveHubs,
+  documentedHubs,
   logicalHireOrder,
   overallLeakScore,
   product,
@@ -31,8 +31,8 @@ const miniScores = [...sampleLeakScores]
     <div class="hero-kicker">Operating system map</div>
     <h1>Leak <em>map</em></h1>
     <p class="hero-lead">
-      <strong>13 operators. One OS.</strong> Live hubs plug the biggest local-service leaks;
-      add-ons extend capture, conversion, and the owner brief.
+      <strong>13 operators. One OS.</strong> The documented hubs cover the biggest local-service
+      leaks; the outline hubs would extend capture, conversion, and the owner brief.
     </p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="/dashboard">See your leak score</a>
@@ -61,7 +61,7 @@ const miniScores = [...sampleLeakScores]
       <div class="score-table mini-score-table">
         {
           miniScores.map((row) => {
-            const hub = liveHubs.find((h) => h.id === row.hubId);
+            const hub = documentedHubs.find((h) => h.id === row.hubId);
             if (!hub) return null;
             const trendClass = `trend-${row.trend}`;
             const trendLabel =
@@ -217,9 +217,9 @@ plugged leaks ──► ad spend converts better (companion)`}</div>
   <section class="section">
     <div class="section-head">
       <div>
-        <h2>Add-on hubs (coming soon)</h2>
+        <h2>Add-on hubs (outline only)</h2>
         <p>
-          Recommended next three to flesh:{" "}
+          Scoped but never written up. Next three worth writing:{" "}
           {
             recommendedNextHubs
               .map((id) => {
@@ -232,7 +232,7 @@ plugged leaks ──► ad spend converts better (companion)`}</div>
       </div>
     </div>
     <div class="hub-grid">
-      {comingSoonHubs.map((hub) => <HubTile hub={hub} />)}
+      {outlineHubs.map((hub) => <HubTile hub={hub} />)}
     </div>
   </section>
 

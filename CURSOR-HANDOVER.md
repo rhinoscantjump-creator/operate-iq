@@ -19,7 +19,7 @@ It serves as a **credibility artifact** for Rhinos Can't Jump — proof of syste
 |---------|-------|-------|
 | Landing | `/` | Reference framing, documented vs never built, hub rollup, RCJ credit |
 | Hub directory | `/hubs` | Canonical list of all 13 + companions |
-| Hub detail | `/hubs/[slug]` | Live hubs get AEO playbook; coming-soon get preview |
+| Hub detail | `/hubs/[slug]` | Documented hubs get the AEO playbook; outline hubs get a stub |
 | Ad Multiplier | `/hubs/ad-multiplier` | Companion, not an Operator |
 | Leak map | `/leak-map` | Hire paths, OS map, anti-patterns, sample score |
 | Owner score | `/dashboard` | Design sketch, invented numbers, labelled as such |
@@ -33,11 +33,16 @@ It serves as a **credibility artifact** for Rhinos Can't Jump — proof of syste
 
 ## Hub map (13 total)
 
-**Live (01–07):** Database Reactivation · Reviews & Referrals · Website Lead Nurturing · Missed Call Text-Back · Sales Coaching · No-Show Recovery · Quote Follow-Up
+`HubStatus` describes **documentation depth, not availability** — nothing here is running software.
 
-**Coming soon (08–13):** Social Inbox · Win-Back · Reputation Defense · Owner Daily Brief · Payment Collection · Staff Onboarding GPT
+- `documented` → "Full playbook" — leak, steps, KPIs, failure modes, guardrails, `deepDive`
+- `outline` → "Outline only" — just the `outlineLeak` statement
 
-Note: "live" here means *the playbook is written*, not that software exists. Nothing connects to a CRM.
+**Documented (01–07):** Database Reactivation · Reviews & Referrals · Website Lead Nurturing · Missed Call Text-Back · Sales Coaching · No-Show Recovery · Quote Follow-Up
+
+**Outline only (08–13):** Social Inbox · Win-Back · Reputation Defense · Owner Daily Brief · Payment Collection · Staff Onboarding GPT
+
+Exports are `documentedHubs` / `outlineHubs`; labels come from `hubStatusLabels` in `types.ts`. Do not reintroduce "live" or "coming soon" — both imply a product that does not exist.
 
 ---
 
@@ -73,7 +78,8 @@ git push         # Vercel auto-deploys
 @CURSOR-HANDOVER.md — Operate IQ is a read-only reference architecture, not a product.
 
 Constraints: no contact form, no email, no sales CTA. Stat discipline in hubs.ts —
-no invented hard percentages. "Live" means the playbook is written, not that software exists.
+no invented hard percentages. Hub status is documentation depth (documented / outline),
+never product availability — do not reintroduce "live" or "coming soon".
 
-Current priority: [e.g. add og:image / tidy [slug].astro / flesh Hub 08].
+Current priority: [e.g. add og:image / tidy [slug].astro / write up Hub 08].
 ```
