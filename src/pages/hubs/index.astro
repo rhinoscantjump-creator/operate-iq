@@ -18,7 +18,7 @@ const allHubs = [...hubs].sort((a, b) => a.number.localeCompare(b.number));
     <span>Hubs</span>
   </nav>
 
-  <section class="hero">
+  <section class="hero hero-animate">
     <div class="hero-kicker">13 operators · one OS</div>
     <h1>The <em>hubs</em></h1>
     <p class="hero-lead">
@@ -32,14 +32,14 @@ const allHubs = [...hubs].sort((a, b) => a.number.localeCompare(b.number));
     </div>
   </section>
 
-  <section class="section">
-    <ol class="hub-index-list">
+  <section class="section reveal">
+    <ol class="hub-index-list reveal-stagger">
       {
         allHubs.map((hub) => {
           const blurb = hub.outlineLeak ?? hub.leakBody;
           const isDocumented = hub.status === "documented";
           return (
-            <li class:list={["hub-index-item", { soon: !isDocumented }]}>
+            <li class:list={["hub-index-item", "reveal", { soon: !isDocumented }]}>
               <div class="hub-index-num">{hub.number}</div>
               <div class="hub-index-body">
                 <h2>
@@ -66,7 +66,7 @@ const allHubs = [...hubs].sort((a, b) => a.number.localeCompare(b.number));
 
   {
     companions.length > 0 && (
-      <section class="section">
+      <section class="section reveal">
         <div class="section-head">
           <div>
             <h2>Companions</h2>
@@ -76,7 +76,7 @@ const allHubs = [...hubs].sort((a, b) => a.number.localeCompare(b.number));
         <ul class="hub-index-list">
           {
             companions.map((c) => (
-              <li class="hub-index-item companion-index-item">
+              <li class="hub-index-item companion-index-item reveal">
                 <div class="hub-index-num companion-mark">◇</div>
                 <div class="hub-index-body">
                   <h2>

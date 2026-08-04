@@ -11,38 +11,90 @@ const stageSummary = homeFunnelOrder
 
 <BaseLayout title={product.name} path="/">
   <section class="hero">
-    <div class="hero-kicker">{reference.stage} · read-only</div>
-    <h1>
-      Operate <em>IQ</em>
-    </h1>
-    <p class="hero-lead">{reference.headline}</p>
-    <p class="hero-audience">
-      Written for owners who already have leads, calls, and reviews — they're just leaking.
-    </p>
-    <div class="audience-chips" aria-label="Vertical packs">
-      <span class="chip">Gym</span>
-      <span class="chip">Clinic</span>
-      <span class="chip">Home services</span>
-      <span class="chip">Salon</span>
-      <span class="chip">General SMB</span>
-    </div>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="/hubs">Read all {hubs.length} hubs →</a>
-      <a class="btn btn-ghost" href="/leak-map">See how the OS fits together</a>
+    <div class="hero-grid">
+      <div class="hero-animate">
+        <div class="hero-kicker">{reference.stage} · read-only</div>
+        <h1>
+          Operate <em>IQ</em>
+        </h1>
+        <p class="hero-lead">{reference.headline}</p>
+        <p class="hero-audience">
+          Written for owners who already have leads, calls, and reviews — they're just leaking.
+        </p>
+        <div class="audience-chips" aria-label="Vertical packs">
+          <span class="chip">Gym</span>
+          <span class="chip">Clinic</span>
+          <span class="chip">Home services</span>
+          <span class="chip">Salon</span>
+          <span class="chip">General SMB</span>
+        </div>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/hubs">Read all {hubs.length} hubs →</a>
+          <a class="btn btn-ghost" href="/leak-map">See how the OS fits together</a>
+        </div>
+      </div>
+
+      <div class="signature" aria-hidden="true">
+        <svg viewBox="0 0 320 320" role="img" focusable="false">
+          <defs>
+            <radialGradient id="sealGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#2dd4bf" stop-opacity="0.45" />
+              <stop offset="70%" stop-color="#2dd4bf" stop-opacity="0.08" />
+              <stop offset="100%" stop-color="#2dd4bf" stop-opacity="0" />
+            </radialGradient>
+          </defs>
+          <circle class="signature-pulse" cx="160" cy="160" r="118" fill="url(#sealGlow)" />
+          <circle
+            cx="160"
+            cy="160"
+            r="96"
+            fill="none"
+            stroke="rgba(125,211,196,0.22)"
+            stroke-width="1"
+          />
+          <circle
+            class="signature-flow"
+            cx="160"
+            cy="160"
+            r="72"
+            fill="none"
+            stroke="#2dd4bf"
+            stroke-width="1.25"
+            stroke-opacity="0.55"
+          />
+          <!-- leak nodes → seal hub -->
+          <g stroke="#2dd4bf" stroke-width="1.5" stroke-linecap="round" fill="none">
+            <path class="signature-flow" d="M58 78 L128 138" stroke-opacity="0.55" />
+            <path class="signature-flow" d="M262 74 L192 136" stroke-opacity="0.55" />
+            <path class="signature-flow" d="M48 200 L118 176" stroke-opacity="0.45" />
+            <path class="signature-flow" d="M272 208 L202 180" stroke-opacity="0.45" />
+            <path class="signature-flow" d="M160 42 L160 108" stroke-opacity="0.4" />
+            <path class="signature-flow" d="M160 278 L160 212" stroke-opacity="0.4" />
+          </g>
+          <circle cx="58" cy="78" r="5" fill="#f0b429" fill-opacity="0.9" />
+          <circle cx="262" cy="74" r="5" fill="#f0b429" fill-opacity="0.85" />
+          <circle cx="48" cy="200" r="4.5" fill="#8aa3a0" />
+          <circle cx="272" cy="208" r="4.5" fill="#8aa3a0" />
+          <circle cx="160" cy="42" r="4" fill="#8aa3a0" />
+          <circle cx="160" cy="278" r="4" fill="#8aa3a0" />
+          <circle cx="160" cy="160" r="18" fill="#0a1418" stroke="#2dd4bf" stroke-width="2" />
+          <circle cx="160" cy="160" r="7" fill="#2dd4bf" />
+        </svg>
+      </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section reveal">
     <div class="panel coming-soon-panel">
       <span class="badge amber">What this is</span>
-      <h2 style="font-family: var(--font-display); margin: 0.75rem 0 0.5rem">
+      <h2 class="panel-title" style="font-size: clamp(1.35rem, 2.5vw, 1.75rem); margin-top: 0.85rem">
         A design study you can read, argue with, and borrow from
       </h2>
-      <p style="color: var(--muted); margin: 0">{reference.summary}</p>
+      <p style="color: var(--muted); margin: 0; line-height: 1.65">{reference.summary}</p>
     </div>
   </section>
 
-  <section class="section" id="hubs">
+  <section class="section reveal" id="hubs">
     <div class="section-head">
       <div>
         <h2>The {hubs.length} hubs</h2>
@@ -53,10 +105,10 @@ const stageSummary = homeFunnelOrder
         </p>
       </div>
     </div>
-    <div class="stage-grid">
+    <div class="stage-grid reveal-stagger">
       {
         stageSummary.map(({ stage, stageHubs }) => (
-          <div class="panel stage-card">
+          <div class="panel stage-card reveal">
             <span class="badge">{funnelLabels[stage]}</span>
             <ul class="stage-list">
               {stageHubs.map((hub) => (
@@ -74,12 +126,12 @@ const stageSummary = homeFunnelOrder
         ))
       }
     </div>
-    <div class="hero-actions" style="margin-top: 1.5rem">
+    <div class="hero-actions" style="margin-top: 1.75rem">
       <a class="btn btn-ghost" href="/hubs">Open the full hub directory →</a>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section reveal">
     <div class="section-head">
       <div>
         <h2>How week one was designed to work</h2>
@@ -89,22 +141,22 @@ const stageSummary = homeFunnelOrder
         </p>
       </div>
     </div>
-    <div class="week-grid">
-      <div class="week-step panel">
+    <div class="week-grid reveal-stagger">
+      <div class="week-step panel reveal">
         <span class="badge">Day 1</span>
         <h3 class="panel-title">Connect & segment</h3>
         <p>
           Connect CRM + SMS. Segment never-booked and lapsed contacts — pilot 5–10% of the list.
         </p>
       </div>
-      <div class="week-step panel">
+      <div class="week-step panel reveal">
         <span class="badge">Day 3</span>
         <h3 class="panel-title">First outreach live</h3>
         <p>
           First reactivation messages go out. Bookings attributed to dust, not new ad spend.
         </p>
       </div>
-      <div class="week-step panel">
+      <div class="week-step panel reveal">
         <span class="badge">Day 7</span>
         <h3 class="panel-title">Proof in the numbers</h3>
         <p>
@@ -112,33 +164,33 @@ const stageSummary = homeFunnelOrder
         </p>
       </div>
     </div>
-    <div class="hero-actions" style="margin-top: 1.25rem">
+    <div class="hero-actions" style="margin-top: 1.5rem">
       <a class="btn btn-ghost" href="/hubs/database-reactivation">
         Read the Hub 01 playbook →
       </a>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section reveal">
     <div class="section-head">
       <div>
         <h2>What Operate IQ is not</h2>
         <p>Named anti-patterns — the guardrails behind every hub.</p>
       </div>
     </div>
-    <div class="anti-grid">
-      <div class="panel anti-card">
+    <div class="anti-grid reveal-stagger">
+      <div class="panel anti-card reveal">
         <h3 class="panel-title">Tool soup</h3>
         <p>A pile of disconnected apps with no leak score. Nobody knows what to fix first.</p>
       </div>
-      <div class="panel anti-card">
+      <div class="panel anti-card reveal">
         <h3 class="panel-title">Magic AI</h3>
         <p>
           Automation with no human handoff on money, health, or reputation. One bad send erases
           trust.
         </p>
       </div>
-      <div class="panel anti-card">
+      <div class="panel anti-card reveal">
         <h3 class="panel-title">Ad treadmill</h3>
         <p>
           Buying strangers while the CRM gathers dust. The fastest ROI path starts inside the list.
@@ -147,21 +199,21 @@ const stageSummary = homeFunnelOrder
     </div>
   </section>
 
-  <section class="section">
+  <section class="section reveal">
     <div class="section-head">
       <div>
         <h2>Documented vs never built</h2>
         <p>No launch theatre — the honest split on how far this got.</p>
       </div>
     </div>
-    <div class="status-grid">
-      <div class="panel">
+    <div class="status-grid reveal-stagger">
+      <div class="panel reveal">
         <span class="badge ok">Documented</span>
         <ul class="status-list">
           {reference.documented.map((item) => <li>{item}</li>)}
         </ul>
       </div>
-      <div class="panel">
+      <div class="panel reveal">
         <span class="badge amber">Never built</span>
         <ul class="status-list">
           {reference.notBuilt.map((item) => <li>{item}</li>)}
@@ -170,17 +222,16 @@ const stageSummary = homeFunnelOrder
     </div>
   </section>
 
-  <section class="section">
-    <div class="panel companion-callout">
-      <span class="badge amber">Who wrote this</span>
-      <h2 style="font-family: var(--font-display); margin: 0.75rem 0 0.4rem">
-        {author.brand}
-      </h2>
-      <p style="color: var(--muted); margin: 0">
-        Operate IQ was mapped and written by {author.brand}. This site takes no enquiries — if you
-        want to talk about AI systems, that happens over there.
+  <section class="section reveal">
+    <div class="panel rcj-panel">
+      <span class="badge">Continue from here</span>
+      <h2>Rhinos Can't Jump</h2>
+      <p>
+        Operate IQ is the public record of how the operating system was designed — every hub,
+        guardrail, and failure mode. If you want private, one-to-one guidance applying that
+        thinking to your own work, that lives with {author.brand}. This site takes no enquiries.
       </p>
-      <a class="btn btn-primary" href={author.url} rel="noopener" style="margin-top: 1.15rem">
+      <a class="btn btn-primary" href={author.url} rel="noopener" style="margin-top: 1.35rem">
         Visit {author.brand} →
       </a>
     </div>

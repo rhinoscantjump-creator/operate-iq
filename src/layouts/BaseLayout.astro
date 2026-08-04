@@ -74,7 +74,7 @@ function navClass(href: string) {
           <div class="brand-name">
             Operate <span>IQ</span>
           </div>
-          <div class="brand-sub">{product.naming.unit} OS for local services</div>
+          <div class="brand-sub">{product.naming.unit} OS · reference</div>
         </a>
         <nav class="nav-links" aria-label="Primary">
           <a href="/" class={navClass("/")}>Home</a>
@@ -87,11 +87,12 @@ function navClass(href: string) {
       </main>
       <footer class="footer">
         <span>{product.name} — a published reference architecture, not a product on sale.</span>
-        <span>
-          Built by{" "}
+        <span class="footer-rcj">
+          Continue with{" "}
           <a href={product.author.url} rel="noopener">{product.author.brand}</a>
         </span>
       </footer>
     </div>
+    <script src="/scripts/motion.js" defer></script>
   </body>
 </html>

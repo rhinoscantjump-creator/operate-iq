@@ -13,7 +13,7 @@ const weakestHub = documentedHubs.find((h) => h.id === weakest.hubId);
 ---
 
 <BaseLayout title="Hub 11 wireframe — the owner leak score" path="/dashboard">
-  <section class="hero">
+  <section class="hero hero-animate">
     <div class="hero-kicker">Wireframe · Hub 11</div>
     <h1>
       One <em>leak score</em>
@@ -29,10 +29,10 @@ const weakestHub = documentedHubs.find((h) => h.id === weakest.hubId);
     </div>
   </section>
 
-  <section class="section">
+  <section class="section reveal">
     <div class="panel coming-soon-panel">
       <span class="badge amber">Invented numbers</span>
-      <h2 style="font-family: var(--font-display); margin: 0.75rem 0 0.4rem">
+      <h2 class="panel-title" style="font-size: clamp(1.35rem, 2.5vw, 1.75rem); margin-top: 0.85rem">
         Nothing here was ever measured
       </h2>
       <p style="color: var(--muted); margin: 0">
@@ -44,7 +44,7 @@ const weakestHub = documentedHubs.find((h) => h.id === weakest.hubId);
     </div>
   </section>
 
-  <section class="section">
+  <section class="section reveal">
     <div class="section-head">
       <div>
         <h2>The composite score</h2>
@@ -72,7 +72,7 @@ const weakestHub = documentedHubs.find((h) => h.id === weakest.hubId);
     </div>
   </section>
 
-  <section class="section">
+  <section class="section reveal">
     <div class="section-head">
       <div>
         <h2>Hub scores</h2>
@@ -120,7 +120,7 @@ const weakestHub = documentedHubs.find((h) => h.id === weakest.hubId);
 
   {
     weakestHub && (
-      <section class="section">
+      <section class="section reveal">
         <div class="section-head">
           <div>
             <h2>Recommended focus</h2>

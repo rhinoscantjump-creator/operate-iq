@@ -28,6 +28,7 @@ It serves as a **credibility artifact** for Rhinos Can't Jump — proof of syste
 **Source of truth:** `src/data/hubs.ts` (hubs, `product`, `product.reference`, `product.author`)
 **Companions:** `src/data/companions.ts`
 **Types & funnel order:** `src/data/types.ts`
+**Visual design:** `design-system/MASTER.md` (tokens, motion, CTA rules) + `design-system/CHANGELOG.md` (append every visual change). Page overrides in `design-system/pages/`. Motion: `public/scripts/motion.js` (CSS + IntersectionObserver; no WebGL).
 
 ---
 

@@ -15,7 +15,7 @@ const statusLabel = hubStatusLabels[hub.status];
 
 {
   isOutline ? (
-    <a class="hub-tile soon" href={`/hubs/${hub.slug}`}>
+    <a class="hub-tile soon reveal" href={`/hubs/${hub.slug}`}>
       <span class="badge amber">
         Hub {hub.number} · {hub.operator}
       </span>
@@ -34,7 +34,7 @@ const statusLabel = hubStatusLabels[hub.status];
       </div>
     </a>
   ) : (
-    <a class="hub-tile" href={`/hubs/${hub.slug}`}>
+    <a class="hub-tile reveal" href={`/hubs/${hub.slug}`}>
       <span class="badge">
         Hub {hub.number} · {hub.operator}
       </span>
