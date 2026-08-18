@@ -340,7 +340,7 @@ select {
 
 .streak-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
 }
 
@@ -368,7 +368,12 @@ select {
   margin-top: var(--space-7);
 }
 
-.puzzle-card-grid,
+.puzzle-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
 .how-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -469,6 +474,12 @@ select {
 
 .complete-banner[hidden] {
   display: none;
+}
+
+.complete-banner.is-fail {
+  border-color: rgba(240, 180, 41, 0.35);
+  background: rgba(240, 180, 41, 0.08);
+  color: var(--amber);
 }
 
 .play-pull {
@@ -769,6 +780,260 @@ body.chrome-open .play-pull-action::after {
   gap: 0.5rem;
 }
 
+.play-layout-triad {
+  grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.7fr);
+  grid-template-areas:
+    "compose aside"
+    "boards aside"
+    "keys aside";
+}
+
+.play-layout-triad .triad-compose {
+  grid-area: compose;
+}
+
+.play-layout-triad .triad-boards {
+  grid-area: boards;
+}
+
+.play-layout-triad .triad-keyboard {
+  grid-area: keys;
+}
+
+.play-layout-triad .play-aside {
+  grid-area: aside;
+}
+
+.triad-compose {
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.75rem 0 0.35rem;
+}
+
+.triad-compose-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.35rem 1rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.triad-msg {
+  margin: 0;
+  color: var(--amber);
+  font-weight: 600;
+}
+
+.triad-msg:empty {
+  display: none;
+}
+
+.triad-compose-row {
+  max-width: 18rem;
+}
+
+.triad-boards {
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.triad-board {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.7rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.triad-board.is-lead {
+  border-color: var(--line-strong);
+}
+
+.triad-board.is-solved {
+  border-color: rgba(94, 234, 212, 0.35);
+}
+
+.triad-board-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.triad-board-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.triad-board-meter {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.triad-board.is-solved .triad-board-meter {
+  color: var(--ok);
+}
+
+.triad-board.is-solved .triad-row.is-unused {
+  display: none;
+}
+
+.triad-row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.28rem;
+}
+
+.triad-tile {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+  border: 1px solid var(--line);
+  background: rgba(8, 16, 20, 0.9);
+  color: var(--text);
+  font-weight: 800;
+  font-size: clamp(0.7rem, 2.4vw, 1.05rem);
+  letter-spacing: 0.04em;
+}
+
+.triad-tile.is-empty {
+  color: transparent;
+}
+
+.triad-tile.is-draft {
+  border-color: var(--line-strong);
+  color: var(--text);
+}
+
+.triad-tile.is-exact {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: var(--teal-ink);
+}
+
+.triad-tile.is-present {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: var(--teal-ink);
+}
+
+.triad-tile.is-absent {
+  background: rgba(138, 163, 160, 0.22);
+  border-color: transparent;
+  color: var(--muted);
+}
+
+.triad-legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.triad-legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.triad-swatch {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.triad-swatch.is-exact {
+  background: var(--teal);
+}
+
+.triad-swatch.is-present {
+  background: var(--amber);
+}
+
+.triad-swatch.is-absent {
+  background: rgba(138, 163, 160, 0.35);
+}
+
+.triad-keyboard {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.triad-kb-row {
+  display: flex;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.triad-key {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--text);
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  gap: 0.15rem;
+  padding: 0.2rem 0.15rem 0.3rem;
+}
+
+.triad-key-wide {
+  flex: 1.45;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.triad-key:hover {
+  border-color: var(--line-strong);
+}
+
+.triad-key-marks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  width: 70%;
+  height: 4px;
+}
+
+.triad-key-marks i {
+  display: block;
+  border-radius: 99px;
+  background: rgba(138, 163, 160, 0.25);
+}
+
+.triad-key-marks i[data-mark="exact"] {
+  background: var(--teal);
+}
+
+.triad-key-marks i[data-mark="present"] {
+  background: var(--amber);
+}
+
+.triad-key-marks i[data-mark="absent"] {
+  background: rgba(138, 163, 160, 0.55);
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(14px);
@@ -819,9 +1084,49 @@ body.chrome-open .play-pull-action::after {
 @media (max-width: 900px) {
   .hero-grid,
   .play-layout,
+  .play-layout-triad,
   .puzzle-card-grid,
   .how-grid {
     grid-template-columns: 1fr;
+  }
+
+  .play-layout-triad {
+    grid-template-areas:
+      "compose"
+      "boards"
+      "keys"
+      "aside";
+    gap: 0.85rem;
+  }
+
+  .triad-compose {
+    position: sticky;
+    top: 0;
+    z-index: 6;
+    margin: 0 -0.15rem;
+    padding: 0.35rem 0.15rem 0.65rem;
+    background: linear-gradient(180deg, rgba(3, 6, 7, 0.97) 70%, rgba(3, 6, 7, 0.88));
+  }
+
+  .triad-compose-row {
+    max-width: none;
+  }
+
+  .triad-boards {
+    flex-direction: column;
+  }
+
+  .triad-board {
+    scroll-margin-top: 6.5rem;
+  }
+
+  .triad-keyboard {
+    position: sticky;
+    bottom: 0;
+    z-index: 6;
+    margin: 0 -0.15rem;
+    padding: 0.55rem 0.15rem calc(0.55rem + env(safe-area-inset-bottom));
+    background: linear-gradient(0deg, rgba(3, 6, 7, 0.98) 72%, rgba(3, 6, 7, 0.88));
   }
 
   .play-aside {

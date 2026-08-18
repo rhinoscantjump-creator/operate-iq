@@ -1,0 +1,72 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Daily triad"
+  description="Today's Operate IQ triad — three five-letter words, eight shared guesses, the same answers for everyone on this UTC day."
+  path="/triad"
+  play
+>
+  <button
+    type="button"
+    class="play-pull"
+    id="play-pull"
+    aria-expanded="false"
+    aria-controls="play-header-details"
+  >
+    <span class="play-pull-handle" aria-hidden="true"></span>
+    <span class="play-pull-row">
+      <span class="play-pull-label">Triad</span>
+      <span class="play-pull-date" id="play-date">Today</span>
+      <span class="play-pull-action">Details</span>
+    </span>
+  </button>
+
+  <section class="play-hero" id="play-header-details">
+    <div class="hero-kicker">Daily puzzle</div>
+    <h1>Daily <em>triad</em></h1>
+    <p class="play-sub">Three words. Eight guesses. Each guess scores on every board.</p>
+  </section>
+
+  <div id="triad-complete" class="complete-banner" hidden>
+    <strong>All three found.</strong> Tomorrow's triad lands at midnight UTC.
+  </div>
+  <div id="triad-failed" class="complete-banner is-fail" hidden>
+    <strong>Out of guesses.</strong> Today's words were <span id="triad-reveal">…</span>.
+  </div>
+
+  <div class="play-layout play-layout-triad">
+    <div class="triad-compose" id="triad-compose">
+      <div class="triad-compose-meta">
+        <p id="triad-status">Eight shared guesses</p>
+        <p id="triad-msg" class="triad-msg" aria-live="polite"></p>
+      </div>
+      <div id="triad-compose-row" class="triad-row triad-compose-row" aria-label="Current guess"></div>
+    </div>
+
+    <div id="triad-boards" class="triad-boards" aria-label="Triad boards"></div>
+
+    <div id="triad-keyboard" class="triad-keyboard" aria-label="Letter keyboard"></div>
+
+    <aside class="play-aside">
+      <h2>Marks</h2>
+      <ul class="triad-legend">
+        <li><span class="triad-swatch is-exact"></span> Locked in place</li>
+        <li><span class="triad-swatch is-present"></span> In the word, other slot</li>
+        <li><span class="triad-swatch is-absent"></span> Not in that word</li>
+      </ul>
+      <p class="play-hint">
+        Closest unsolved board snaps to the front after each guess. Type here or use the keys below.
+      </p>
+      <a class="btn btn-ghost" href="/">Back to today</a>
+    </aside>
+  </div>
+</BaseLayout>
+
+<script>
+  import { initPlayChrome } from "../client/play-chrome";
+  import { initTriad } from "../client/triad";
+  initPlayChrome();
+  initTriad();
+</script>

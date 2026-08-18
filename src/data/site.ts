@@ -1,8 +1,8 @@
 export const site = {
   name: "Operate IQ",
-  tagline: "Two daily puzzles. Same ones for everyone.",
+  tagline: "Three daily puzzles. Same ones for everyone.",
   positioning:
-    "A daily wordsearch and a daily sudoku, generated for the UTC calendar day. Play in the browser — no accounts, no leaderboards.",
+    "A daily wordsearch, sudoku, and triad, generated for the UTC calendar day. Play in the browser — no accounts, no leaderboards.",
   author: {
     brand: "Rhinos Can't Jump",
     url: "https://rhinoscantjump.com",

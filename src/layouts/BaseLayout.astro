@@ -72,6 +72,7 @@ function navClass(href: string) {
           <a href="/" class={navClass("/")}>Today</a>
           <a href="/wordsearch" class={navClass("/wordsearch")}>Wordsearch</a>
           <a href="/sudoku" class={navClass("/sudoku")}>Sudoku</a>
+          <a href="/triad" class={navClass("/triad")}>Triad</a>
           <a href="/how-it-works" class={navClass("/how-it-works")}>How it works</a>
         </nav>
       </header>
@@ -79,7 +80,7 @@ function navClass(href: string) {
         <slot />
       </main>
       <footer class="footer">
-        <span>{site.name} — two puzzles a day, in the browser.</span>
+        <span>{site.name} — three puzzles a day, in the browser.</span>
         <span class="footer-rcj">
           Built by{" "}
           <a href={site.author.url} rel="noopener">{site.author.brand}</a>
