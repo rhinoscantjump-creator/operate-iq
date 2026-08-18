@@ -130,7 +130,9 @@ function fillAttempt(rng: () => number, themeIndex: number): WordsearchPuzzle | 
 
 export function generateWordsearch(dateKey: string): WordsearchPuzzle {
   const rng = mulberry32(hashString(`wordsearch:${dateKey}`));
-  const themeIndex = Math.floor(rng() * WORD_THEMES.length);
+  const [year, month, day] = dateKey.split("-").map(Number);
+  const dayNumber = Math.floor(Date.UTC(year ?? 2026, (month ?? 1) - 1, day ?? 1) / 86400000);
+  const themeIndex = ((dayNumber % WORD_THEMES.length) + WORD_THEMES.length) % WORD_THEMES.length;
 
   for (let attempt = 0; attempt < 24; attempt++) {
     const puzzle = fillAttempt(rng, themeIndex);

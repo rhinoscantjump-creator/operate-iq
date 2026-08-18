@@ -23,6 +23,10 @@ function paintStreaks(): void {
   setText("streak-sudoku", String(streaks.sudoku));
 }
 
+function tickCountdown(): void {
+  setText("daily-countdown", formatCountdown(msUntilNextUtcMidnight()));
+}
+
 export function initHome(): void {
   const today = utcDateKey();
   setText("daily-date", formatUtcDate(today));
