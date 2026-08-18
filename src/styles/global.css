@@ -541,15 +541,77 @@ body.chrome-open .play-pull-action::after {
   line-height: 1.55;
 }
 
+.ws-stage {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.ws-mode-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+}
+
+.ws-modes {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.15rem;
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.ws-modes button {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  min-height: 44px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ws-modes button.is-active {
+  background: var(--teal);
+  color: var(--teal-ink);
+}
+
+.ws-zoom-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.ws-viewport {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.28);
+  touch-action: none;
+}
+
+.ws-viewport.is-move {
+  cursor: grab;
+}
+
+.ws-viewport.is-panning {
+  cursor: grabbing;
+}
+
 .ws-board {
+  position: absolute;
+  inset: 0;
   display: grid;
   gap: 3px;
   user-select: none;
   touch-action: none;
   padding: 0.75rem;
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
-  background: rgba(0, 0, 0, 0.28);
+  transform-origin: 0 0;
+  will-change: transform;
 }
 
 .ws-cell {
@@ -565,6 +627,14 @@ body.chrome-open .play-pull-action::after {
   letter-spacing: 0.04em;
   cursor: pointer;
   padding: 0;
+}
+
+.ws-viewport.is-move .ws-cell {
+  cursor: grab;
+}
+
+.ws-viewport.is-panning .ws-cell {
+  cursor: grabbing;
 }
 
 .ws-cell.selecting {

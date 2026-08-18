@@ -1,5 +1,9 @@
 # Design changelog
 
+## 2026-08-18 — Wordsearch zoom
+
+Fixed viewport around the 12×12. Starts at 1.2× so letters clip the box. Pinch (and wheel) zoom; Play is default for selecting words; Move pans.
+
 ## 2026-08-18 — Sudoku phone chrome
 
 On viewports ≤900px, play nav/heading collapse behind a thin pull tab so the existing board and pad sit higher. Pad layout is unchanged.

@@ -21,17 +21,24 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   </div>
 
   <div class="play-layout">
-    <div
-      id="ws-board"
-      class="ws-board"
-      role="grid"
-      aria-label="Wordsearch grid"
-    >
+    <div class="ws-stage">
+      <div class="ws-mode-bar">
+        <div class="ws-modes" role="radiogroup" aria-label="Board gestures">
+          <button type="button" id="ws-mode-play" class="is-active" aria-checked="true" role="radio">
+            Play
+          </button>
+          <button type="button" id="ws-mode-move" aria-checked="false" role="radio">Move</button>
+        </div>
+        <p class="ws-zoom-hint">Pinch to zoom. Move to slide.</p>
+      </div>
+      <div class="ws-viewport" id="ws-viewport">
+        <div id="ws-board" class="ws-board" role="grid" aria-label="Wordsearch grid"></div>
+      </div>
     </div>
     <aside class="play-aside">
       <h2>Words</h2>
       <ul id="ws-words" class="word-list"></ul>
-      <p class="play-hint">Drag or swipe in a straight line — including diagonals and backwards.</p>
+      <p class="play-hint">In Play, drag a straight line through a word — including diagonals and backwards.</p>
       <a class="btn btn-ghost" href="/">Back to today</a>
     </aside>
   </div>
