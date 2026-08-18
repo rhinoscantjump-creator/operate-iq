@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Daily wordsearch"
+  description="Today's Operate IQ wordsearch — the same 12×12 grid for everyone on this UTC day."
+  path="/wordsearch"
+>
+  <section class="play-hero">
+    <div class="hero-kicker" id="play-date">Today</div>
+    <h1>Daily <em>wordsearch</em></h1>
+    <p class="play-sub">
+      Theme: <strong id="ws-theme">…</strong>
+      · <span id="ws-found-count">0 / 0</span> found
+    </p>
+  </section>
+
+  <div id="ws-complete" class="complete-banner" hidden>
+    <strong>Grid complete.</strong> Tomorrow's theme lands at midnight UTC.
+  </div>
+
+  <div class="play-layout">
+    <div
+      id="ws-board"
+      class="ws-board"
+      role="grid"
+      aria-label="Wordsearch grid"
+    >
+    </div>
+    <aside class="play-aside">
+      <h2>Words</h2>
+      <ul id="ws-words" class="word-list"></ul>
+      <p class="play-hint">Drag or swipe in a straight line — including diagonals and backwards.</p>
+      <a class="btn btn-ghost" href="/">Back to today</a>
+    </aside>
+  </div>
+</BaseLayout>
+
+<script>
+  import { initWordsearch } from "../client/wordsearch";
+  initWordsearch();
+</script>

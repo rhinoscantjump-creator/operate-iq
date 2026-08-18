@@ -1,0 +1,48 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="How it works"
+  description="How Operate IQ daily puzzles are generated, when they reset, and where streaks are stored."
+  path="/how-it-works"
+>
+  <section class="play-hero">
+    <div class="hero-kicker">Rules</div>
+    <h1>How it <em>works</em></h1>
+    <p class="hero-lead">
+      Two browser games, one shared calendar day. Nothing to install, and nothing to sign in for.
+    </p>
+  </section>
+
+  <section class="section how-grid">
+    <article class="panel">
+      <p class="panel-kicker">Daily</p>
+      <h2>Same puzzle for everyone</h2>
+      <p>
+        Each puzzle is generated from the UTC date — YYYY-MM-DD. Anyone opening the site on that day gets the same wordsearch and the same sudoku. At 00:00 UTC both boards change.
+      </p>
+    </article>
+    <article class="panel">
+      <p class="panel-kicker">Wordsearch</p>
+      <h2>Straight lines only</h2>
+      <p>
+        Words run in eight directions: across, down, and both diagonals, forwards or backwards. Drag or swipe through the letters. The word list on the side strikes through as you find them.
+      </p>
+    </article>
+    <article class="panel">
+      <p class="panel-kicker">Sudoku</p>
+      <h2>Medium 9×9</h2>
+      <p>
+        Fill every row, column, and 3×3 box with 1–9. Locked cells are the givens. Notes (N) let you pencil candidates. Conflicts highlight in red.
+      </p>
+    </article>
+    <article class="panel">
+      <p class="panel-kicker">Streaks</p>
+      <h2>Stored on this device</h2>
+      <p>
+        Completion and streaks live in your browser's local storage. Clearing site data, switching browsers, or skipping a UTC day resets the count. There is no account and no global leaderboard.
+      </p>
+    </article>
+  </section>
+</BaseLayout>

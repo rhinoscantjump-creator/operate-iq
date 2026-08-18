@@ -1,0 +1,48 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Daily sudoku"
+  description="Today's Operate IQ sudoku — a medium 9×9 with the same givens for everyone on this UTC day."
+  path="/sudoku"
+>
+  <section class="play-hero">
+    <div class="hero-kicker" id="play-date">Today</div>
+    <h1>Daily <em>sudoku</em></h1>
+    <p class="play-sub" id="sdk-status">Building today's board…</p>
+  </section>
+
+  <div id="sdk-complete" class="complete-banner" hidden>
+    <strong>Board complete.</strong> Tomorrow's puzzle lands at midnight UTC.
+  </div>
+
+  <div class="play-layout play-layout-sudoku">
+    <div id="sdk-board" class="sdk-board" role="grid" aria-label="Sudoku grid"></div>
+    <aside class="play-aside">
+      <h2>Pad</h2>
+      <div id="sdk-pad" class="numpad" aria-label="Number pad">
+        <button type="button" data-digit="1">1</button>
+        <button type="button" data-digit="2">2</button>
+        <button type="button" data-digit="3">3</button>
+        <button type="button" data-digit="4">4</button>
+        <button type="button" data-digit="5">5</button>
+        <button type="button" data-digit="6">6</button>
+        <button type="button" data-digit="7">7</button>
+        <button type="button" data-digit="8">8</button>
+        <button type="button" data-digit="9">9</button>
+      </div>
+      <div class="pad-actions">
+        <button type="button" class="btn btn-ghost" id="sdk-notes" aria-pressed="false">Notes</button>
+        <button type="button" class="btn btn-ghost" id="sdk-clear">Clear</button>
+      </div>
+      <p class="play-hint">Arrow keys move. 1–9 enter a digit. N toggles notes. Given cells stay locked.</p>
+      <a class="btn btn-ghost" href="/">Back to today</a>
+    </aside>
+  </div>
+</BaseLayout>
+
+<script>
+  import { initSudoku } from "../client/sudoku";
+  initSudoku();
+</script>

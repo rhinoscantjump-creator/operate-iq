@@ -1,31 +1,29 @@
 ---
 import Analytics from "@vercel/analytics/astro";
 import "../styles/global.css";
-import { product } from "../data/hubs";
+import { site } from "../data/site";
 
 interface Props {
   title: string;
   description?: string;
   path?: string;
-  /** Page-specific schema.org objects rendered alongside the site Organization */
-  jsonLd?: Record<string, unknown>[];
 }
 
-const { title, description = product.positioning, path = "", jsonLd = [] } = Astro.props;
-const fullTitle = title === product.name ? title : `${title} · ${product.name}`;
+const { title, description = site.positioning, path = "" } = Astro.props;
+const fullTitle = title === site.name ? title : `${title} · ${site.name}`;
 const canonical = new URL(path || "/", Astro.site).href;
 const siteUrl = new URL("/", Astro.site).href;
 
 const organization = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: product.name,
+  name: site.name,
   url: siteUrl,
-  description: product.positioning,
+  description: site.positioning,
   creator: {
     "@type": "Organization",
-    name: product.author.brand,
-    url: product.author.url,
+    name: site.author.brand,
+    url: site.author.url,
   },
 };
 
@@ -48,7 +46,7 @@ function navClass(href: string) {
     <title>{fullTitle}</title>
 
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content={product.name} />
+    <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -56,15 +54,7 @@ function navClass(href: string) {
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
 
-    <script
-      type="application/ld+json"
-      set:html={JSON.stringify(organization)}
-    />
-    {
-      jsonLd.map((block) => (
-        <script type="application/ld+json" set:html={JSON.stringify(block)} />
-      ))
-    }
+    <script type="application/ld+json" set:html={JSON.stringify(organization)} />
     <Analytics />
   </head>
   <body>
@@ -74,22 +64,23 @@ function navClass(href: string) {
           <div class="brand-name">
             Operate <span>IQ</span>
           </div>
-          <div class="brand-sub">{product.naming.unit} OS · reference</div>
+          <div class="brand-sub">Daily puzzles</div>
         </a>
         <nav class="nav-links" aria-label="Primary">
-          <a href="/" class={navClass("/")}>Home</a>
-          <a href="/hubs" class={navClass("/hubs")}>Hubs</a>
-          <a href="/leak-map" class={navClass("/leak-map")}>Leak map</a>
+          <a href="/" class={navClass("/")}>Today</a>
+          <a href="/wordsearch" class={navClass("/wordsearch")}>Wordsearch</a>
+          <a href="/sudoku" class={navClass("/sudoku")}>Sudoku</a>
+          <a href="/how-it-works" class={navClass("/how-it-works")}>How it works</a>
         </nav>
       </header>
       <main>
         <slot />
       </main>
       <footer class="footer">
-        <span>{product.name} — a published reference architecture, not a product on sale.</span>
+        <span>{site.name} — two puzzles a day, in the browser.</span>
         <span class="footer-rcj">
-          Continue with{" "}
-          <a href={product.author.url} rel="noopener">{product.author.brand}</a>
+          Built by{" "}
+          <a href={site.author.url} rel="noopener">{site.author.brand}</a>
         </span>
       </footer>
     </div>

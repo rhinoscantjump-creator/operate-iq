@@ -1,239 +1,84 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { funnelLabels, homeFunnelOrder } from "../data/types";
-import { hubs, hubsByFunnel, product } from "../data/hubs";
-
-const { reference, author } = product;
-const stageSummary = homeFunnelOrder
-  .map((stage) => ({ stage, stageHubs: hubsByFunnel(stage) }))
-  .filter((entry) => entry.stageHubs.length > 0);
+import { site } from "../data/site";
 ---
 
-<BaseLayout title={product.name} path="/">
+<BaseLayout title={site.name} path="/">
   <section class="hero">
     <div class="hero-grid">
       <div class="hero-animate">
-        <div class="hero-kicker">{reference.stage} · read-only</div>
-        <h1>
-          Operate <em>IQ</em>
-        </h1>
-        <p class="hero-lead">{reference.headline}</p>
+        <div class="hero-kicker">Daily · UTC midnight</div>
+        <h1>Operate <em>IQ</em></h1>
+        <p class="hero-lead">{site.tagline}</p>
         <p class="hero-audience">
-          Written for owners who already have leads, calls, and reviews — they're just leaking.
+          One wordsearch and one sudoku, shared with everyone on the same calendar day. Progress stays on this device.
         </p>
-        <div class="audience-chips" aria-label="Vertical packs">
-          <span class="chip">Gym</span>
-          <span class="chip">Clinic</span>
-          <span class="chip">Home services</span>
-          <span class="chip">Salon</span>
-          <span class="chip">General SMB</span>
-        </div>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="/hubs">Read all {hubs.length} hubs →</a>
-          <a class="btn btn-ghost" href="/leak-map">See how the OS fits together</a>
-        </div>
-      </div>
-
-      <div class="signature" aria-hidden="true">
-        <svg viewBox="0 0 320 320" role="img" focusable="false">
-          <defs>
-            <radialGradient id="sealGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#2dd4bf" stop-opacity="0.45" />
-              <stop offset="70%" stop-color="#2dd4bf" stop-opacity="0.08" />
-              <stop offset="100%" stop-color="#2dd4bf" stop-opacity="0" />
-            </radialGradient>
-          </defs>
-          <circle class="signature-pulse" cx="160" cy="160" r="118" fill="url(#sealGlow)" />
-          <circle
-            cx="160"
-            cy="160"
-            r="96"
-            fill="none"
-            stroke="rgba(125,211,196,0.22)"
-            stroke-width="1"
-          />
-          <circle
-            class="signature-flow"
-            cx="160"
-            cy="160"
-            r="72"
-            fill="none"
-            stroke="#2dd4bf"
-            stroke-width="1.25"
-            stroke-opacity="0.55"
-          />
-          <!-- leak nodes → seal hub -->
-          <g stroke="#2dd4bf" stroke-width="1.5" stroke-linecap="round" fill="none">
-            <path class="signature-flow" d="M58 78 L128 138" stroke-opacity="0.55" />
-            <path class="signature-flow" d="M262 74 L192 136" stroke-opacity="0.55" />
-            <path class="signature-flow" d="M48 200 L118 176" stroke-opacity="0.45" />
-            <path class="signature-flow" d="M272 208 L202 180" stroke-opacity="0.45" />
-            <path class="signature-flow" d="M160 42 L160 108" stroke-opacity="0.4" />
-            <path class="signature-flow" d="M160 278 L160 212" stroke-opacity="0.4" />
-          </g>
-          <circle cx="58" cy="78" r="5" fill="#f0b429" fill-opacity="0.9" />
-          <circle cx="262" cy="74" r="5" fill="#f0b429" fill-opacity="0.85" />
-          <circle cx="48" cy="200" r="4.5" fill="#8aa3a0" />
-          <circle cx="272" cy="208" r="4.5" fill="#8aa3a0" />
-          <circle cx="160" cy="42" r="4" fill="#8aa3a0" />
-          <circle cx="160" cy="278" r="4" fill="#8aa3a0" />
-          <circle cx="160" cy="160" r="18" fill="#0a1418" stroke="#2dd4bf" stroke-width="2" />
-          <circle cx="160" cy="160" r="7" fill="#2dd4bf" />
-        </svg>
-      </div>
-    </div>
-  </section>
-
-  <section class="section reveal">
-    <div class="panel coming-soon-panel">
-      <span class="badge amber">What this is</span>
-      <h2 class="panel-title" style="font-size: clamp(1.35rem, 2.5vw, 1.75rem); margin-top: 0.85rem">
-        A design study you can read, argue with, and borrow from
-      </h2>
-      <p style="color: var(--muted); margin: 0; line-height: 1.65">{reference.summary}</p>
-    </div>
-  </section>
-
-  <section class="section reveal" id="hubs">
-    <div class="section-head">
-      <div>
-        <h2>The {hubs.length} hubs</h2>
-        <p>
-          Each hub is an AI {product.naming.role.toLowerCase()} that plugs one named leak. The
-          argument runs cash and reputation first —{" "}
-          <strong>Reactivate → Reputation → Capture</strong> — then convert and insight.
-        </p>
-      </div>
-    </div>
-    <div class="stage-grid reveal-stagger">
-      {
-        stageSummary.map(({ stage, stageHubs }) => (
-          <div class="panel stage-card reveal">
-            <span class="badge">{funnelLabels[stage]}</span>
-            <ul class="stage-list">
-              {stageHubs.map((hub) => (
-                <li>
-                  <a href={`/hubs/${hub.slug}`}>
-                    <strong>
-                      {hub.number} · {hub.titleLead} {hub.titleAccent}
-                    </strong>
-                  </a>
-                  <span class="stage-note">{hub.punchline}</span>
-                </li>
-              ))}
-            </ul>
+        <div class="daily-meta" aria-live="polite">
+          <div>
+            <span class="meta-label">Today</span>
+            <strong id="daily-date">Loading date…</strong>
           </div>
-        ))
-      }
-    </div>
-    <div class="hero-actions" style="margin-top: 1.75rem">
-      <a class="btn btn-ghost" href="/hubs">Open the full hub directory →</a>
+          <div>
+            <span class="meta-label">New puzzles in</span>
+            <strong id="daily-countdown">—</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="streak-panel panel" aria-label="Streaks">
+        <p class="panel-kicker">Streaks</p>
+        <div class="streak-row">
+          <div>
+            <span class="streak-count" id="streak-wordsearch">0</span>
+            <span class="streak-label">Wordsearch</span>
+          </div>
+          <div>
+            <span class="streak-count" id="streak-sudoku">0</span>
+            <span class="streak-label">Sudoku</span>
+          </div>
+        </div>
+        <p class="streak-note">Counted on this browser. Miss a UTC day and it resets.</p>
+      </div>
     </div>
   </section>
 
-  <section class="section reveal">
-    <div class="section-head">
-      <div>
-        <h2>How week one was designed to work</h2>
-        <p>
-          The Hub 01 argument: when the CRM is already full of dust, that is the fastest path to
-          proof.
-        </p>
-      </div>
-    </div>
-    <div class="week-grid reveal-stagger">
-      <div class="week-step panel reveal">
-        <span class="badge">Day 1</span>
-        <h3 class="panel-title">Connect & segment</h3>
-        <p>
-          Connect CRM + SMS. Segment never-booked and lapsed contacts — pilot 5–10% of the list.
-        </p>
-      </div>
-      <div class="week-step panel reveal">
-        <span class="badge">Day 3</span>
-        <h3 class="panel-title">First outreach live</h3>
-        <p>
-          First reactivation messages go out. Bookings attributed to dust, not new ad spend.
-        </p>
-      </div>
-      <div class="week-step panel reveal">
-        <span class="badge">Day 7</span>
-        <h3 class="panel-title">Proof in the numbers</h3>
-        <p>
-          Owner sees replies, bookings, and revenue from dormant contacts — before Hub 03 or 04.
-        </p>
-      </div>
-    </div>
-    <div class="hero-actions" style="margin-top: 1.5rem">
-      <a class="btn btn-ghost" href="/hubs/database-reactivation">
-        Read the Hub 01 playbook →
+  <section class="section reveal-stagger" aria-label="Today's puzzles">
+    <div class="puzzle-card-grid">
+      <a class="puzzle-card reveal" href="/wordsearch" data-puzzle-card="wordsearch">
+        <div class="card-top">
+          <span class="badge">Wordsearch</span>
+          <span class="card-status" data-card-status>Open</span>
+        </div>
+        <h2>Find the hidden list</h2>
+        <p>A 12×12 grid with a daily theme. Drag or tap a straight line through each word.</p>
+        <span class="card-cta" data-card-cta>Play today's wordsearch</span>
+      </a>
+
+      <a class="puzzle-card reveal" href="/sudoku" data-puzzle-card="sudoku">
+        <div class="card-top">
+          <span class="badge">Sudoku</span>
+          <span class="card-status" data-card-status>Open</span>
+        </div>
+        <h2>Fill the 9×9</h2>
+        <p>Classic medium sudoku. Same givens for everyone today. Notes and a keypad included.</p>
+        <span class="card-cta" data-card-cta>Play today's sudoku</span>
       </a>
     </div>
   </section>
 
   <section class="section reveal">
-    <div class="section-head">
-      <div>
-        <h2>What Operate IQ is not</h2>
-        <p>Named anti-patterns — the guardrails behind every hub.</p>
-      </div>
-    </div>
-    <div class="anti-grid reveal-stagger">
-      <div class="panel anti-card reveal">
-        <h3 class="panel-title">Tool soup</h3>
-        <p>A pile of disconnected apps with no leak score. Nobody knows what to fix first.</p>
-      </div>
-      <div class="panel anti-card reveal">
-        <h3 class="panel-title">Magic AI</h3>
-        <p>
-          Automation with no human handoff on money, health, or reputation. One bad send erases
-          trust.
-        </p>
-      </div>
-      <div class="panel anti-card reveal">
-        <h3 class="panel-title">Ad treadmill</h3>
-        <p>
-          Buying strangers while the CRM gathers dust. The fastest ROI path starts inside the list.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section reveal">
-    <div class="section-head">
-      <div>
-        <h2>Documented vs never built</h2>
-        <p>No launch theatre — the honest split on how far this got.</p>
-      </div>
-    </div>
-    <div class="status-grid reveal-stagger">
-      <div class="panel reveal">
-        <span class="badge ok">Documented</span>
-        <ul class="status-list">
-          {reference.documented.map((item) => <li>{item}</li>)}
-        </ul>
-      </div>
-      <div class="panel reveal">
-        <span class="badge amber">Never built</span>
-        <ul class="status-list">
-          {reference.notBuilt.map((item) => <li>{item}</li>)}
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="section reveal">
-    <div class="panel rcj-panel">
-      <span class="badge">Continue from here</span>
-      <h2>Rhinos Can't Jump</h2>
+    <div class="how-blurb panel">
+      <p class="panel-kicker">Same puzzle, every visitor</p>
+      <h2>Generated from the date, not a server</h2>
       <p>
-        Operate IQ is the public record of how the operating system was designed — every hub,
-        guardrail, and failure mode. If you want private, one-to-one guidance applying that
-        thinking to your own work, that lives with {author.brand}. This site takes no enquiries.
+        Both boards are built in your browser from today's UTC date. There is no account and no live scoreboard — just the day's two puzzles, and a streak if you come back tomorrow.
       </p>
-      <a class="btn btn-primary" href={author.url} rel="noopener" style="margin-top: 1.35rem">
-        Visit {author.brand} →
-      </a>
+      <a class="text-link" href="/how-it-works">How it works →</a>
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  import { initHome } from "../client/home";
+  initHome();
+</script>
