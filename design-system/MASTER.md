@@ -2,7 +2,7 @@
 
 **Source of truth for visual and interaction design.** Page notes live in `design-system/pages/`. Log visual changes in `CHANGELOG.md`.
 
-**Product stance:** Daily puzzle destination. One wordsearch, one sudoku, and one triad per UTC day. No accounts, no contact form, no sales CTA. Footer credits Rhinos Can't Jump (`rhinoscantjump.com`).
+**Product stance:** Daily puzzle destination. One wordsearch, one sudoku, and one WordGuess per UTC day. No accounts, no contact form, no sales CTA. Footer credits Rhinos Can't Jump (`rhinoscantjump.com`).
 
 ---
 
@@ -44,10 +44,10 @@ Keep the dark teal identity.
 
 - Wordsearch: 12×12 cells in a clipped viewport, `touch-action: none`, found cells `--ok`, live selection teal fill. Play/Move toggle; pinch-zoom always on.
 - Sudoku: 9×9 with 3×3 box strokes using `--line-strong`. Givens are `--text`; entries are `--teal`; conflicts `--danger`.
-- Triad: teal = locked place, amber = in the word, muted = absent. Do not use Wordle green/yellow/gray. On small screens the type-in row sticks to the top, the keyboard to the bottom, and the three boards scroll between them ranked by closeness.
+- WordGuess: teal = locked place, amber = in the word, muted = absent. Do not use Wordle green/yellow/gray. Twelve shared guesses. On small screens the type-in row sticks to the top, the keyboard to the bottom, and the closest unsolved board snaps down next to the keys.
 - Boards sit in a dark inset panel, not a floating “app chrome” card stack.
-- Number pad, word list, and triad legend live in a sticky aside on desktop, stacked below the board on small screens. On play phones, the nav and heading slide away so the board sits higher on the page.
-- Hit targets ≥44px where possible (pad buttons, nav, CTAs). Wordsearch cells scale with the board.
+- Number pad, word list, and WordGuess legend live in a sticky aside on desktop, stacked below the board on small screens. On play phones, the nav and heading slide away so the board sits higher on the page.
+- Homepage: 2×2 labeled launch buttons in the hero. Each live puzzle shows its local streak (days completed). Fourth slot reserved. Longer puzzle cards sit below.
 
 ---
 

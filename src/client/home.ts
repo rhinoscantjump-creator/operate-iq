@@ -4,7 +4,7 @@ import { isSolvedToday, loadStreaks, type PuzzleId } from "../lib/storage";
 const PUZZLE_LABEL: Record<PuzzleId, string> = {
   wordsearch: "wordsearch",
   sudoku: "sudoku",
-  triad: "triad",
+  wordguess: "WordGuess",
 };
 
 function setText(id: string, value: string): void {
@@ -13,21 +13,21 @@ function setText(id: string, value: string): void {
 }
 
 function paintCard(id: PuzzleId, today: string): void {
-  const card = document.querySelector(`[data-puzzle-card="${id}"]`);
-  if (!card) return;
   const solved = isSolvedToday(id, today);
-  const status = card.querySelector("[data-card-status]");
-  const cta = card.querySelector("[data-card-cta]");
-  if (status) status.textContent = solved ? "Solved" : "Open";
-  if (cta) cta.textContent = solved ? "Play again" : `Play today's ${PUZZLE_LABEL[id]}`;
-  card.classList.toggle("is-solved", solved);
+  document.querySelectorAll(`[data-puzzle-card="${id}"]`).forEach((card) => {
+    const status = card.querySelector("[data-card-status]");
+    const cta = card.querySelector("[data-card-cta]");
+    if (status) status.textContent = solved ? "Solved" : "Open";
+    if (cta) cta.textContent = solved ? "Play again" : `Play today's ${PUZZLE_LABEL[id]}`;
+    card.classList.toggle("is-solved", solved);
+  });
 }
 
 function paintStreaks(): void {
   const streaks = loadStreaks();
   setText("streak-wordsearch", String(streaks.wordsearch));
   setText("streak-sudoku", String(streaks.sudoku));
-  setText("streak-triad", String(streaks.triad));
+  setText("streak-wordguess", String(streaks.wordguess));
 }
 
 function tickCountdown(): void {
@@ -39,7 +39,7 @@ export function initHome(): void {
   setText("daily-date", formatUtcDate(today));
   paintCard("wordsearch", today);
   paintCard("sudoku", today);
-  paintCard("triad", today);
+  paintCard("wordguess", today);
   paintStreaks();
   tickCountdown();
   window.setInterval(() => {

@@ -1,7 +1,7 @@
 # Operate IQ — Cursor Handover
 
 **Domain:** [operate-iq.com](https://operate-iq.com)
-**Status:** Daily puzzle site. One wordsearch, one sudoku, and one triad per UTC calendar day.
+**Status:** Daily puzzle site. One wordsearch, one sudoku, and one WordGuess per UTC calendar day.
 **Built by:** Rhinos Can't Jump ([rhinoscantjump.com](https://rhinoscantjump.com))
 
 ---
@@ -12,10 +12,10 @@ A static Astro site that plays three HTML games in the browser. Puzzles are gene
 
 | Surface | Route | Notes |
 |---|---|---|
-| Today | `/` | Date, countdown, three puzzle cards, streaks |
+| Today | `/` | Date, countdown, four launch buttons (three live + one reserved), puzzle cards |
 | Wordsearch | `/wordsearch` | 12×12 in a clipped viewport, Play/Move, pinch-zoom |
 | Sudoku | `/sudoku` | Medium 9×9, notes, keypad |
-| Triad | `/triad` | Three 5-letter words, eight shared guesses |
+| WordGuess | `/wordguess` | Three 5-letter words, twelve shared guesses |
 | How it works | `/how-it-works` | Rules + UTC reset + local streaks |
 | 404 | `/404` | Styled |
 
@@ -25,8 +25,8 @@ A static Astro site that plays three HTML games in the browser. Puzzles are gene
 
 - Site copy: `src/data/site.ts`
 - Wordsearch themes: `src/data/word-themes.ts`
-- Triad word lists: `src/data/triad-words.ts` (independent lists, not NYT Wordle dumps)
-- Generators: `src/lib/wordsearch.ts`, `src/lib/sudoku.ts`, `src/lib/triad.ts` (seeded from `src/lib/rng.ts` + `src/lib/date.ts`)
+- WordGuess word lists: `src/data/wordguess-words.ts` (independent lists, not NYT Wordle dumps)
+- Generators: `src/lib/wordsearch.ts`, `src/lib/sudoku.ts`, `src/lib/wordguess.ts` (seeded from `src/lib/rng.ts` + `src/lib/date.ts`)
 - Persistence: `src/lib/storage.ts`
 - Play scripts: `src/client/*.ts`
 - Visual design: `design-system/MASTER.md`
@@ -52,4 +52,4 @@ git push         # Vercel auto-deploys
 - No contact page, email, or form. Footer points at rhinoscantjump.com.
 - Do not add accounts or leaderboards without a product decision (that needs a backend).
 - Puzzles must stay deterministic for a given UTC date — do not switch to `Math.random()`.
-- Triad must not copy Wordle/Quordle names, green/yellow/gray tiles, or clone-repo code.
+- WordGuess must not copy Wordle/Quordle names, green/yellow/gray tiles, or clone-repo code.

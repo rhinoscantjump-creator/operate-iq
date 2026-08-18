@@ -334,34 +334,69 @@ select {
   box-shadow: var(--shadow);
 }
 
-.streak-panel .panel-kicker {
-  margin: 0 0 1rem;
-}
-
-.streak-row {
+.desk-launch {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
 }
 
-.streak-count {
-  display: block;
+.desk-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  min-height: 7.4rem;
+  padding: 0.95rem 1rem 1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: linear-gradient(160deg, rgba(14, 28, 34, 0.92), rgba(6, 12, 16, 0.88));
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color var(--dur) ease, transform var(--dur-fast) var(--ease-out);
+}
+
+a.desk-btn:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-2px);
+}
+
+.desk-btn.is-solved {
+  border-color: rgba(94, 234, 212, 0.35);
+}
+
+.desk-btn.is-soon {
+  opacity: 0.58;
+  cursor: default;
+}
+
+.desk-btn-name {
+  color: var(--teal);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.desk-btn-streak {
   font-family: var(--font-display);
-  font-size: 2.4rem;
+  font-size: 2.35rem;
+  font-weight: 800;
   line-height: 1;
   color: var(--teal);
+  letter-spacing: -0.04em;
 }
 
-.streak-label {
-  margin-top: 0.45rem;
+.desk-btn-status {
+  margin-top: auto;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--amber);
 }
 
-.streak-note {
-  margin: 1.15rem 0 0;
-  text-transform: none;
-  letter-spacing: 0;
-  font-weight: 400;
-  line-height: 1.5;
+.desk-btn.is-solved .desk-btn-status {
+  color: var(--ok);
 }
 
 .section {
@@ -780,7 +815,7 @@ body.chrome-open .play-pull-action::after {
   gap: 0.5rem;
 }
 
-.play-layout-triad {
+.play-layout-wordguess {
   grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.7fr);
   grid-template-areas:
     "compose aside"
@@ -788,29 +823,29 @@ body.chrome-open .play-pull-action::after {
     "keys aside";
 }
 
-.play-layout-triad .triad-compose {
+.play-layout-wordguess .wordguess-compose {
   grid-area: compose;
 }
 
-.play-layout-triad .triad-boards {
+.play-layout-wordguess .wordguess-boards {
   grid-area: boards;
 }
 
-.play-layout-triad .triad-keyboard {
+.play-layout-wordguess .wordguess-keyboard {
   grid-area: keys;
 }
 
-.play-layout-triad .play-aside {
+.play-layout-wordguess .play-aside {
   grid-area: aside;
 }
 
-.triad-compose {
+.wordguess-compose {
   display: grid;
   gap: 0.65rem;
   padding: 0.75rem 0 0.35rem;
 }
 
-.triad-compose-meta {
+.wordguess-compose-meta {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -819,28 +854,28 @@ body.chrome-open .play-pull-action::after {
   font-size: 0.88rem;
 }
 
-.triad-msg {
+.wordguess-msg {
   margin: 0;
   color: var(--amber);
   font-weight: 600;
 }
 
-.triad-msg:empty {
+.wordguess-msg:empty {
   display: none;
 }
 
-.triad-compose-row {
+.wordguess-compose-row {
   max-width: 18rem;
 }
 
-.triad-boards {
+.wordguess-boards {
   display: flex;
   flex-direction: row;
   gap: 0.75rem;
   align-items: flex-start;
 }
 
-.triad-board {
+.wordguess-board {
   flex: 1;
   min-width: 0;
   display: grid;
@@ -851,28 +886,28 @@ body.chrome-open .play-pull-action::after {
   background: rgba(0, 0, 0, 0.28);
 }
 
-.triad-board.is-lead {
+.wordguess-board.is-lead {
   border-color: var(--line-strong);
 }
 
-.triad-board.is-solved {
+.wordguess-board.is-solved {
   border-color: rgba(94, 234, 212, 0.35);
 }
 
-.triad-board-head {
+.wordguess-board-head {
   display: flex;
   justify-content: space-between;
   gap: 0.5rem;
   align-items: baseline;
 }
 
-.triad-board-label {
+.wordguess-board-label {
   font-family: var(--font-display);
   font-weight: 700;
   letter-spacing: -0.03em;
 }
 
-.triad-board-meter {
+.wordguess-board-meter {
   color: var(--muted);
   font-size: 0.72rem;
   font-weight: 700;
@@ -880,21 +915,26 @@ body.chrome-open .play-pull-action::after {
   text-transform: uppercase;
 }
 
-.triad-board.is-solved .triad-board-meter {
+.wordguess-board.is-solved .wordguess-board-meter {
   color: var(--ok);
 }
 
-.triad-board.is-solved .triad-row.is-unused {
+.wordguess-board.is-solved .wordguess-row.is-unused {
   display: none;
 }
 
-.triad-row {
+.wordguess-rows {
+  display: grid;
+  gap: 0.28rem;
+}
+
+.wordguess-row {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0.28rem;
 }
 
-.triad-tile {
+.wordguess-tile {
   aspect-ratio: 1;
   display: grid;
   place-items: center;
@@ -907,34 +947,34 @@ body.chrome-open .play-pull-action::after {
   letter-spacing: 0.04em;
 }
 
-.triad-tile.is-empty {
+.wordguess-tile.is-empty {
   color: transparent;
 }
 
-.triad-tile.is-draft {
+.wordguess-tile.is-draft {
   border-color: var(--line-strong);
   color: var(--text);
 }
 
-.triad-tile.is-exact {
+.wordguess-tile.is-exact {
   background: var(--teal);
   border-color: var(--teal);
   color: var(--teal-ink);
 }
 
-.triad-tile.is-present {
+.wordguess-tile.is-present {
   background: var(--amber);
   border-color: var(--amber);
   color: var(--teal-ink);
 }
 
-.triad-tile.is-absent {
+.wordguess-tile.is-absent {
   background: rgba(138, 163, 160, 0.22);
   border-color: transparent;
   color: var(--muted);
 }
 
-.triad-legend {
+.wordguess-legend {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -942,7 +982,7 @@ body.chrome-open .play-pull-action::after {
   gap: 0.55rem;
 }
 
-.triad-legend li {
+.wordguess-legend li {
   display: flex;
   align-items: center;
   gap: 0.65rem;
@@ -950,37 +990,37 @@ body.chrome-open .play-pull-action::after {
   font-size: 0.92rem;
 }
 
-.triad-swatch {
+.wordguess-swatch {
   width: 1rem;
   height: 1rem;
   border-radius: 4px;
   flex-shrink: 0;
 }
 
-.triad-swatch.is-exact {
+.wordguess-swatch.is-exact {
   background: var(--teal);
 }
 
-.triad-swatch.is-present {
+.wordguess-swatch.is-present {
   background: var(--amber);
 }
 
-.triad-swatch.is-absent {
+.wordguess-swatch.is-absent {
   background: rgba(138, 163, 160, 0.35);
 }
 
-.triad-keyboard {
+.wordguess-keyboard {
   display: grid;
   gap: 0.4rem;
 }
 
-.triad-kb-row {
+.wordguess-kb-row {
   display: flex;
   justify-content: center;
   gap: 0.3rem;
 }
 
-.triad-key {
+.wordguess-key {
   flex: 1;
   min-width: 0;
   min-height: 44px;
@@ -997,18 +1037,18 @@ body.chrome-open .play-pull-action::after {
   padding: 0.2rem 0.15rem 0.3rem;
 }
 
-.triad-key-wide {
+.wordguess-key-wide {
   flex: 1.45;
   font-size: 0.72rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
-.triad-key:hover {
+.wordguess-key:hover {
   border-color: var(--line-strong);
 }
 
-.triad-key-marks {
+.wordguess-key-marks {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2px;
@@ -1016,21 +1056,21 @@ body.chrome-open .play-pull-action::after {
   height: 4px;
 }
 
-.triad-key-marks i {
+.wordguess-key-marks i {
   display: block;
   border-radius: 99px;
   background: rgba(138, 163, 160, 0.25);
 }
 
-.triad-key-marks i[data-mark="exact"] {
+.wordguess-key-marks i[data-mark="exact"] {
   background: var(--teal);
 }
 
-.triad-key-marks i[data-mark="present"] {
+.wordguess-key-marks i[data-mark="present"] {
   background: var(--amber);
 }
 
-.triad-key-marks i[data-mark="absent"] {
+.wordguess-key-marks i[data-mark="absent"] {
   background: rgba(138, 163, 160, 0.55);
 }
 
@@ -1076,7 +1116,8 @@ body.chrome-open .play-pull-action::after {
   }
 
   .btn:hover,
-  .puzzle-card:hover {
+  .puzzle-card:hover,
+  a.desk-btn:hover {
     transform: none;
   }
 }
@@ -1084,13 +1125,25 @@ body.chrome-open .play-pull-action::after {
 @media (max-width: 900px) {
   .hero-grid,
   .play-layout,
-  .play-layout-triad,
+  .play-layout-wordguess,
   .puzzle-card-grid,
   .how-grid {
     grid-template-columns: 1fr;
   }
 
-  .play-layout-triad {
+  .hero {
+    padding: 1.75rem 0 1.15rem;
+  }
+
+  .hero-audience {
+    display: none;
+  }
+
+  .desk-btn {
+    min-height: 6.6rem;
+  }
+
+  .play-layout-wordguess {
     grid-template-areas:
       "compose"
       "boards"
@@ -1099,7 +1152,7 @@ body.chrome-open .play-pull-action::after {
     gap: 0.85rem;
   }
 
-  .triad-compose {
+  .wordguess-compose {
     position: sticky;
     top: 0;
     z-index: 6;
@@ -1108,19 +1161,19 @@ body.chrome-open .play-pull-action::after {
     background: linear-gradient(180deg, rgba(3, 6, 7, 0.97) 70%, rgba(3, 6, 7, 0.88));
   }
 
-  .triad-compose-row {
+  .wordguess-compose-row {
     max-width: none;
   }
 
-  .triad-boards {
+  .wordguess-boards {
     flex-direction: column;
   }
 
-  .triad-board {
-    scroll-margin-top: 6.5rem;
+  .wordguess-board {
+    scroll-margin-bottom: 8.5rem;
   }
 
-  .triad-keyboard {
+  .wordguess-keyboard {
     position: sticky;
     bottom: 0;
     z-index: 6;
