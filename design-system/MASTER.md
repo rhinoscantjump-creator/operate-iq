@@ -1,138 +1,57 @@
 # Operate IQ — Design System Master
 
-**Source of truth for visual and interaction design.** Page overrides live in `design-system/pages/`. Every visual change must be logged in `CHANGELOG.md`.
+**Source of truth for visual and interaction design.** Page notes live in `design-system/pages/`. Log visual changes in `CHANGELOG.md`.
 
-**Product stance:** Published reference architecture (design study), not software for sale. Hybrid outbound path to Rhinos Can’t Jump (`rhinoscantjump.com`) — no contact form on this site.
-
-**Reference feel:** [optikka.com](https://optikka.com/) — extreme breathing room, sparse tracked nav, one signature visual, soft scroll choreography. **Do not** copy Optikka’s cream/orange palette or WebGL/3D.
+**Product stance:** Daily puzzle destination. One wordsearch and one sudoku per UTC day. No accounts, no contact form, no sales CTA. Footer credits Rhinos Can't Jump (`rhinoscantjump.com`).
 
 ---
 
 ## Color tokens
 
-Keep the dark teal identity; deepen ink and polish contrast.
+Keep the dark teal identity.
 
 | Token | Value | Role |
-|-------|-------|------|
+|---|---|---|
 | `--ink` | `#05090b` | Page depth |
-| `--ink-2` | `#0a1418` | Elevated surface base |
-| `--bg-glow-teal` | `rgba(45, 212, 191, 0.14)` | Ambient hero wash |
-| `--bg-glow-amber` | `rgba(240, 180, 41, 0.08)` | Secondary wash |
-| `--panel` | `rgba(12, 24, 30, 0.78)` | Cards / panels |
+| `--ink-2` | `#0a1418` | Elevated surface |
+| `--panel` | `rgba(12, 24, 30, 0.78)` | Cards / asides |
 | `--line` | `rgba(125, 211, 196, 0.16)` | Hairline borders |
-| `--line-strong` | `rgba(45, 212, 191, 0.4)` | Hover / focus borders |
-| `--text` | `#e8f2f0` | Primary text (≥4.5:1) |
+| `--line-strong` | `rgba(45, 212, 191, 0.4)` | Hover / board boxes |
+| `--text` | `#e8f2f0` | Primary text |
 | `--muted` | `#8aa3a0` | Secondary text |
-| `--teal` | `#2dd4bf` | Primary accent |
+| `--teal` | `#2dd4bf` | Accent / user sudoku entries |
 | `--teal-dim` | `#14998a` | Accent gradient end |
-| `--teal-ink` | `#04201c` | Text on teal buttons |
-| `--amber` | `#f0b429` | Honesty / outline / callouts |
-| `--ok` | `#5eead4` | Documented / positive |
-| `--danger` | `#f07167` | Failure modes / down trends |
+| `--teal-ink` | `#04201c` | Text on teal |
+| `--amber` | `#f0b429` | Kickers / open status |
+| `--ok` | `#5eead4` | Solved / found words |
+| `--danger` | `#f07167` | Sudoku conflicts |
 
-**Anti-patterns:** purple gradients, neon glow stacks, warm-cream “AI default” themes, glassmorphism layers.
+**Anti-patterns:** purple gradients, neon glow stacks, cream “game default” themes, skeuomorphic wood puzzle boards.
 
 ---
 
 ## Typography
 
 | Role | Family | Notes |
-|------|--------|-------|
-| Display | Syne 600–800 | Headlines; tight tracking (−0.03em to −0.04em) |
-| Body | Manrope 400–700 | UI + long copy; line-height ~1.65 |
-| Caption / nav | Manrope | Uppercase nav: 0.08–0.12em letter-spacing |
-
-### Scale
-
-| Step | Size | Use |
-|------|------|-----|
-| Display | `clamp(2.6rem, 6.5vw, 4.6rem)` | Home H1 |
-| H2 | `clamp(1.75rem, 3.2vw, 2.5rem)` | Section titles |
-| Hub title | `clamp(2.2rem, 5vw, 3.6rem)` | Hub playbooks |
-| Lead | `1.1–1.15rem` | Hero / section leads |
-| Body | `1rem` | Default |
-| Small | `0.82–0.9rem` | Meta, chips, footer |
-
-Measure: long copy max ~40–44rem.
+|---|---|---|
+| Display | Syne 600–800 | Headlines |
+| Body | Manrope 400–700 | UI + rules |
+| Board | Manrope 700–800 | Grid letters and digits |
 
 ---
 
-## Spacing & layout
+## Puzzle UI
 
-- **Rhythm:** 8px base (`--space-1` … `--space-8`)
-- **Density:** Spacious marketing (section margins ~4.5–6rem)
-- **Shell:** `min(1120px, calc(100% - 2.5rem))` — slightly narrower than before for editorial focus
-- **Radius:** `--radius: 16px` (slightly tighter than 18px for premium restraint)
-- **Panels:** Prefer quieter borders and less shadow; avoid card-stacking in the hero
-
----
-
-## Signature element
-
-**Leak → seal** SVG in the homepage hero: radial pulse + connecting nodes (CSS/SVG only). Teal on dark. Ambient pulse paused under `prefers-reduced-motion`. This is the one memorable visual; keep other decoration quiet.
+- Wordsearch: 12×12 cells, `touch-action: none`, found cells `--ok`, live selection teal fill.
+- Sudoku: 9×9 with 3×3 box strokes using `--line-strong`. Givens are `--text`; entries are `--teal`; conflicts `--danger`.
+- Boards sit in a dark inset panel, not a floating “app chrome” card stack.
+- Number pad and word list live in a sticky aside on desktop, stacked below on small screens.
+- Hit targets ≥44px where possible (pad buttons, nav, CTAs). Wordsearch cells scale with the board.
 
 ---
 
 ## Motion
 
-**Stack:** CSS transitions + IntersectionObserver (`public/scripts/motion.js`). **No** Three.js, WebGL, GSAP, or Lottie unless MASTER is updated.
+CSS + `public/scripts/motion.js` (IntersectionObserver). No WebGL, GSAP, or Lottie.
 
-| Behavior | Spec |
-|----------|------|
-| Hover | 150–250ms ease |
-| Reveal | Opacity + 12–16px rise; stagger children 60–80ms |
-| Hero load | One-shot fade/rise on `.hero` children |
-| Signature | Slow pulse ~4–6s; infinite only if motion allowed |
-
-**Rules:**
-
-- Respect `@media (prefers-reduced-motion: reduce)` — show content at rest, no scroll reveals, no pulse
-- Prefer `transform` / `opacity` only
-- Exit faster than enter when applicable
-- Never block first paint on motion scripts
-
----
-
-## Navigation & hybrid CTA
-
-- Primary nav: **Home · Hubs · Leak map** (tracked, sparse, Optikka-like air)
-- Owner score / dashboard: **not** in nav; wireframe only via leak map
-- Footer + home RCJ panel: clear path to `product.author.url`
-- No contact form, no sales checkout on Operate IQ
-- CTAs on this site: read hubs / leak map / visit RCJ — never “buy” or “book a demo”
-
----
-
-## Components (do / don’t)
-
-| Do | Don’t |
-|----|-------|
-| Hairline borders, quiet panels | Heavy multi-shadow cards in hero |
-| Phosphor/SVG icons if needed | Emoji as structural icons |
-| Documented / Outline badges | “Live” / “Coming soon” / “Ships” |
-| Invented-numbers framing on scores | Implying measured telemetry |
-| One primary action per section | Pill clusters and stat strips in hero |
-
----
-
-## Accessibility
-
-- Body contrast ≥4.5:1; secondary ≥3:1 where possible
-- Focus visible on links/buttons (teal outline)
-- Touch targets ≥44px
-- Reduced motion fully supported
-- Semantic headings; skip link optional later
-
----
-
-## Page overrides
-
-Before editing a page, check `design-system/pages/<name>.md`. If present, its rules override MASTER for that page only.
-
----
-
-## Change process
-
-1. Update tokens/CSS/components as needed  
-2. Append an entry to `CHANGELOG.md` (date, what, why)  
-3. Keep honesty vocabulary: documented / outline / never built  
+Homepage cards use `.reveal`. Play pages stay still so dragging a wordsearch line is not fighting animation.
