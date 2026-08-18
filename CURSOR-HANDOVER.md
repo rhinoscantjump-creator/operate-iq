@@ -12,7 +12,7 @@ A static Astro site that plays three HTML games in the browser. Puzzles are gene
 
 | Surface | Route | Notes |
 |---|---|---|
-| Today | `/` | Date, countdown, three puzzle cards, streaks |
+| Today | `/` | Date, countdown, four launch buttons (three live + one reserved), puzzle cards |
 | Wordsearch | `/wordsearch` | 12×12 in a clipped viewport, Play/Move, pinch-zoom |
 | Sudoku | `/sudoku` | Medium 9×9, notes, keypad |
 | WordGuess | `/wordguess` | Three 5-letter words, twelve shared guesses |

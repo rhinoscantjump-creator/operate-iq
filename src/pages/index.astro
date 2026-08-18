@@ -25,24 +25,28 @@ import { site } from "../data/site";
         </div>
       </div>
 
-      <div class="streak-panel panel" aria-label="Streaks">
-        <p class="panel-kicker">Streaks</p>
-        <div class="streak-row">
-          <div>
-            <span class="streak-count" id="streak-wordsearch">0</span>
-            <span class="streak-label">Wordsearch</span>
-          </div>
-          <div>
-            <span class="streak-count" id="streak-sudoku">0</span>
-            <span class="streak-label">Sudoku</span>
-          </div>
-          <div>
-            <span class="streak-count" id="streak-wordguess">0</span>
-            <span class="streak-label">WordGuess</span>
-          </div>
-        </div>
-        <p class="streak-note">Counted on this browser. Miss a UTC day and it resets.</p>
-      </div>
+      <nav class="desk-launch" aria-label="Open today's puzzles">
+        <a class="desk-btn" href="/wordsearch" data-puzzle-card="wordsearch">
+          <span class="desk-btn-name">Wordsearch</span>
+          <span class="desk-btn-streak" id="streak-wordsearch">0</span>
+          <span class="desk-btn-status" data-card-status>Open</span>
+        </a>
+        <a class="desk-btn" href="/sudoku" data-puzzle-card="sudoku">
+          <span class="desk-btn-name">Sudoku</span>
+          <span class="desk-btn-streak" id="streak-sudoku">0</span>
+          <span class="desk-btn-status" data-card-status>Open</span>
+        </a>
+        <a class="desk-btn" href="/wordguess" data-puzzle-card="wordguess">
+          <span class="desk-btn-name">WordGuess</span>
+          <span class="desk-btn-streak" id="streak-wordguess">0</span>
+          <span class="desk-btn-status" data-card-status>Open</span>
+        </a>
+        <span class="desk-btn is-soon" aria-disabled="true">
+          <span class="desk-btn-name">Coming next</span>
+          <span class="desk-btn-streak" aria-hidden="true">—</span>
+          <span class="desk-btn-status">Soon</span>
+        </span>
+      </nav>
     </div>
   </section>
 

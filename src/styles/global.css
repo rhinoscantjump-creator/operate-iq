@@ -334,34 +334,69 @@ select {
   box-shadow: var(--shadow);
 }
 
-.streak-panel .panel-kicker {
-  margin: 0 0 1rem;
-}
-
-.streak-row {
+.desk-launch {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
 }
 
-.streak-count {
-  display: block;
+.desk-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  min-height: 7.4rem;
+  padding: 0.95rem 1rem 1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: linear-gradient(160deg, rgba(14, 28, 34, 0.92), rgba(6, 12, 16, 0.88));
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color var(--dur) ease, transform var(--dur-fast) var(--ease-out);
+}
+
+a.desk-btn:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-2px);
+}
+
+.desk-btn.is-solved {
+  border-color: rgba(94, 234, 212, 0.35);
+}
+
+.desk-btn.is-soon {
+  opacity: 0.58;
+  cursor: default;
+}
+
+.desk-btn-name {
+  color: var(--teal);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.desk-btn-streak {
   font-family: var(--font-display);
-  font-size: 2.4rem;
+  font-size: 2.35rem;
+  font-weight: 800;
   line-height: 1;
   color: var(--teal);
+  letter-spacing: -0.04em;
 }
 
-.streak-label {
-  margin-top: 0.45rem;
+.desk-btn-status {
+  margin-top: auto;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--amber);
 }
 
-.streak-note {
-  margin: 1.15rem 0 0;
-  text-transform: none;
-  letter-spacing: 0;
-  font-weight: 400;
-  line-height: 1.5;
+.desk-btn.is-solved .desk-btn-status {
+  color: var(--ok);
 }
 
 .section {
@@ -1081,7 +1116,8 @@ body.chrome-open .play-pull-action::after {
   }
 
   .btn:hover,
-  .puzzle-card:hover {
+  .puzzle-card:hover,
+  a.desk-btn:hover {
     transform: none;
   }
 }
@@ -1093,6 +1129,18 @@ body.chrome-open .play-pull-action::after {
   .puzzle-card-grid,
   .how-grid {
     grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding: 1.75rem 0 1.15rem;
+  }
+
+  .hero-audience {
+    display: none;
+  }
+
+  .desk-btn {
+    min-height: 6.6rem;
   }
 
   .play-layout-wordguess {

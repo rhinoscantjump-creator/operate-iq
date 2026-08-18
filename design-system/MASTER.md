@@ -47,7 +47,7 @@ Keep the dark teal identity.
 - WordGuess: teal = locked place, amber = in the word, muted = absent. Do not use Wordle green/yellow/gray. Twelve shared guesses. On small screens the type-in row sticks to the top, the keyboard to the bottom, and the closest unsolved board snaps down next to the keys.
 - Boards sit in a dark inset panel, not a floating “app chrome” card stack.
 - Number pad, word list, and WordGuess legend live in a sticky aside on desktop, stacked below the board on small screens. On play phones, the nav and heading slide away so the board sits higher on the page.
-- Hit targets ≥44px where possible (pad buttons, nav, CTAs). Wordsearch cells scale with the board.
+- Homepage: 2×2 labeled launch buttons in the hero. Each live puzzle shows its local streak (days completed). Fourth slot reserved. Longer puzzle cards sit below.
 
 ---
 

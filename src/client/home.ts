@@ -13,14 +13,14 @@ function setText(id: string, value: string): void {
 }
 
 function paintCard(id: PuzzleId, today: string): void {
-  const card = document.querySelector(`[data-puzzle-card="${id}"]`);
-  if (!card) return;
   const solved = isSolvedToday(id, today);
-  const status = card.querySelector("[data-card-status]");
-  const cta = card.querySelector("[data-card-cta]");
-  if (status) status.textContent = solved ? "Solved" : "Open";
-  if (cta) cta.textContent = solved ? "Play again" : `Play today's ${PUZZLE_LABEL[id]}`;
-  card.classList.toggle("is-solved", solved);
+  document.querySelectorAll(`[data-puzzle-card="${id}"]`).forEach((card) => {
+    const status = card.querySelector("[data-card-status]");
+    const cta = card.querySelector("[data-card-cta]");
+    if (status) status.textContent = solved ? "Solved" : "Open";
+    if (cta) cta.textContent = solved ? "Play again" : `Play today's ${PUZZLE_LABEL[id]}`;
+    card.classList.toggle("is-solved", solved);
+  });
 }
 
 function paintStreaks(): void {

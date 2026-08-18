@@ -1,5 +1,9 @@
 # Design changelog
 
+## 2026-08-18 — Homepage launch pad
+
+Home hero uses four labeled buttons. Live puzzles show the local streak count; a fourth slot is reserved. Detailed cards remain below.
+
 ## 2026-08-18 — WordGuess
 
 Third puzzle renamed from Triad. Twelve shared guesses. Closest unsolved board snaps down next to the keyboard. Teal / amber / muted marks.
