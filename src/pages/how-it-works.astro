@@ -11,7 +11,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <div class="hero-kicker">Rules</div>
     <h1>How it <em>works</em></h1>
     <p class="hero-lead">
-      Two browser games, one shared calendar day. Nothing to install, and nothing to sign in for.
+      Three browser games, one shared calendar day. Nothing to install, and nothing to sign in for.
     </p>
   </section>
 
@@ -20,7 +20,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <p class="panel-kicker">Daily</p>
       <h2>Same puzzle for everyone</h2>
       <p>
-        Each puzzle is generated from the UTC date — YYYY-MM-DD. Anyone opening the site on that day gets the same wordsearch and the same sudoku. At 00:00 UTC both boards change.
+        Each puzzle is generated from the UTC date — YYYY-MM-DD. Anyone opening the site on that day gets the same wordsearch, sudoku, and triad. At 00:00 UTC the boards change.
       </p>
     </article>
     <article class="panel">
@@ -35,6 +35,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <h2>Medium 9×9</h2>
       <p>
         Fill every row, column, and 3×3 box with 1–9. Locked cells are the givens. Notes (N) let you pencil candidates. Conflicts highlight in red.
+      </p>
+    </article>
+    <article class="panel">
+      <p class="panel-kicker">Triad</p>
+      <h2>Three words, eight guesses</h2>
+      <p>
+        Each guess is a five-letter word and scores on all three boards. Teal locks a letter in place; amber means it belongs in that word, other slot. After a guess, the closest unsolved board snaps to the front.
       </p>
     </article>
     <article class="panel">

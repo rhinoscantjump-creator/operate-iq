@@ -11,7 +11,7 @@ import { site } from "../data/site";
         <h1>Operate <em>IQ</em></h1>
         <p class="hero-lead">{site.tagline}</p>
         <p class="hero-audience">
-          One wordsearch and one sudoku, shared with everyone on the same calendar day. Progress stays on this device.
+          A wordsearch, a sudoku, and a triad, shared with everyone on the same calendar day. Progress stays on this device.
         </p>
         <div class="daily-meta" aria-live="polite">
           <div>
@@ -35,6 +35,10 @@ import { site } from "../data/site";
           <div>
             <span class="streak-count" id="streak-sudoku">0</span>
             <span class="streak-label">Sudoku</span>
+          </div>
+          <div>
+            <span class="streak-count" id="streak-triad">0</span>
+            <span class="streak-label">Triad</span>
           </div>
         </div>
         <p class="streak-note">Counted on this browser. Miss a UTC day and it resets.</p>
@@ -63,6 +67,16 @@ import { site } from "../data/site";
         <p>Classic medium sudoku. Same givens for everyone today. Notes and a keypad included.</p>
         <span class="card-cta" data-card-cta>Play today's sudoku</span>
       </a>
+
+      <a class="puzzle-card reveal" href="/triad" data-puzzle-card="triad">
+        <div class="card-top">
+          <span class="badge">Triad</span>
+          <span class="card-status" data-card-status>Open</span>
+        </div>
+        <h2>Three words, one guess</h2>
+        <p>Find three five-letter words in eight shared turns. Closest board stays up front.</p>
+        <span class="card-cta" data-card-cta>Play today's triad</span>
+      </a>
     </div>
   </section>
 
@@ -71,7 +85,7 @@ import { site } from "../data/site";
       <p class="panel-kicker">Same puzzle, every visitor</p>
       <h2>Generated from the date, not a server</h2>
       <p>
-        Both boards are built in your browser from today's UTC date. There is no account and no live scoreboard — just the day's two puzzles, and a streak if you come back tomorrow.
+        All three boards are built in your browser from today's UTC date. There is no account and no live scoreboard — just the day's puzzles, and a streak if you come back tomorrow.
       </p>
       <a class="text-link" href="/how-it-works">How it works →</a>
     </div>
