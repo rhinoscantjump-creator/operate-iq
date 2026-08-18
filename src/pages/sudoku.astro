@@ -6,9 +6,25 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   title="Daily sudoku"
   description="Today's Operate IQ sudoku — a medium 9×9 with the same givens for everyone on this UTC day."
   path="/sudoku"
+  play
 >
-  <section class="play-hero">
-    <div class="hero-kicker" id="play-date">Today</div>
+  <button
+    type="button"
+    class="play-pull"
+    id="play-pull"
+    aria-expanded="false"
+    aria-controls="play-header-details"
+  >
+    <span class="play-pull-handle" aria-hidden="true"></span>
+    <span class="play-pull-row">
+      <span class="play-pull-label">Sudoku</span>
+      <span class="play-pull-date" id="play-date">Today</span>
+      <span class="play-pull-action">Details</span>
+    </span>
+  </button>
+
+  <section class="play-hero" id="play-header-details">
+    <div class="hero-kicker">Daily puzzle</div>
     <h1>Daily <em>sudoku</em></h1>
     <p class="play-sub" id="sdk-status">Building today's board…</p>
   </section>
@@ -43,6 +59,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 </BaseLayout>
 
 <script>
+  import { initPlayChrome } from "../client/play-chrome";
   import { initSudoku } from "../client/sudoku";
+  initPlayChrome();
   initSudoku();
 </script>

@@ -7,9 +7,11 @@ interface Props {
   title: string;
   description?: string;
   path?: string;
+  /** Compact play layout: nav/hero can slide away on small screens. */
+  play?: boolean;
 }
 
-const { title, description = site.positioning, path = "" } = Astro.props;
+const { title, description = site.positioning, path = "", play = false } = Astro.props;
 const fullTitle = title === site.name ? title : `${title} · ${site.name}`;
 const canonical = new URL(path || "/", Astro.site).href;
 const siteUrl = new URL("/", Astro.site).href;
@@ -38,7 +40,7 @@ function navClass(href: string) {
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonical} />
@@ -57,7 +59,7 @@ function navClass(href: string) {
     <script type="application/ld+json" set:html={JSON.stringify(organization)} />
     <Analytics />
   </head>
-  <body>
+  <body class={play ? "is-play" : undefined}>
     <div class="app-shell">
       <header class="site-nav">
         <a class="brand" href="/">
