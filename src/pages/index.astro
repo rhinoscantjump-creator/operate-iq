@@ -11,7 +11,7 @@ import { site } from "../data/site";
         <h1>Operate <em>IQ</em></h1>
         <p class="hero-lead">{site.tagline}</p>
         <p class="hero-audience">
-          A wordsearch, a sudoku, and a triad, shared with everyone on the same calendar day. Progress stays on this device.
+          A wordsearch, a sudoku, and WordGuess, shared with everyone on the same calendar day. Progress stays on this device.
         </p>
         <div class="daily-meta" aria-live="polite">
           <div>
@@ -37,8 +37,8 @@ import { site } from "../data/site";
             <span class="streak-label">Sudoku</span>
           </div>
           <div>
-            <span class="streak-count" id="streak-triad">0</span>
-            <span class="streak-label">Triad</span>
+            <span class="streak-count" id="streak-wordguess">0</span>
+            <span class="streak-label">WordGuess</span>
           </div>
         </div>
         <p class="streak-note">Counted on this browser. Miss a UTC day and it resets.</p>
@@ -68,14 +68,14 @@ import { site } from "../data/site";
         <span class="card-cta" data-card-cta>Play today's sudoku</span>
       </a>
 
-      <a class="puzzle-card reveal" href="/triad" data-puzzle-card="triad">
+      <a class="puzzle-card reveal" href="/wordguess" data-puzzle-card="wordguess">
         <div class="card-top">
-          <span class="badge">Triad</span>
+          <span class="badge">WordGuess</span>
           <span class="card-status" data-card-status>Open</span>
         </div>
-        <h2>Three words, one guess</h2>
-        <p>Find three five-letter words in eight shared turns. Closest board stays up front.</p>
-        <span class="card-cta" data-card-cta>Play today's triad</span>
+        <h2>Three words, twelve guesses</h2>
+        <p>Find three five-letter words in twelve shared turns. Closest board sits next to the keys.</p>
+        <span class="card-cta" data-card-cta>Play today's WordGuess</span>
       </a>
     </div>
   </section>

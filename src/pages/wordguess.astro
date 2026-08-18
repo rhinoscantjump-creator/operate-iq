@@ -1,0 +1,72 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Daily WordGuess"
+  description="Today's Operate IQ WordGuess — three five-letter words, twelve shared guesses, the same answers for everyone on this UTC day."
+  path="/wordguess"
+  play
+>
+  <button
+    type="button"
+    class="play-pull"
+    id="play-pull"
+    aria-expanded="false"
+    aria-controls="play-header-details"
+  >
+    <span class="play-pull-handle" aria-hidden="true"></span>
+    <span class="play-pull-row">
+      <span class="play-pull-label">WordGuess</span>
+      <span class="play-pull-date" id="play-date">Today</span>
+      <span class="play-pull-action">Details</span>
+    </span>
+  </button>
+
+  <section class="play-hero" id="play-header-details">
+    <div class="hero-kicker">Daily puzzle</div>
+    <h1>Daily <em>WordGuess</em></h1>
+    <p class="play-sub">Three words. Twelve guesses. Each guess scores on every board.</p>
+  </section>
+
+  <div id="wordguess-complete" class="complete-banner" hidden>
+    <strong>All three found.</strong> Tomorrow's WordGuess lands at midnight UTC.
+  </div>
+  <div id="wordguess-failed" class="complete-banner is-fail" hidden>
+    <strong>Out of guesses.</strong> Today's words were <span id="wordguess-reveal">…</span>.
+  </div>
+
+  <div class="play-layout play-layout-wordguess">
+    <div class="wordguess-compose" id="wordguess-compose">
+      <div class="wordguess-compose-meta">
+        <p id="wordguess-status">Twelve shared guesses</p>
+        <p id="wordguess-msg" class="wordguess-msg" aria-live="polite"></p>
+      </div>
+      <div id="wordguess-compose-row" class="wordguess-row wordguess-compose-row" aria-label="Current guess"></div>
+    </div>
+
+    <div id="wordguess-boards" class="wordguess-boards" aria-label="WordGuess boards"></div>
+
+    <div id="wordguess-keyboard" class="wordguess-keyboard" aria-label="Letter keyboard"></div>
+
+    <aside class="play-aside">
+      <h2>Marks</h2>
+      <ul class="wordguess-legend">
+        <li><span class="wordguess-swatch is-exact"></span> Locked in place</li>
+        <li><span class="wordguess-swatch is-present"></span> In the word, other slot</li>
+        <li><span class="wordguess-swatch is-absent"></span> Not in that word</li>
+      </ul>
+      <p class="play-hint">
+        Closest unsolved board snaps down next to the keys after each guess. Type here or use the pad below.
+      </p>
+      <a class="btn btn-ghost" href="/">Back to today</a>
+    </aside>
+  </div>
+</BaseLayout>
+
+<script>
+  import { initPlayChrome } from "../client/play-chrome";
+  import { initWordGuess } from "../client/wordguess";
+  initPlayChrome();
+  initWordGuess();
+</script>

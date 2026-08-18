@@ -1,20 +1,20 @@
 import { addUtcDays } from "./date";
 
-export type PuzzleId = "wordsearch" | "sudoku" | "triad";
+export type PuzzleId = "wordsearch" | "sudoku" | "wordguess";
 
 const LAST_DATE: Record<PuzzleId, keyof Streaks> = {
   wordsearch: "lastWordsearchDate",
   sudoku: "lastSudokuDate",
-  triad: "lastTriadDate",
+  wordguess: "lastWordGuessDate",
 };
 
 export interface Streaks {
   wordsearch: number;
   sudoku: number;
-  triad: number;
+  wordguess: number;
   lastWordsearchDate: string | null;
   lastSudokuDate: string | null;
-  lastTriadDate: string | null;
+  lastWordGuessDate: string | null;
 }
 
 export interface WordsearchProgress {
@@ -30,7 +30,7 @@ export interface SudokuProgress {
   completed: boolean;
 }
 
-export interface TriadProgress {
+export interface WordGuessProgress {
   date: string;
   guesses: string[];
   completed: boolean;
@@ -40,7 +40,7 @@ export interface TriadProgress {
 const STREAK_KEY = "oiq.streaks.v1";
 const WS_KEY = "oiq.wordsearch.v1";
 const SDK_KEY = "oiq.sudoku.v1";
-const TRIAD_KEY = "oiq.triad.v1";
+const WORDGUESS_KEY = "oiq.wordguess.v1";
 
 function canUseStorage(): boolean {
   try {
@@ -74,10 +74,10 @@ function emptyStreaks(): Streaks {
   return {
     wordsearch: 0,
     sudoku: 0,
-    triad: 0,
+    wordguess: 0,
     lastWordsearchDate: null,
     lastSudokuDate: null,
-    lastTriadDate: null,
+    lastWordGuessDate: null,
   };
 }
 
@@ -132,8 +132,8 @@ export function saveSudokuProgress(progress: SudokuProgress): void {
   writeJson(SDK_KEY, progress);
 }
 
-export function loadTriadProgress(today: string): TriadProgress {
-  const stored = readJson<TriadProgress>(TRIAD_KEY);
+export function loadWordGuessProgress(today: string): WordGuessProgress {
+  const stored = readJson<WordGuessProgress>(WORDGUESS_KEY);
   if (!stored || stored.date !== today) {
     return { date: today, guesses: [], completed: false, failed: false };
   }
@@ -145,12 +145,12 @@ export function loadTriadProgress(today: string): TriadProgress {
   };
 }
 
-export function saveTriadProgress(progress: TriadProgress): void {
-  writeJson(TRIAD_KEY, progress);
+export function saveWordGuessProgress(progress: WordGuessProgress): void {
+  writeJson(WORDGUESS_KEY, progress);
 }
 
 export function isSolvedToday(id: PuzzleId, today: string): boolean {
   if (id === "wordsearch") return loadWordsearchProgress(today).completed;
   if (id === "sudoku") return loadSudokuProgress(today).completed;
-  return loadTriadProgress(today).completed;
+  return loadWordGuessProgress(today).completed;
 }
