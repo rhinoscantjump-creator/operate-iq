@@ -45,7 +45,7 @@ Keep the dark teal identity.
 - Wordsearch: 12×12 cells, `touch-action: none`, found cells `--ok`, live selection teal fill.
 - Sudoku: 9×9 with 3×3 box strokes using `--line-strong`. Givens are `--text`; entries are `--teal`; conflicts `--danger`.
 - Boards sit in a dark inset panel, not a floating “app chrome” card stack.
-- Number pad and word list live in a sticky aside on desktop, stacked below on small screens.
+- Number pad lives in a sticky aside on desktop. On small screens it docks to the bottom of the viewport; heading/nav slide behind a pull tab so the pad stays visible.
 - Hit targets ≥44px where possible (pad buttons, nav, CTAs). Wordsearch cells scale with the board.
 
 ---
