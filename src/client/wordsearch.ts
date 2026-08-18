@@ -11,6 +11,17 @@ import {
   saveWordsearchProgress,
 } from "../lib/storage";
 
+const MIN_SCALE = 1;
+const MAX_SCALE = 2.5;
+const START_SCALE = 1.2;
+
+type Mode = "play" | "move";
+
+interface Point {
+  x: number;
+  y: number;
+}
+
 function cellKey(row: number, col: number): string {
   return `${row}:${col}`;
 }
@@ -18,6 +29,14 @@ function cellKey(row: number, col: number): string {
 function setText(id: string, value: string): void {
   const el = document.getElementById(id);
   if (el) el.textContent = value;
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
+
+function distance(a: Point, b: Point): number {
+  return Math.hypot(a.x - b.x, a.y - b.y);
 }
 
 function renderBoard(puzzle: WordsearchPuzzle, foundWords: Set<string>, selecting: [number, number][]): void {
@@ -67,8 +86,11 @@ export function initWordsearch(): void {
   setText("ws-theme", puzzle.theme);
 
   const board = document.getElementById("ws-board");
+  const viewport = document.getElementById("ws-viewport");
   const wordList = document.getElementById("ws-words");
-  if (!board || !wordList) return;
+  const playBtn = document.getElementById("ws-mode-play");
+  const moveBtn = document.getElementById("ws-mode-move");
+  if (!board || !viewport || !wordList || !playBtn || !moveBtn) return;
 
   board.style.gridTemplateColumns = `repeat(${puzzle.size}, 1fr)`;
   board.replaceChildren();
@@ -93,9 +115,19 @@ export function initWordsearch(): void {
     wordList.append(li);
   }
 
-  let pointerId: number | null = null;
-  let start: [number, number] | null = null;
+  let mode: Mode = "play";
+  let scale = START_SCALE;
+  let tx = 0;
+  let ty = 0;
+  const pointers = new Map<number, Point>();
+  let selectPointer: number | null = null;
+  let selectStart: [number, number] | null = null;
   let current: [number, number][] = [];
+  let panPointer: number | null = null;
+  let panStart: Point | null = null;
+  let panOrigin = { x: 0, y: 0 };
+  let pinching = false;
+  let pinchLastDist = 0;
 
   const persist = (completed: boolean): void => {
     saveWordsearchProgress({
@@ -115,6 +147,66 @@ export function initWordsearch(): void {
     }
   };
 
+  const viewSize = (): number => viewport.clientWidth;
+
+  const clampPan = (nextX: number, nextY: number, nextScale: number): Point => {
+    const view = viewSize();
+    const size = view * nextScale;
+    if (size <= view) {
+      const centered = (view - size) / 2;
+      return { x: centered, y: centered };
+    }
+    const min = view - size;
+    return {
+      x: clamp(nextX, min, 0),
+      y: clamp(nextY, min, 0),
+    };
+  };
+
+  const applyTransform = (): void => {
+    const pan = clampPan(tx, ty, scale);
+    tx = pan.x;
+    ty = pan.y;
+    board.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+  };
+
+  const localPoint = (event: PointerEvent): Point => {
+    const rect = viewport.getBoundingClientRect();
+    return { x: event.clientX - rect.left, y: event.clientY - rect.top };
+  };
+
+  const zoomAt = (point: Point, nextScale: number): void => {
+    const clamped = clamp(nextScale, MIN_SCALE, MAX_SCALE);
+    const boardX = (point.x - tx) / scale;
+    const boardY = (point.y - ty) / scale;
+    scale = clamped;
+    tx = point.x - boardX * scale;
+    ty = point.y - boardY * scale;
+    applyTransform();
+  };
+
+  const centerStart = (): void => {
+    const view = viewSize();
+    const size = view * scale;
+    tx = (view - size) / 2;
+    ty = (view - size) / 2;
+    applyTransform();
+  };
+
+  const setMode = (next: Mode): void => {
+    mode = next;
+    playBtn.classList.toggle("is-active", next === "play");
+    moveBtn.classList.toggle("is-active", next === "move");
+    playBtn.setAttribute("aria-checked", next === "play" ? "true" : "false");
+    moveBtn.setAttribute("aria-checked", next === "move" ? "true" : "false");
+    viewport.classList.toggle("is-move", next === "move");
+    selectPointer = null;
+    selectStart = null;
+    current = [];
+    panPointer = null;
+    paint();
+  };
+
   const cellFromEvent = (event: PointerEvent): [number, number] | null => {
     const node = document.elementFromPoint(event.clientX, event.clientY);
     const btn = node?.closest<HTMLElement>("[data-r]");
@@ -122,33 +214,98 @@ export function initWordsearch(): void {
     return [Number(btn.dataset.r), Number(btn.dataset.c)];
   };
 
-  const updateSelection = (end: [number, number]): void => {
-    if (!start) return;
-    const line = lineCells(start, end);
-    current = line ?? [start];
+  const clearSelection = (): void => {
+    selectPointer = null;
+    selectStart = null;
+    current = [];
     renderBoard(puzzle, foundWords, current);
   };
 
-  board.addEventListener("pointerdown", (event) => {
+  const beginPinch = (): void => {
+    const pts = [...pointers.values()];
+    if (pts.length < 2) return;
+    pinching = true;
+    panPointer = null;
+    clearSelection();
+    pinchLastDist = distance(pts[0]!, pts[1]!);
+  };
+
+  viewport.addEventListener("pointerdown", (event) => {
+    event.preventDefault();
+    viewport.setPointerCapture(event.pointerId);
+    pointers.set(event.pointerId, localPoint(event));
+
+    if (pointers.size >= 2) {
+      beginPinch();
+      return;
+    }
+
+    if (mode === "move") {
+      panPointer = event.pointerId;
+      panStart = localPoint(event);
+      panOrigin = { x: tx, y: ty };
+      viewport.classList.add("is-panning");
+      return;
+    }
+
     const cell = cellFromEvent(event);
     if (!cell) return;
-    event.preventDefault();
-    pointerId = event.pointerId;
-    board.setPointerCapture(event.pointerId);
-    start = cell;
+    selectPointer = event.pointerId;
+    selectStart = cell;
     current = [cell];
     renderBoard(puzzle, foundWords, current);
   });
 
-  board.addEventListener("pointermove", (event) => {
-    if (pointerId !== event.pointerId || !start) return;
-    const cell = cellFromEvent(event);
-    if (cell) updateSelection(cell);
+  viewport.addEventListener("pointermove", (event) => {
+    if (!pointers.has(event.pointerId)) return;
+    pointers.set(event.pointerId, localPoint(event));
+
+    if (pinching && pointers.size >= 2) {
+      const pts = [...pointers.values()];
+      const nextDist = distance(pts[0]!, pts[1]!);
+      if (pinchLastDist <= 0) {
+        pinchLastDist = nextDist;
+        return;
+      }
+      const mid: Point = {
+        x: (pts[0]!.x + pts[1]!.x) / 2,
+        y: (pts[0]!.y + pts[1]!.y) / 2,
+      };
+      zoomAt(mid, scale * (nextDist / pinchLastDist));
+      pinchLastDist = nextDist;
+      return;
+    }
+
+    if (panPointer === event.pointerId && panStart) {
+      const point = localPoint(event);
+      tx = panOrigin.x + (point.x - panStart.x);
+      ty = panOrigin.y + (point.y - panStart.y);
+      applyTransform();
+      return;
+    }
+
+    if (selectPointer === event.pointerId && selectStart && !pinching) {
+      const cell = cellFromEvent(event);
+      if (!cell) return;
+      const line = lineCells(selectStart, cell);
+      current = line ?? [selectStart];
+      renderBoard(puzzle, foundWords, current);
+    }
   });
 
-  const finish = (event: PointerEvent): void => {
-    if (pointerId !== event.pointerId) return;
-    pointerId = null;
+  const finishPointer = (event: PointerEvent): void => {
+    if (!pointers.has(event.pointerId)) return;
+    pointers.delete(event.pointerId);
+
+    if (pointers.size < 2) pinching = false;
+
+    if (panPointer === event.pointerId) {
+      panPointer = null;
+      panStart = null;
+      viewport.classList.remove("is-panning");
+    }
+
+    if (selectPointer !== event.pointerId) return;
     if (current.length >= 2) {
       const matched = matchPlacement(puzzle, current);
       if (matched && !foundWords.has(matched.word)) {
@@ -156,15 +313,37 @@ export function initWordsearch(): void {
         persist(foundWords.size === puzzle.words.length);
       }
     }
-    start = null;
+    selectPointer = null;
+    selectStart = null;
     current = [];
     paint();
   };
 
-  board.addEventListener("pointerup", finish);
-  board.addEventListener("pointercancel", finish);
+  viewport.addEventListener("pointerup", finishPointer);
+  viewport.addEventListener("pointercancel", finishPointer);
+
+  viewport.addEventListener(
+    "wheel",
+    (event) => {
+      event.preventDefault();
+      const rect = viewport.getBoundingClientRect();
+      const point = { x: event.clientX - rect.left, y: event.clientY - rect.top };
+      const factor = event.deltaY > 0 ? 0.92 : 1.08;
+      zoomAt(point, scale * factor);
+    },
+    { passive: false },
+  );
+
+  viewport.addEventListener("contextmenu", (event) => event.preventDefault());
+
+  playBtn.addEventListener("click", () => setMode("play"));
+  moveBtn.addEventListener("click", () => setMode("move"));
+
+  const resize = new ResizeObserver(() => applyTransform());
+  resize.observe(viewport);
 
   paint();
+  requestAnimationFrame(() => centerStart());
   if (progress.completed || foundWords.size === puzzle.words.length) {
     persist(true);
     markComplete();

@@ -13,7 +13,7 @@ A static Astro site that plays two HTML games in the browser. Puzzles are genera
 | Surface | Route | Notes |
 |---|---|---|
 | Today | `/` | Date, countdown, two puzzle cards, streaks |
-| Wordsearch | `/wordsearch` | 12×12, themed word list, drag/swipe |
+| Wordsearch | `/wordsearch` | 12×12 in a clipped viewport, Play/Move, pinch-zoom |
 | Sudoku | `/sudoku` | Medium 9×9, notes, keypad |
 | How it works | `/how-it-works` | Rules + UTC reset + local streaks |
 | 404 | `/404` | Styled |

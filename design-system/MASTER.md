@@ -42,7 +42,7 @@ Keep the dark teal identity.
 
 ## Puzzle UI
 
-- Wordsearch: 12×12 cells, `touch-action: none`, found cells `--ok`, live selection teal fill.
+- Wordsearch: 12×12 cells in a clipped viewport, `touch-action: none`, found cells `--ok`, live selection teal fill. Play/Move toggle; pinch-zoom always on.
 - Sudoku: 9×9 with 3×3 box strokes using `--line-strong`. Givens are `--text`; entries are `--teal`; conflicts `--danger`.
 - Boards sit in a dark inset panel, not a floating “app chrome” card stack.
 - Number pad and word list live in a sticky aside on desktop, stacked below the board on small screens. On sudoku phones, the nav and heading slide away so that original stack sits higher on the page.
