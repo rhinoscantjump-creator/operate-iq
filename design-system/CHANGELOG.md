@@ -2,7 +2,7 @@
 
 ## 2026-08-18 — Sudoku phone chrome
 
-On viewports ≤900px, play nav/heading collapse behind a pull tab. Number pad docks to the bottom as a 1–9 row so controls stay on screen.
+On viewports ≤900px, play nav/heading collapse behind a thin pull tab so the existing board and pad sit higher. Pad layout is unchanged.
 
 ## 2026-08-18 — Daily puzzle rebuild
 
