@@ -6,9 +6,25 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   title="Daily wordsearch"
   description="Today's Operate IQ wordsearch — the same 12×12 grid for everyone on this UTC day."
   path="/wordsearch"
+  play
 >
-  <section class="play-hero">
-    <div class="hero-kicker" id="play-date">Today</div>
+  <button
+    type="button"
+    class="play-pull"
+    id="play-pull"
+    aria-expanded="false"
+    aria-controls="play-header-details"
+  >
+    <span class="play-pull-handle" aria-hidden="true"></span>
+    <span class="play-pull-row">
+      <span class="play-pull-label">Wordsearch</span>
+      <span class="play-pull-date" id="play-date">Today</span>
+      <span class="play-pull-action">Details</span>
+    </span>
+  </button>
+
+  <section class="play-hero" id="play-header-details">
+    <div class="hero-kicker">Daily puzzle</div>
     <h1>Daily <em>wordsearch</em></h1>
     <p class="play-sub">
       Theme: <strong id="ws-theme">…</strong>
@@ -33,12 +49,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       </div>
       <div class="ws-viewport" id="ws-viewport">
         <div id="ws-board" class="ws-board" role="grid" aria-label="Wordsearch grid"></div>
-        <div class="ws-viewport-modes" id="ws-viewport-modes" aria-hidden="true">
-          <div class="ws-modes">
-            <button type="button" data-ws-mode="play" class="is-active" tabindex="-1">Play</button>
-            <button type="button" data-ws-mode="move" tabindex="-1">Move</button>
-          </div>
-        </div>
       </div>
     </div>
     <aside class="play-aside">
@@ -51,6 +61,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 </BaseLayout>
 
 <script>
+  import { initPlayChrome } from "../client/play-chrome";
   import { initWordsearch } from "../client/wordsearch";
+  initPlayChrome();
   initWordsearch();
 </script>
