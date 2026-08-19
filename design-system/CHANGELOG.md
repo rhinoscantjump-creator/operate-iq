@@ -1,8 +1,8 @@
 # Design changelog
 
-## 2026-08-19 — Wordsearch in-box Play/Move
+## 2026-08-19 — Wordsearch phone chrome
 
-Outer Play/Move bar stays. After zooming past the starting 1.2×, a matching pair fades in at the top of the viewport so you can switch modes without scrolling the page. Zooming back out hides it.
+Same pull-tab treatment as sudoku: nav and heading slide away on small screens so Play/Move and the board sit in view. Dropped the in-box duplicate tabs.
 
 ## 2026-08-18 — Homepage launch pad
 

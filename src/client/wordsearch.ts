@@ -14,7 +14,6 @@ import {
 const MIN_SCALE = 1;
 const MAX_SCALE = 2.5;
 const START_SCALE = 1.2;
-const OVERLAY_SCALE = START_SCALE + 0.04;
 
 type Mode = "play" | "move";
 
@@ -91,7 +90,6 @@ export function initWordsearch(): void {
   const wordList = document.getElementById("ws-words");
   const playBtn = document.getElementById("ws-mode-play");
   const moveBtn = document.getElementById("ws-mode-move");
-  const overlay = document.getElementById("ws-viewport-modes");
   if (!board || !viewport || !wordList || !playBtn || !moveBtn) return;
 
   board.style.gridTemplateColumns = `repeat(${puzzle.size}, 1fr)`;
@@ -170,7 +168,6 @@ export function initWordsearch(): void {
     tx = pan.x;
     ty = pan.y;
     board.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
-    overlay?.classList.toggle("is-visible", scale > OVERLAY_SCALE);
   };
 
   const localPoint = (event: PointerEvent): Point => {
@@ -237,7 +234,6 @@ export function initWordsearch(): void {
   };
 
   viewport.addEventListener("pointerdown", (event) => {
-    if ((event.target as HTMLElement).closest(".ws-viewport-modes")) return;
     event.preventDefault();
     viewport.setPointerCapture(event.pointerId);
     pointers.set(event.pointerId, localPoint(event));
