@@ -1,5 +1,9 @@
 # Design changelog
 
+## 2026-08-19 — Wordsearch in-box Play/Move
+
+Outer Play/Move bar stays. After zooming past the starting 1.2×, a matching pair fades in at the top of the viewport so you can switch modes without scrolling the page. Zooming back out hides it.
+
 ## 2026-08-18 — Homepage launch pad
 
 Home hero uses four labeled buttons. Live puzzles show the local streak count; a fourth slot is reserved. Detailed cards remain below.

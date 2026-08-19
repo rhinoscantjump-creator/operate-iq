@@ -24,15 +24,21 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <div class="ws-stage">
       <div class="ws-mode-bar">
         <div class="ws-modes" role="radiogroup" aria-label="Board gestures">
-          <button type="button" id="ws-mode-play" class="is-active" aria-checked="true" role="radio">
+          <button type="button" id="ws-mode-play" class="is-active" aria-checked="true" role="radio" data-ws-mode="play">
             Play
           </button>
-          <button type="button" id="ws-mode-move" aria-checked="false" role="radio">Move</button>
+          <button type="button" id="ws-mode-move" aria-checked="false" role="radio" data-ws-mode="move">Move</button>
         </div>
         <p class="ws-zoom-hint">Pinch to zoom. Move to slide.</p>
       </div>
       <div class="ws-viewport" id="ws-viewport">
         <div id="ws-board" class="ws-board" role="grid" aria-label="Wordsearch grid"></div>
+        <div class="ws-viewport-modes" id="ws-viewport-modes" aria-hidden="true">
+          <div class="ws-modes">
+            <button type="button" data-ws-mode="play" class="is-active" tabindex="-1">Play</button>
+            <button type="button" data-ws-mode="move" tabindex="-1">Move</button>
+          </div>
+        </div>
       </div>
     </div>
     <aside class="play-aside">

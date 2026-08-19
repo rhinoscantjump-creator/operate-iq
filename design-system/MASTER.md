@@ -42,7 +42,7 @@ Keep the dark teal identity.
 
 ## Puzzle UI
 
-- Wordsearch: 12×12 cells in a clipped viewport, `touch-action: none`, found cells `--ok`, live selection teal fill. Play/Move toggle; pinch-zoom always on.
+- Wordsearch: 12×12 cells in a clipped viewport, `touch-action: none`, found cells `--ok`, live selection teal fill. Play/Move toggle above the box; a duplicate pair fades in at the top of the box once zoomed past the starting 1.2×.
 - Sudoku: 9×9 with 3×3 box strokes using `--line-strong`. Givens are `--text`; entries are `--teal`; conflicts `--danger`.
 - WordGuess: teal = locked place, amber = in the word, muted = absent. Do not use Wordle green/yellow/gray. Twelve shared guesses. On small screens the type-in row sticks to the top, the keyboard to the bottom, and the closest unsolved board snaps down next to the keys.
 - Boards sit in a dark inset panel, not a floating “app chrome” card stack.
