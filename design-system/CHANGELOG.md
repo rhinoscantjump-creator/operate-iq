@@ -1,5 +1,9 @@
 # Design changelog
 
+## 2026-08-19 — Map-style wordsearch + compact sudoku pad
+
+Wordsearch pinch zooms around the fingers; two-finger drag pans like a map. Sudoku on phones drops the “Pad” heading and shortens the 3×3 keys so they sit closer under the board.
+
 ## 2026-08-19 — Wordsearch phone chrome
 
 Same pull-tab treatment as sudoku: nav and heading slide away on small screens so Play/Move and the board sit in view. Dropped the in-box duplicate tabs.

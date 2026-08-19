@@ -1230,6 +1230,38 @@ body.chrome-open .play-pull-action::after {
   body.is-play:not(.chrome-open) .footer {
     display: none;
   }
+
+  body.is-play .play-layout-sudoku {
+    gap: 0.55rem;
+  }
+
+  body.is-play .play-layout-sudoku .play-aside {
+    gap: 0.4rem;
+  }
+
+  body.is-play .play-layout-sudoku .play-aside h2,
+  body.is-play .play-layout-sudoku .play-hint,
+  body.is-play .play-layout-sudoku .play-aside > .btn {
+    display: none;
+  }
+
+  body.is-play .play-layout-sudoku .numpad {
+    gap: 0.28rem;
+  }
+
+  body.is-play .play-layout-sudoku .numpad button {
+    min-height: 36px;
+    border-radius: 10px;
+  }
+
+  body.is-play .play-layout-sudoku .pad-actions {
+    gap: 0.35rem;
+  }
+
+  body.is-play .play-layout-sudoku .pad-actions .btn {
+    min-height: 36px;
+    padding: 0.3rem 0.75rem;
+  }
 }
 
 @media (max-width: 600px) {
