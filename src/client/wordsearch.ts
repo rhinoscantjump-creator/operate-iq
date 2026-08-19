@@ -39,6 +39,10 @@ function distance(a: Point, b: Point): number {
   return Math.hypot(a.x - b.x, a.y - b.y);
 }
 
+function midpoint(a: Point, b: Point): Point {
+  return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+}
+
 function renderBoard(puzzle: WordsearchPuzzle, foundWords: Set<string>, selecting: [number, number][]): void {
   const board = document.getElementById("ws-board");
   if (!board) return;
@@ -128,6 +132,7 @@ export function initWordsearch(): void {
   let panOrigin = { x: 0, y: 0 };
   let pinching = false;
   let pinchLastDist = 0;
+  let pinchLastMid: Point | null = null;
 
   const persist = (completed: boolean): void => {
     saveWordsearchProgress({
@@ -229,8 +234,10 @@ export function initWordsearch(): void {
     if (pts.length < 2) return;
     pinching = true;
     panPointer = null;
+    viewport.classList.remove("is-panning");
     clearSelection();
     pinchLastDist = distance(pts[0]!, pts[1]!);
+    pinchLastMid = midpoint(pts[0]!, pts[1]!);
   };
 
   viewport.addEventListener("pointerdown", (event) => {
@@ -266,16 +273,17 @@ export function initWordsearch(): void {
     if (pinching && pointers.size >= 2) {
       const pts = [...pointers.values()];
       const nextDist = distance(pts[0]!, pts[1]!);
-      if (pinchLastDist <= 0) {
-        pinchLastDist = nextDist;
-        return;
+      const mid = midpoint(pts[0]!, pts[1]!);
+      if (pinchLastMid) {
+        tx += mid.x - pinchLastMid.x;
+        ty += mid.y - pinchLastMid.y;
+        applyTransform();
       }
-      const mid: Point = {
-        x: (pts[0]!.x + pts[1]!.x) / 2,
-        y: (pts[0]!.y + pts[1]!.y) / 2,
-      };
-      zoomAt(mid, scale * (nextDist / pinchLastDist));
+      if (pinchLastDist > 0) {
+        zoomAt(mid, scale * (nextDist / pinchLastDist));
+      }
       pinchLastDist = nextDist;
+      pinchLastMid = mid;
       return;
     }
 
@@ -300,7 +308,11 @@ export function initWordsearch(): void {
     if (!pointers.has(event.pointerId)) return;
     pointers.delete(event.pointerId);
 
-    if (pointers.size < 2) pinching = false;
+    if (pointers.size < 2) {
+      pinching = false;
+      pinchLastDist = 0;
+      pinchLastMid = null;
+    }
 
     if (panPointer === event.pointerId) {
       panPointer = null;
